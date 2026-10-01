@@ -5,23 +5,271 @@ const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matc
 const menu = document.querySelector("#menu");
 const menuOpeners = [...document.querySelectorAll(".menu-open")];
 const menuClose = document.querySelector(".menu-close");
+const waveSvg = document.querySelector("[data-nav-wave]");
+const menuCanvas = document.querySelector("[data-menu-waves]");
+const wavePaths = waveSvg
+  ? [...waveSvg.querySelectorAll(".menu-wave-anim__path")]
+  : [];
 
-function setMenu(open) {
-  if (!menu || !menuOpeners.length) return;
-  menu.hidden = !open;
+let menuOpened = false;
+let menuAnimating = false;
+let lockedScrollY = 0;
+
+const waveCfg = {
+  numPoints: 2,
+  duration: 650,
+  delayPointsMax: 0,
+  delayPerPath: 150,
+};
+
+let pointsDelay = [];
+let allRange = 0;
+let timeStart = 0;
+let rafMorph = 0;
+
+let wavesRaf = 0;
+let wavesRunning = false;
+let wavesTime = 0;
+let wavesCtx = null;
+
+const menuWaves = [
+  { baseAmplitude: 18, amplitude: 18, wavelength: 140, speed: 2, phase: 0, verticalOffset: -40 },
+  { baseAmplitude: 26, amplitude: 26, wavelength: 260, speed: 1, phase: Math.PI / 2, verticalOffset: 0 },
+  { baseAmplitude: 14, amplitude: 14, wavelength: 190, speed: 1.5, phase: Math.PI, verticalOffset: 45 },
+  { baseAmplitude: 22, amplitude: 22, wavelength: 230, speed: 1.2, phase: Math.PI / 4, verticalOffset: 90 },
+];
+
+function isMenuOpen() {
+  return menuOpened || menu?.getAttribute("data-wave-menu") === "open";
+}
+
+function lockPageScroll() {
+  lockedScrollY = window.scrollY || document.documentElement.scrollTop || 0;
+  document.body.style.top = `-${lockedScrollY}px`;
+  document.body.style.position = "fixed";
+  document.body.style.width = "100%";
+}
+
+function unlockPageScroll() {
+  document.body.style.position = "";
+  document.body.style.top = "";
+  document.body.style.width = "";
+  window.scrollTo(0, lockedScrollY);
+}
+
+function cubicInOut(t) {
+  return t < 0.5 ? 4 * t * t * t : 0.5 * Math.pow(2 * t - 2, 3) + 1;
+}
+
+function cubicOut(t) {
+  const u = t - 1;
+  return u * u * u + 1;
+}
+
+function easePoint(t, pointIndex) {
+  if (menuOpened) {
+    return pointIndex === 1 ? cubicOut(t) : cubicInOut(t);
+  }
+  return pointIndex === 1 ? cubicInOut(t) : cubicOut(t);
+}
+
+function updatePath(elapsed) {
+  const n = [];
+  for (let o = 0; o < waveCfg.numPoints; o++) {
+    n[o] =
+      easePoint(
+        Math.min(Math.max(elapsed - pointsDelay[o], 0) / waveCfg.duration, 1),
+        o
+      ) * 100;
+  }
+
+  let d = menuOpened ? `M 0 0 V ${n[0]} ` : `M 0 ${n[0]} `;
+  for (let o = 0; o < waveCfg.numPoints - 1; o++) {
+    const p = ((o + 1) / (waveCfg.numPoints - 1)) * 100;
+    const c = p - ((1 / (waveCfg.numPoints - 1)) * 100) / 2;
+    d += `C ${c} ${n[o]} ${c} ${n[o + 1]} ${p} ${n[o + 1]} `;
+  }
+  d += menuOpened ? "V 0 H 0" : "V 100 H 0";
+  return d;
+}
+
+function resizeMenuCanvas() {
+  if (!menuCanvas || !wavesCtx) return;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const width = menuCanvas.clientWidth || window.innerWidth;
+  const height = menuCanvas.clientHeight || 280;
+  menuCanvas.width = Math.max(1, Math.floor(width * dpr));
+  menuCanvas.height = Math.max(1, Math.floor(height * dpr));
+  wavesCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+function drawMenuWave(wave, cssWidth, cssHeight) {
+  wavesCtx.beginPath();
+  wavesCtx.moveTo(0, cssHeight / 2 + wave.verticalOffset);
+  for (let x = 0; x < cssWidth; x++) {
+    const y =
+      Math.sin(x / wave.wavelength + wavesTime * wave.speed + wave.phase) *
+      wave.amplitude;
+    wavesCtx.lineTo(x, cssHeight / 2 + wave.verticalOffset + y);
+  }
+  wavesCtx.strokeStyle = "white";
+  wavesCtx.lineWidth = 2.25;
+  wavesCtx.lineCap = "round";
+  wavesCtx.lineJoin = "round";
+  wavesCtx.globalAlpha = 0.7;
+  wavesCtx.stroke();
+  wavesCtx.globalAlpha = 1;
+}
+
+function animateMenuWaves() {
+  if (!wavesRunning || !wavesCtx || !menuCanvas) return;
+  const cssWidth = menuCanvas.clientWidth || window.innerWidth;
+  const cssHeight = menuCanvas.clientHeight || 280;
+  wavesCtx.clearRect(0, 0, cssWidth, cssHeight);
+  menuWaves.forEach((wave, index) => {
+    wave.amplitude =
+      wave.baseAmplitude + 4 * Math.sin(wavesTime * (0.5 + 0.2 * index));
+    drawMenuWave(wave, cssWidth, cssHeight);
+  });
+  wavesTime += 0.012;
+  wavesRaf = requestAnimationFrame(animateMenuWaves);
+}
+
+function startMenuWaves() {
+  if (!menuCanvas || reducedMotion) return;
+  if (!wavesCtx) wavesCtx = menuCanvas.getContext("2d");
+  if (!wavesCtx) return;
+  if (wavesRunning) return;
+  wavesRunning = true;
+  resizeMenuCanvas();
+  animateMenuWaves();
+}
+
+function stopMenuWaves() {
+  wavesRunning = false;
+  if (wavesRaf) cancelAnimationFrame(wavesRaf);
+}
+
+function setMenuChrome(open) {
   menuOpeners.forEach((btn) => btn.setAttribute("aria-expanded", String(open)));
   document.body.classList.toggle("menu-open", open);
-  if (open) {
-    menuClose?.focus();
+  document.body.classList.toggle("menu-opening", false);
+  document.body.classList.toggle("menu-closing", false);
+}
+
+function finishOpen() {
+  const fullCover = "M 0 0 V 100 C 50 100 50 100 100 100 V 0 H 0";
+  wavePaths.forEach((path) => path.setAttribute("d", fullCover));
+  waveSvg?.classList.add("is-active", "is-open");
+  menu?.setAttribute("data-wave-menu", "open");
+  menu.hidden = false;
+  setMenuChrome(true);
+  startMenuWaves();
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      if (!menuOpened) return;
+      waveSvg?.classList.remove("is-active");
+      waveSvg?.classList.add("is-open");
+    });
+  });
+  menuClose?.focus();
+}
+
+function finishClose() {
+  waveSvg?.classList.remove("is-active", "is-open");
+  menu?.setAttribute("data-wave-menu", "closed");
+  menu.hidden = true;
+  setMenuChrome(false);
+  stopMenuWaves();
+  unlockPageScroll();
+  menuOpeners[0]?.focus();
+}
+
+function renderWave() {
+  if (!menuAnimating || !wavePaths.length) return;
+  const elapsed = Date.now() - timeStart;
+  wavePaths.forEach((path, index) => {
+    const pathDelay = menuOpened
+      ? waveCfg.delayPerPath * index
+      : waveCfg.delayPerPath * (wavePaths.length - index - 1);
+    path.setAttribute("d", updatePath(elapsed - pathDelay));
+  });
+  if (elapsed < waveCfg.duration + waveCfg.delayPerPath * (wavePaths.length - 1) + allRange) {
+    rafMorph = requestAnimationFrame(renderWave);
+  } else {
+    menuAnimating = false;
+    if (menuOpened) finishOpen();
+    else finishClose();
   }
 }
 
+function toggleWaveMenu(open) {
+  if (!menu || !waveSvg || !wavePaths.length) return false;
+  if (menuAnimating) return true;
+  if (open === menuOpened) return true;
+
+  menuAnimating = true;
+  menuOpened = open;
+  timeStart = Date.now();
+  pointsDelay = Array.from(
+    { length: waveCfg.numPoints },
+    () => Math.random() * waveCfg.delayPointsMax
+  );
+  allRange = Math.max(...pointsDelay, 0);
+
+  if (open) {
+    wavePaths.forEach((path) =>
+      path.setAttribute("d", "M 0 0 V 0 C 50 0 50 0 100 0 V 0 H 0")
+    );
+    waveSvg.classList.add("is-active");
+    waveSvg.classList.remove("is-open");
+    menu.hidden = false;
+    menu.setAttribute("data-wave-menu", "opening");
+    document.body.classList.add("menu-opening");
+    lockPageScroll();
+  } else {
+    const fullCover = "M 0 0 V 100 C 50 100 50 100 100 100 V 0 H 0";
+    wavePaths.forEach((path) => path.setAttribute("d", fullCover));
+    waveSvg.classList.add("is-active");
+    waveSvg.classList.remove("is-open");
+    stopMenuWaves();
+    menu.setAttribute("data-wave-menu", "closing");
+    document.body.classList.add("menu-closing");
+    document.body.classList.remove("menu-open");
+    void waveSvg.getBoundingClientRect();
+  }
+
+  renderWave();
+  return true;
+}
+
+function setMenu(open) {
+  if (!menu || !menuOpeners.length) return;
+  if (reducedMotion || !waveSvg || !wavePaths.length) {
+    menuOpened = open;
+    menu.hidden = !open;
+    menu.setAttribute("data-wave-menu", open ? "open" : "closed");
+    setMenuChrome(open);
+    if (open) {
+      lockPageScroll();
+      menuClose?.focus();
+    } else {
+      unlockPageScroll();
+    }
+    return;
+  }
+  toggleWaveMenu(open);
+}
+
+window.addEventListener("resize", () => {
+  if (wavesRunning) resizeMenuCanvas();
+});
+
 menuOpeners.forEach((btn) => {
-  btn.addEventListener("click", () => setMenu(menu.hidden));
+  btn.addEventListener("click", () => setMenu(!isMenuOpen()));
 });
 menuClose?.addEventListener("click", () => {
   setMenu(false);
-  menuOpeners[0]?.focus();
 });
 
 menu?.addEventListener("click", (event) => {
@@ -30,11 +278,10 @@ menu?.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && menu && !menu.hidden) {
+  if (event.key === "Escape" && menu && isMenuOpen()) {
     setMenu(false);
-    menuOpeners[0]?.focus();
   }
-  if (event.key !== "Tab" || !menu || menu.hidden) return;
+  if (event.key !== "Tab" || !menu || !isMenuOpen()) return;
   const focusable = [...menu.querySelectorAll("a, button")];
   const first = focusable[0];
   const last = focusable[focusable.length - 1];

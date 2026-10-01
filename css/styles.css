@@ -3156,18 +3156,43 @@ h3 {
 .menu {
   position: fixed;
   inset: 0;
-  z-index: 40;
-  background: var(--olive-night);
+  z-index: 50;
+  background: var(--lake);
   color: var(--ivory);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: 22px 28px 32px;
   overflow: auto;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 .menu[hidden] {
   display: none;
+}
+
+.menu[data-wave-menu="opening"],
+.menu[data-wave-menu="closing"] {
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.menu[data-wave-menu="open"] {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.menu-top,
+.menu nav,
+.menu-contact {
+  position: relative;
+  z-index: 1;
 }
 
 .menu-top {
@@ -3179,7 +3204,7 @@ h3 {
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  border: 1px solid rgba(246, 243, 236, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.45);
   background: transparent;
   color: var(--ivory);
   font-size: 1.6rem;
@@ -3188,28 +3213,43 @@ h3 {
 
 .menu nav {
   display: grid;
-  gap: 4px;
-  margin: 24px 0;
+  gap: clamp(10px, 2.2vh, 22px);
+  margin: auto 0;
+  align-content: center;
 }
 
 .menu a {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.2vw, 28px);
   text-decoration: none;
   font-family: var(--display);
   font-weight: 600;
-  font-size: clamp(2.2rem, 5.4vw, 3.8rem);
-  letter-spacing: -0.015em;
-  line-height: 1.12;
+  font-size: clamp(2.6rem, 6.2vw, 4.6rem);
+  letter-spacing: -0.02em;
+  line-height: 1.05;
   color: var(--ivory);
 }
 
+.menu-mark {
+  flex: 0 0 auto;
+  width: clamp(1.1rem, 2.4vw, 1.7rem);
+  height: clamp(1.1rem, 2.4vw, 1.7rem);
+  opacity: 0.72;
+}
+
 .menu a:hover {
-  color: var(--sky);
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.menu a:hover .menu-mark {
+  opacity: 1;
 }
 
 .menu-contact {
   display: grid;
   gap: 6px;
-  color: #d5e4dc;
+  color: rgba(255, 255, 255, 0.82);
 }
 
 .menu-contact a {
@@ -3217,6 +3257,84 @@ h3 {
   font-size: 1.05rem;
   font-weight: 600;
   letter-spacing: 0;
+}
+
+.menu-waves {
+  position: absolute;
+  left: 0;
+  bottom: 8%;
+  width: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.menu-waves canvas {
+  display: block;
+  width: 100%;
+  height: 18rem;
+  opacity: 0.35;
+}
+
+.menu-wave-anim {
+  position: fixed;
+  inset: 0;
+  width: 100dvw;
+  height: 100dvh;
+  z-index: 55;
+  pointer-events: none;
+  transform: rotate(180deg);
+  visibility: hidden;
+  will-change: visibility;
+  backface-visibility: hidden;
+}
+
+.menu-wave-anim.is-active {
+  visibility: visible;
+}
+
+.menu-wave-anim.is-open:not(.is-active) {
+  visibility: hidden;
+  will-change: auto;
+}
+
+.menu-wave-anim__path:nth-of-type(1) {
+  fill: color-mix(in srgb, var(--lake) 20%, transparent);
+}
+
+.menu-wave-anim__path:nth-of-type(2) {
+  fill: color-mix(in srgb, var(--lake) 12%, transparent);
+}
+
+.menu-wave-anim__path:nth-of-type(3) {
+  fill: color-mix(in srgb, var(--lake) 28%, transparent);
+}
+
+.menu-wave-anim__path:nth-of-type(4) {
+  fill: color-mix(in srgb, var(--lake) 45%, transparent);
+}
+
+.menu-wave-anim__path:nth-of-type(5) {
+  fill: var(--lake);
+}
+
+body.menu-open,
+body.menu-opening,
+body.menu-closing {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-wave-anim {
+    display: none;
+  }
+
+  .menu-waves {
+    display: none;
+  }
+
+  .menu[data-wave-menu="open"] {
+    transition: none;
+  }
 }
 
 .float-dock {
@@ -3349,7 +3467,9 @@ h3 {
   top: 6px;
 }
 
-body.menu-open .float-dock {
+body.menu-open .float-dock,
+body.menu-opening .float-dock,
+body.menu-closing .float-dock {
   opacity: 0;
   pointer-events: none;
 }

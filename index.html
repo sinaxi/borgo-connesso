@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=69">
+  <link rel="stylesheet" href="css/styles.css?v=71">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -943,32 +943,48 @@
     </main>
   </div>
 
-  <div class="menu" id="menu" hidden>
+  <div class="menu" id="menu" hidden data-wave-menu="closed">
     <div class="menu-top">
       <button class="menu-close" type="button" aria-label="Chiudi il menu">×</button>
     </div>
     <nav aria-label="Sezioni">
-      <a href="#borgo">Perché qui</a>
-      <a href="#valori">Valori</a>
-      <a href="#ricordi">Ricordi</a>
-      <a href="#territorio">Outdoor e hub</a>
-      <a href="#team">Per chi</a>
-      <a href="#perche">Perché venire</a>
-      <a href="#rinascita">Rinascita</a>
-      <a href="#offerta">Cosa offriamo</a>
-      <a href="#percorsi">Pacchetti</a>
-      <a href="#processo">Processo</a>
-      <a href="#stagioni">Stagioni</a>
-      <a href="#domande">Domande</a>
-      <a href="#notizie">News</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#proposta">Proposta</a>
+      <a href="#borgo">
+        <svg class="menu-mark" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="7.5" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M12 8.5v7M8.5 12h7" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Perché</span>
+      </a>
+      <a href="#valori">
+        <svg class="menu-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 12h12M12 6v12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Valori</span>
+      </a>
+      <a href="#team">
+        <svg class="menu-mark" viewBox="0 0 24 24" aria-hidden="true"><rect x="5.5" y="5.5" width="5.5" height="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="5.5" width="5.5" height="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="5.5" y="13" width="5.5" height="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/><rect x="13" y="13" width="5.5" height="5.5" fill="none" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>Chi</span>
+      </a>
+      <a href="#percorsi">
+        <svg class="menu-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 8.5h14M5 12h14M5 15.5h10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>Pacchetti</span>
+      </a>
+      <a href="#notizie">
+        <svg class="menu-mark" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5.5 18.5 12 12 18.5 5.5 12Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+        <span>News</span>
+      </a>
     </nav>
     <div class="menu-contact">
       <a href="mailto:ciao@borgoconnesso.it">ciao@borgoconnesso.it</a>
       <a href="https://maps.google.com/?q=Montepulciano+Siena" rel="noopener noreferrer">Montepulciano (Siena)</a>
     </div>
+    <div class="menu-waves" aria-hidden="true">
+      <canvas data-menu-waves></canvas>
+    </div>
   </div>
+
+  <svg class="menu-wave-anim" data-nav-wave viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+    <path class="menu-wave-anim__path" d="M 0 0 V 0 C 50 0 50 0 100 0 V 0 H 0"></path>
+    <path class="menu-wave-anim__path" d="M 0 0 V 0 C 50 0 50 0 100 0 V 0 H 0"></path>
+    <path class="menu-wave-anim__path" d="M 0 0 V 0 C 50 0 50 0 100 0 V 0 H 0"></path>
+    <path class="menu-wave-anim__path" d="M 0 0 V 0 C 50 0 50 0 100 0 V 0 H 0"></path>
+    <path class="menu-wave-anim__path" d="M 0 0 V 0 C 50 0 50 0 100 0 V 0 H 0"></path>
+  </svg>
 
   <div class="float-dock" aria-label="Azioni rapide">
     <div class="float-dock__row">
@@ -995,6 +1011,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=19"></script>
+  <script src="js/main.js?v=20"></script>
 </body>
 </html>
