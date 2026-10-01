@@ -546,7 +546,7 @@ h3 {
   margin: 0;
   max-width: 30ch;
   font-family: var(--pitch);
-  font-size: 1.28rem;
+  font-size: 1.38rem;
   font-weight: 500;
   line-height: 1.35;
   letter-spacing: -0.5px;
@@ -3220,6 +3220,27 @@ h3 {
   gap: clamp(10px, 2.2vh, 22px);
   margin: auto 0;
   align-content: center;
+}
+
+@media (max-width: 900px) {
+  .menu {
+    padding: 18px 22px 28px;
+    justify-content: flex-start;
+  }
+
+  .menu nav {
+    margin: 12px 0 0;
+    align-content: start;
+    gap: clamp(8px, 1.6vh, 16px);
+  }
+
+  .menu a {
+    font-size: clamp(2.35rem, 9vw, 3.2rem);
+  }
+
+  .menu-contact {
+    margin-top: auto;
+  }
 }
 
 .menu a {
