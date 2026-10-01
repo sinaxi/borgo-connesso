@@ -544,13 +544,17 @@ h3 {
 
 .pitch p {
   margin: 0;
-  max-width: 28ch;
+  max-width: 30ch;
   font-family: var(--pitch);
-  font-size: 1.5rem;
+  font-size: 1.28rem;
   font-weight: 500;
-  line-height: 1.333;
-  letter-spacing: -0.7px;
+  line-height: 1.35;
+  letter-spacing: -0.5px;
   color: #000;
+}
+
+.pitch p + p {
+  margin-top: 0.85em;
 }
 
 .chips {
@@ -3876,10 +3880,10 @@ body.menu-closing .float-dock {
 
   .pitch p {
     max-width: none;
-    font-size: clamp(1.125rem, 4.2vw, 1.5rem);
+    font-size: clamp(1.05rem, 3.8vw, 1.28rem);
     font-weight: 500;
-    line-height: 1.35;
-    letter-spacing: -0.7px;
+    line-height: 1.38;
+    letter-spacing: -0.5px;
   }
 
   .hero-copy {

@@ -1,0 +1,15 @@
+---
+description: After every code or content change, commit and push to origin without waiting to be asked.
+alwaysApply: true
+---
+
+# Publish after every modification
+
+Whenever you change project files (HTML, CSS, JS, assets, copy, config), finish the turn by committing and pushing to `origin` on the current branch.
+
+- Do this even if the user did not say "commit", "push", or "pubblica".
+- Use the standard git commit protocol (status, diff, log, HEREDOC message, status after).
+- Never force-push unless the user explicitly asks.
+- Never commit secrets (`.env`, credentials, keys).
+- If there is nothing to commit, skip quietly.
+- Prefer one commit per coherent batch of changes in the turn.
