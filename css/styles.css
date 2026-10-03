@@ -537,7 +537,7 @@ h3 {
   flex: 1.25 1 auto;
   display: flex;
   flex-direction: column;
-  padding: 28px 22px 92px;
+  padding: 28px 22px 100px;
   background: var(--ivory);
   overflow: visible;
 }
@@ -564,9 +564,9 @@ h3 {
 .chips {
   position: absolute;
   right: 0;
-  bottom: -46px;
+  bottom: -52px;
   left: 8px;
-  height: 118px;
+  height: 132px;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -574,72 +574,104 @@ h3 {
 }
 
 .chips li:nth-child(1) {
-  top: 0;
-  left: 0;
-  --tilt: -8deg;
-  font-size: 1rem;
-  min-height: 40px;
-  padding: 0 15px;
+  top: 18px;
+  left: 28%;
+  --tilt: -7deg;
+  z-index: 4;
+  font-size: 1.08rem;
+  min-height: 44px;
+  padding: 0.35em 16px 0.42em;
   animation-duration: 5.4s;
   animation-delay: 0s;
 }
 
 .chips li:nth-child(2) {
-  top: 30px;
-  left: 36%;
-  --tilt: 7deg;
-  z-index: 3;
-  font-size: 1.12rem;
-  min-height: 46px;
-  padding: 0 16px;
+  top: -2px;
+  left: 0;
+  --tilt: 5deg;
+  font-size: 0.9rem;
   animation-name: chip-drift-b;
   animation-duration: 6.2s;
-  animation-delay: 0.35s;
+  animation-delay: 0.2s;
 }
 
 .chips li:nth-child(3) {
-  top: -2px;
-  right: 12px;
+  top: 52px;
+  left: 8%;
   --tilt: -4deg;
-  font-size: 0.92rem;
+  font-size: 0.88rem;
   animation-name: chip-drift-c;
   animation-duration: 5.8s;
-  animation-delay: 0.7s;
+  animation-delay: 0.45s;
 }
 
 .chips li:nth-child(4) {
-  top: 58px;
-  right: 28px;
-  --tilt: 5deg;
-  font-size: 0.76rem;
-  min-height: 30px;
-  padding: 0 11px;
+  top: 8px;
+  right: 4px;
+  --tilt: 6deg;
+  font-size: 0.86rem;
   animation-name: chip-drift-d;
   animation-duration: 6.6s;
-  animation-delay: 0.15s;
+  animation-delay: 0.1s;
 }
 
 .chips li:nth-child(5) {
-  top: 68px;
-  left: 6px;
-  --tilt: -6deg;
+  top: 70px;
+  left: 36%;
+  --tilt: -5deg;
   font-size: 0.78rem;
   min-height: 30px;
-  padding: 0 11px;
+  padding: 0.3em 11px 0.36em;
   animation-name: chip-drift-e;
   animation-duration: 5.1s;
-  animation-delay: 0.9s;
+  animation-delay: 0.7s;
 }
 
 .chips li:nth-child(6) {
-  top: 14px;
-  left: 16%;
+  top: 78px;
+  left: 0;
   --tilt: 4deg;
-  font-size: 0.96rem;
-  min-height: 38px;
+  font-size: 0.8rem;
+  min-height: 30px;
+  padding: 0.3em 11px 0.36em;
   animation-name: chip-drift-f;
   animation-duration: 6.9s;
-  animation-delay: 0.5s;
+  animation-delay: 0.35s;
+}
+
+.chips li:nth-child(7) {
+  top: 64px;
+  right: 10px;
+  --tilt: -6deg;
+  font-size: 0.82rem;
+  min-height: 32px;
+  animation-name: chip-drift-g;
+  animation-duration: 5.5s;
+  animation-delay: 0.55s;
+}
+
+.chips li:nth-child(8) {
+  top: 0;
+  left: 42%;
+  --tilt: 3deg;
+  font-size: 0.76rem;
+  min-height: 30px;
+  padding: 0.3em 11px 0.36em;
+  animation-name: chip-drift-h;
+  animation-duration: 6.1s;
+  animation-delay: 0.85s;
+}
+
+.chips li:nth-child(9) {
+  top: 36px;
+  right: 22%;
+  --tilt: -3deg;
+  font-size: 0.78rem;
+  min-height: 30px;
+  padding: 0.3em 11px 0.36em;
+  animation-name: chip-drift-i;
+  animation-duration: 5.7s;
+  animation-delay: 0.25s;
 }
 
 .chips li {
@@ -3586,6 +3618,21 @@ body.menu-closing .float-dock {
   to { transform: translate(-3px, -2px) scale(1.045) rotate(var(--tilt)); }
 }
 
+@keyframes chip-drift-g {
+  from { transform: translate(0, 0) scale(1) rotate(var(--tilt)); }
+  to { transform: translate(3px, -2px) scale(0.98) rotate(var(--tilt)); }
+}
+
+@keyframes chip-drift-h {
+  from { transform: translate(0, 0) scale(1) rotate(var(--tilt)); }
+  to { transform: translate(-2px, 3px) scale(1.03) rotate(var(--tilt)); }
+}
+
+@keyframes chip-drift-i {
+  from { transform: translate(0, 0) scale(1) rotate(var(--tilt)); }
+  to { transform: translate(2px, -3px) scale(0.97) rotate(var(--tilt)); }
+}
+
 @media (max-width: 720px) {
   .steps {
     --step-rail: 22px;
@@ -3710,7 +3757,7 @@ body.menu-closing .float-dock {
   }
 
   .pitch {
-    padding: 24px 20px 96px;
+    padding: 24px 20px 104px;
     overflow: visible;
   }
 
