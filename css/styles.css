@@ -717,13 +717,12 @@ h3 {
 .place-word {
   top: 42%;
   left: 18px;
-  right: 18px;
   margin: 0;
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(3.4rem, 5vw, 5.4rem);
+  font-size: clamp(4.8rem, 5.6vw, 6rem);
   letter-spacing: -0.05em;
-  line-height: 0.9;
+  line-height: 0.85;
   color: #fff;
   transform: translateY(-50%);
 }
@@ -733,7 +732,7 @@ h3 {
   right: 108px;
   bottom: 26px;
   margin: 0;
-  max-width: 28ch;
+  max-width: 24ch;
   color: var(--ivory);
   font-size: 0.82rem;
   font-weight: 500;
