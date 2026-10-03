@@ -740,7 +740,7 @@ h3 {
 .place-caption {
   left: 26px;
   right: 108px;
-  bottom: 26px;
+  bottom: 18px;
   margin: 0;
   max-width: 24ch;
   color: var(--ivory);
@@ -3930,8 +3930,9 @@ body.menu-closing .float-dock {
   }
 
   .place-caption {
-    right: 26px;
-    bottom: 74px;
+    left: 22px;
+    right: 108px;
+    bottom: 20px;
   }
 
   .acc-panel {
