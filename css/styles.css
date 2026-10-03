@@ -717,6 +717,7 @@ h3 {
 .place-word {
   top: 42%;
   left: 18px;
+  right: 18px;
   margin: 0;
   font-family: var(--display);
   font-weight: 700;
@@ -725,6 +726,13 @@ h3 {
   line-height: 0.85;
   color: #fff;
   transform: translateY(-50%);
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.place-word.is-long {
+  font-size: clamp(2.7rem, 11.5vw, 4.4rem);
+  letter-spacing: -0.04em;
 }
 
 .place-caption {

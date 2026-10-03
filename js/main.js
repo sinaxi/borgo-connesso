@@ -332,6 +332,13 @@ if (place) {
     slides.forEach((slide) => track.appendChild(slide));
   }
 
+  slides.forEach((slide) => {
+    const word = slide.querySelector(".place-word");
+    if (!word) return;
+    const label = word.textContent?.trim() || "";
+    word.classList.toggle("is-long", label.length >= 7);
+  });
+
   function show(next) {
     index = (next + slides.length) % slides.length;
     slides.forEach((slide, slideIndex) => {
