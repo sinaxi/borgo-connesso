@@ -648,13 +648,14 @@ h3 {
   display: inline-flex;
   align-items: center;
   min-height: 34px;
-  padding: 0 12px;
+  padding: 0.35em 12px 0.42em;
   border-radius: 999px;
   background: #fff;
   color: var(--olive-night);
   font-size: 0.84rem;
   font-weight: 600;
   letter-spacing: 0;
+  line-height: 1.15;
   box-shadow: 0 8px 18px rgba(17, 17, 17, 0.12);
   white-space: nowrap;
   will-change: transform;
@@ -716,23 +717,24 @@ h3 {
 
 .place-word {
   top: 42%;
-  left: 18px;
-  right: 18px;
+  left: 16px;
+  right: 16px;
   margin: 0;
   font-family: var(--display);
   font-weight: 700;
-  font-size: clamp(4.8rem, 5.6vw, 6rem);
+  font-size: clamp(4.2rem, 5.2vw, 5.6rem);
   letter-spacing: -0.05em;
-  line-height: 0.85;
+  line-height: 1.05;
   color: #fff;
   transform: translateY(-50%);
   white-space: nowrap;
-  overflow: hidden;
+  overflow: visible;
+  padding: 0.06em 0 0.12em;
 }
 
 .place-word.is-long {
-  font-size: clamp(2.7rem, 11.5vw, 4.4rem);
-  letter-spacing: -0.04em;
+  font-size: clamp(2.2rem, 8.8vw, 4rem);
+  letter-spacing: -0.045em;
 }
 
 .place-caption {

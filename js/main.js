@@ -337,7 +337,26 @@ if (place) {
     if (!word) return;
     const label = word.textContent?.trim() || "";
     word.classList.toggle("is-long", label.length >= 7);
+    word.style.fontSize = "";
   });
+
+  function fitPlaceWords() {
+    slides.forEach((slide) => {
+      const word = slide.querySelector(".place-word");
+      if (!word || !word.classList.contains("is-long")) return;
+      word.style.fontSize = "";
+      const maxWidth = Math.max(0, slide.clientWidth - 32);
+      if (!maxWidth) return;
+      let size = parseFloat(getComputedStyle(word).fontSize);
+      while (word.scrollWidth > maxWidth && size > 22) {
+        size -= 1;
+        word.style.fontSize = `${size}px`;
+      }
+    });
+  }
+
+  fitPlaceWords();
+  window.addEventListener("resize", fitPlaceWords);
 
   function show(next) {
     index = (next + slides.length) % slides.length;
