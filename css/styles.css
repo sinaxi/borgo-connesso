@@ -537,7 +537,7 @@ h3 {
   flex: 1.25 1 auto;
   display: flex;
   flex-direction: column;
-  padding: 28px 22px 100px;
+  padding: 28px 22px 110px;
   background: var(--ivory);
   overflow: visible;
 }
@@ -564,61 +564,71 @@ h3 {
 .chips {
   position: absolute;
   right: 0;
-  bottom: -52px;
-  left: 8px;
-  height: 132px;
+  bottom: -58px;
+  left: 4px;
+  height: 156px;
   margin: 0;
   padding: 0;
   list-style: none;
   z-index: 3;
 }
 
+/* 1 Team Building — orange accent, mid band, not covering the edges */
 .chips li:nth-child(1) {
-  top: 18px;
-  left: 28%;
-  --tilt: -7deg;
-  z-index: 4;
-  font-size: 1.08rem;
-  min-height: 44px;
-  padding: 0.35em 16px 0.42em;
+  top: 52px;
+  left: 22%;
+  --tilt: -6deg;
+  z-index: 2;
+  font-size: 1rem;
+  min-height: 40px;
+  padding: 0.35em 14px 0.42em;
   animation-duration: 5.4s;
   animation-delay: 0s;
 }
 
+/* 2 Experiences */
 .chips li:nth-child(2) {
-  top: -2px;
-  left: 0;
-  --tilt: 5deg;
-  font-size: 0.9rem;
+  top: 0;
+  left: 18%;
+  --tilt: 4deg;
+  z-index: 3;
+  font-size: 0.88rem;
   animation-name: chip-drift-b;
   animation-duration: 6.2s;
   animation-delay: 0.2s;
 }
 
+/* 3 Wellness */
 .chips li:nth-child(3) {
-  top: 52px;
-  left: 8%;
-  --tilt: -4deg;
-  font-size: 0.88rem;
+  top: 44px;
+  left: 0;
+  --tilt: -5deg;
+  z-index: 3;
+  font-size: 0.86rem;
   animation-name: chip-drift-c;
   animation-duration: 5.8s;
   animation-delay: 0.45s;
 }
 
+/* 4 Smart Working — clear top-right */
 .chips li:nth-child(4) {
-  top: 8px;
-  right: 4px;
-  --tilt: 6deg;
-  font-size: 0.86rem;
+  top: 2px;
+  right: 0;
+  left: auto;
+  --tilt: 5deg;
+  z-index: 4;
+  font-size: 0.84rem;
   animation-name: chip-drift-d;
   animation-duration: 6.6s;
   animation-delay: 0.1s;
 }
 
+/* 5 Bike */
 .chips li:nth-child(5) {
-  top: 70px;
-  left: 36%;
-  --tilt: -5deg;
+  top: 96px;
+  left: 30%;
+  --tilt: -4deg;
+  z-index: 3;
   font-size: 0.78rem;
   min-height: 30px;
   padding: 0.3em 11px 0.36em;
@@ -627,10 +637,12 @@ h3 {
   animation-delay: 0.7s;
 }
 
+/* 6 Famiglie */
 .chips li:nth-child(6) {
-  top: 78px;
+  top: 108px;
   left: 0;
-  --tilt: 4deg;
+  --tilt: 3deg;
+  z-index: 3;
   font-size: 0.8rem;
   min-height: 30px;
   padding: 0.3em 11px 0.36em;
@@ -639,33 +651,41 @@ h3 {
   animation-delay: 0.35s;
 }
 
+/* 7 Outdoor */
 .chips li:nth-child(7) {
-  top: 64px;
-  right: 10px;
-  --tilt: -6deg;
-  font-size: 0.82rem;
+  top: 100px;
+  right: 2px;
+  left: auto;
+  --tilt: -5deg;
+  z-index: 3;
+  font-size: 0.8rem;
   min-height: 32px;
   animation-name: chip-drift-g;
   animation-duration: 5.5s;
   animation-delay: 0.55s;
 }
 
+/* 8 Ski — clear top-left */
 .chips li:nth-child(8) {
-  top: 0;
-  left: 42%;
-  --tilt: 3deg;
-  font-size: 0.76rem;
+  top: 4px;
+  left: 0;
+  --tilt: -3deg;
+  z-index: 4;
+  font-size: 0.78rem;
   min-height: 30px;
-  padding: 0.3em 11px 0.36em;
+  padding: 0.3em 12px 0.36em;
   animation-name: chip-drift-h;
   animation-duration: 6.1s;
   animation-delay: 0.85s;
 }
 
+/* 9 Trekking */
 .chips li:nth-child(9) {
-  top: 36px;
-  right: 22%;
-  --tilt: -3deg;
+  top: 56px;
+  right: 4px;
+  left: auto;
+  --tilt: 4deg;
+  z-index: 3;
   font-size: 0.78rem;
   min-height: 30px;
   padding: 0.3em 11px 0.36em;
@@ -3757,7 +3777,7 @@ body.menu-closing .float-dock {
   }
 
   .pitch {
-    padding: 24px 20px 104px;
+    padding: 24px 20px 114px;
     overflow: visible;
   }
 
