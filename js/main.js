@@ -318,18 +318,18 @@ document.querySelectorAll("[data-accordion]").forEach((root) => {
 
 const place = document.querySelector(".place");
 if (place) {
-  const slidesRoot = place.querySelector(".place-slides");
-  const status = place.querySelector(".place-status");
+  const track = place.querySelector(".place-slides");
   let slides = [...place.querySelectorAll(".place-slide")];
+  const status = place.querySelector(".place-status");
   let index = 0;
   let timer = 0;
 
-  if (slidesRoot && slides.length > 1) {
+  if (track && slides.length > 1) {
     for (let i = slides.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [slides[i], slides[j]] = [slides[j], slides[i]];
     }
-    slides.forEach((slide) => slidesRoot.appendChild(slide));
+    slides.forEach((slide) => track.appendChild(slide));
   }
 
   function show(next) {
