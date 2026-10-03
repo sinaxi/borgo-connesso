@@ -760,17 +760,22 @@ h3 {
   display: none;
 }
 
-.place-word,
-.place-caption,
+.place-copy,
 .place-nav {
   position: absolute;
   z-index: 2;
 }
 
-.place-word {
-  top: 42%;
+.place-copy {
+  top: 36%;
   left: 16px;
   right: 16px;
+  display: grid;
+  gap: 0.28em;
+  transform: translateY(-40%);
+}
+
+.place-word {
   margin: 0;
   font-family: var(--display);
   font-weight: 700;
@@ -778,10 +783,9 @@ h3 {
   letter-spacing: -0.05em;
   line-height: 1.05;
   color: #fff;
-  transform: translateY(-50%);
   white-space: nowrap;
   overflow: visible;
-  padding: 0.06em 0 0.12em;
+  padding: 0.02em 0 0;
 }
 
 .place-word.is-long {
@@ -790,11 +794,8 @@ h3 {
 }
 
 .place-caption {
-  left: 26px;
-  right: 108px;
-  bottom: 18px;
   margin: 0;
-  max-width: 24ch;
+  max-width: 28ch;
   color: var(--ivory);
   font-size: 0.82rem;
   font-weight: 500;
@@ -3996,10 +3997,13 @@ body.menu-closing .float-dock {
     min-height: 280px;
   }
 
+  .place-copy {
+    left: 18px;
+    right: 18px;
+  }
+
   .place-caption {
-    left: 22px;
-    right: 108px;
-    bottom: 20px;
+    max-width: 26ch;
   }
 
   .acc-panel {
