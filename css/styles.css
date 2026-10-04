@@ -939,6 +939,10 @@ h3 {
   border-top: 1px solid var(--line);
 }
 
+.parts article:first-child {
+  border-top: none;
+}
+
 .parts article:last-child {
   border-bottom: 1px solid var(--line);
 }
