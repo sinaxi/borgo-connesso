@@ -947,7 +947,7 @@ h3 {
 .parts {
   display: grid;
   align-self: stretch;
-  align-content: space-between;
+  align-content: center;
   min-height: 100%;
   padding-top: 0;
 }
@@ -959,11 +959,11 @@ h3 {
 
 .parts article:first-child {
   border-top: none;
-  padding-top: 0;
+  padding-top: 18px;
 }
 
 .parts article:last-child {
-  padding-bottom: 0;
+  padding-bottom: 18px;
 }
 
 .parts h3 {
