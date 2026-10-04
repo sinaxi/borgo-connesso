@@ -900,12 +900,22 @@ h3 {
   left: 0;
   right: 0;
   bottom: 0;
-  height: 48%;
+  height: 55%;
   z-index: 1;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  mask-image: linear-gradient(180deg, transparent 0%, #000 78%);
-  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 78%);
+  backdrop-filter: blur(18px) saturate(1.15);
+  -webkit-backdrop-filter: blur(18px) saturate(1.15);
+  mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.35) 28%,
+    #000 70%
+  );
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    rgba(0, 0, 0, 0.35) 28%,
+    #000 70%
+  );
   pointer-events: none;
 }
 
@@ -916,9 +926,9 @@ h3 {
   z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(255, 59, 48, 0) 42%,
-    rgba(255, 59, 48, 0.2) 68%,
-    rgba(255, 59, 48, 0.52) 100%
+    rgba(17, 17, 17, 0.04) 18%,
+    rgba(255, 59, 48, 0.18) 48%,
+    rgba(255, 59, 48, 0.58) 100%
   );
   pointer-events: none;
 }
