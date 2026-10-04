@@ -864,7 +864,7 @@ h3 {
   display: grid;
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   gap: clamp(20px, 3vw, 40px);
-  align-items: start;
+  align-items: stretch;
 }
 
 .borgo-visual {
@@ -930,21 +930,25 @@ h3 {
 
 .parts {
   display: grid;
-  align-content: center;
-  padding-top: clamp(12px, 2vw, 28px);
+  align-self: stretch;
+  align-content: space-between;
+  min-height: 100%;
+  padding-top: 0;
 }
 
 .parts article {
-  padding: 22px 0;
+  padding: 18px 0;
   border-top: 1px solid var(--line);
 }
 
 .parts article:first-child {
   border-top: none;
+  padding-top: 0;
 }
 
 .parts article:last-child {
   border-bottom: 1px solid var(--line);
+  padding-bottom: 0;
 }
 
 .parts h3 {
