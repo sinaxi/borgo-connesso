@@ -513,8 +513,8 @@ h3 {
 
 .hero-copy p {
   margin: 1.35rem 0 0;
-  max-width: 18ch;
-  font-size: 1.2rem;
+  max-width: 20ch;
+  font-size: 1.35rem;
   font-weight: 500;
   line-height: 1.35;
   letter-spacing: -0.02em;
@@ -3971,6 +3971,11 @@ body.menu-closing .float-dock {
 
   .hero-copy {
     padding: 22px 20px 76px;
+  }
+
+  .hero-copy p {
+    font-size: 1.15rem;
+    max-width: 22ch;
   }
 
   .hero-visual h1 {
