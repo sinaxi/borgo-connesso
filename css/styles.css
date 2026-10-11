@@ -2755,10 +2755,9 @@ h3 {
 .ricordi-day {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 0;
+  gap: 12px;
   min-height: clamp(320px, 42vw, 460px);
-  border-radius: 22px;
-  overflow: hidden;
+  background: #000;
 }
 
 .ricordi-slot {
@@ -2768,6 +2767,7 @@ h3 {
   min-height: 100%;
   overflow: hidden;
   isolation: isolate;
+  border-radius: 22px;
 }
 
 .ricordi-slot-media {
