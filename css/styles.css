@@ -883,53 +883,66 @@ h3 {
 
 /* Soft chalk spotlight sweeping each node — no markers, just light */
 .rete-spot {
-  --rete-cycle: 7.2s;
+  --rete-cycle: 8s;
   position: absolute;
   left: var(--x);
   top: var(--y);
-  width: clamp(72px, 22%, 140px);
+  width: clamp(140px, 36%, 240px);
   aspect-ratio: 1;
   border-radius: 50%;
-  transform: translate(-50%, -50%) scale(0.92);
+  transform: translate(-50%, -50%) scale(0.88);
   background: radial-gradient(
     circle,
-    rgba(255, 255, 255, 0.5) 0%,
-    rgba(255, 255, 255, 0.16) 38%,
-    transparent 68%
+    rgba(255, 255, 255, 0.82) 0%,
+    rgba(255, 255, 255, 0.42) 32%,
+    rgba(255, 255, 255, 0.12) 58%,
+    transparent 78%
   );
   mix-blend-mode: screen;
   opacity: 0;
   animation: rete-spot var(--rete-cycle) var(--ease) infinite;
-  animation-delay: calc(var(--i) * 0.9s);
+  animation-delay: calc(var(--i) * 1s);
 }
 
+.rete-spot::before,
 .rete-spot::after {
   content: "";
   position: absolute;
-  inset: 22%;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.28);
   opacity: 0;
-  transform: scale(0.9);
+}
+
+.rete-spot::before {
+  inset: 8%;
+  border: 1.5px solid rgba(255, 255, 255, 0.55);
+  transform: scale(0.86);
   animation: rete-halo var(--rete-cycle) var(--ease) infinite;
-  animation-delay: calc(var(--i) * 0.9s);
+  animation-delay: calc(var(--i) * 1s);
+}
+
+.rete-spot::after {
+  inset: -4%;
+  border: 1px solid rgba(255, 255, 255, 0.32);
+  transform: scale(0.82);
+  animation: rete-halo-outer var(--rete-cycle) var(--ease) infinite;
+  animation-delay: calc(var(--i) * 1s + 0.08s);
 }
 
 @keyframes rete-spot {
   0%,
   2% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.9);
+    transform: translate(-50%, -50%) scale(0.86);
   }
-  7%,
-  11% {
+  6%,
+  14% {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1.05);
   }
-  18%,
+  22%,
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(1.06);
+    transform: translate(-50%, -50%) scale(1.14);
   }
 }
 
@@ -937,29 +950,53 @@ h3 {
   0%,
   2% {
     opacity: 0;
-    transform: scale(0.88);
+    transform: scale(0.86);
   }
-  7%,
-  11% {
-    opacity: 0.7;
+  6%,
+  14% {
+    opacity: 0.95;
     transform: scale(1);
   }
-  18%,
+  22%,
   100% {
     opacity: 0;
-    transform: scale(1.12);
+    transform: scale(1.18);
+  }
+}
+
+@keyframes rete-halo-outer {
+  0%,
+  2% {
+    opacity: 0;
+    transform: scale(0.82);
+  }
+  8%,
+  16% {
+    opacity: 0.7;
+    transform: scale(1.04);
+  }
+  24%,
+  100% {
+    opacity: 0;
+    transform: scale(1.22);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .rete-spot,
+  .rete-spot::before,
   .rete-spot::after {
     animation: none;
   }
 
   .rete-spot {
-    opacity: 0.22;
+    opacity: 0.35;
     transform: translate(-50%, -50%) scale(1);
+  }
+
+  .rete-spot::before {
+    opacity: 0.45;
+    transform: scale(1);
   }
 
   .rete-spot::after {
