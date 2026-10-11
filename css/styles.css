@@ -557,6 +557,7 @@ h3 {
 
 .pitch strong {
   font-weight: 700;
+  color: var(--lake);
 }
 
 .pitch p + p {
