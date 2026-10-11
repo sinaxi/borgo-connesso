@@ -842,10 +842,16 @@ h3 {
 }
 
 .room--rete {
-  background: #fff;
   display: grid;
   place-items: center;
   overflow: hidden;
+  background:
+    radial-gradient(
+      ellipse 70% 70% at 50% 50%,
+      #d4d4d4 0%,
+      #e4e4e4 42%,
+      #efefef 100%
+    );
 }
 
 .rete-stage {
@@ -855,23 +861,8 @@ h3 {
   place-items: center;
 }
 
-.rete-glow {
-  position: absolute;
-  inset: 4% 2%;
-  background:
-    radial-gradient(circle at 22% 28%, rgba(255, 59, 48, 0.55), transparent 42%),
-    radial-gradient(circle at 78% 32%, rgba(255, 59, 48, 0.42), transparent 40%),
-    radial-gradient(circle at 50% 78%, rgba(255, 59, 48, 0.48), transparent 46%),
-    radial-gradient(circle at 50% 50%, rgba(255, 59, 48, 0.22), transparent 55%);
-  filter: blur(52px);
-  transform: scale(1.08);
-  pointer-events: none;
-  z-index: 0;
-}
-
 .rete-frame {
   position: relative;
-  z-index: 1;
   width: min(100%, 640px);
 }
 
@@ -882,95 +873,96 @@ h3 {
   border-radius: calc(var(--radius) - 8px);
 }
 
-.rete-pulses {
+.rete-spots {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.rete-pulse {
-  --rete-cycle: 6.4s;
+/* Soft chalk spotlight sweeping each node — no markers, just light */
+.rete-spot {
+  --rete-cycle: 7.2s;
   position: absolute;
   left: var(--x);
   top: var(--y);
-  width: 10px;
-  height: 10px;
-  margin: -5px 0 0 -5px;
+  width: clamp(72px, 22%, 140px);
+  aspect-ratio: 1;
   border-radius: 50%;
-  background: rgba(255, 59, 48, 0.95);
-  box-shadow: 0 0 10px rgba(255, 59, 48, 0.65);
-  animation: rete-dot var(--rete-cycle) var(--ease) infinite;
-  animation-delay: calc(var(--i) * 0.8s);
+  transform: translate(-50%, -50%) scale(0.92);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.5) 0%,
+    rgba(255, 255, 255, 0.16) 38%,
+    transparent 68%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  animation: rete-spot var(--rete-cycle) var(--ease) infinite;
+  animation-delay: calc(var(--i) * 0.9s);
 }
 
-.rete-pulse::before,
-.rete-pulse::after {
+.rete-spot::after {
   content: "";
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 14px;
-  height: 14px;
+  inset: 22%;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 59, 48, 0.85);
-  transform: translate(-50%, -50%) scale(0.7);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   opacity: 0;
-  animation: rete-ring var(--rete-cycle) var(--ease) infinite;
-  animation-delay: calc(var(--i) * 0.8s);
+  transform: scale(0.9);
+  animation: rete-halo var(--rete-cycle) var(--ease) infinite;
+  animation-delay: calc(var(--i) * 0.9s);
 }
 
-.rete-pulse::after {
-  animation-delay: calc(var(--i) * 0.8s + 0.18s);
-}
-
-@keyframes rete-dot {
+@keyframes rete-spot {
   0%,
-  8% {
+  2% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  7%,
+  11% {
     opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  18%,
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.06);
+  }
+}
+
+@keyframes rete-halo {
+  0%,
+  2% {
+    opacity: 0;
+    transform: scale(0.88);
+  }
+  7%,
+  11% {
+    opacity: 0.7;
     transform: scale(1);
   }
-  14%,
-  100% {
-    opacity: 0.2;
-    transform: scale(0.85);
-  }
-}
-
-@keyframes rete-ring {
-  0% {
-    opacity: 0.9;
-    transform: translate(-50%, -50%) scale(0.7);
-  }
-  12% {
-    opacity: 0;
-    transform: translate(-50%, -50%) scale(3.2);
-  }
-  12.01%,
+  18%,
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.7);
+    transform: scale(1.12);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rete-pulse,
-  .rete-pulse::before,
-  .rete-pulse::after {
+  .rete-spot,
+  .rete-spot::after {
     animation: none;
   }
 
-  .rete-pulse {
-    opacity: 0.55;
+  .rete-spot {
+    opacity: 0.22;
+    transform: translate(-50%, -50%) scale(1);
   }
 
-  .rete-pulse::before {
-    opacity: 0.35;
-    transform: translate(-50%, -50%) scale(2);
-  }
-
-  .rete-pulse::after {
-    opacity: 0.2;
-    transform: translate(-50%, -50%) scale(2.8);
+  .rete-spot::after {
+    opacity: 0.28;
+    transform: scale(1);
   }
 }
 
@@ -4120,10 +4112,6 @@ body.menu-closing .float-dock {
 
   .rete-frame {
     width: 100%;
-  }
-
-  .rete-glow {
-    filter: blur(36px);
   }
 
   .room h2 {
