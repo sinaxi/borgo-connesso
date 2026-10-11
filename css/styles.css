@@ -848,11 +848,11 @@ h3 {
   border: 1px solid rgba(0, 0, 0, 0.1);
   background:
     radial-gradient(
-      ellipse 68% 68% at 50% 50%,
-      #b8b8b8 0%,
-      #d0d0d0 28%,
-      #e6e6e6 62%,
-      #f2f2f2 100%
+      ellipse 72% 72% at 50% 50%,
+      #f4f4f4 0%,
+      #e6e6e6 38%,
+      #cfcfcf 72%,
+      #b8b8b8 100%
     );
 }
 
