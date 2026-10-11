@@ -842,25 +842,15 @@ h3 {
 }
 
 .room--rete {
-  background: var(--ivory);
-}
-
-.rete-panel {
   background: #fff;
-  border-radius: var(--radius);
-  padding: clamp(18px, 3vw, 36px);
   display: grid;
   place-items: center;
-  max-width: 720px;
-  margin-inline: auto;
-  box-shadow: 0 18px 44px rgba(17, 17, 17, 0.08);
 }
 
-.rete-panel__map {
+.rete-map {
   display: block;
-  width: min(100%, 560px);
+  width: min(100%, 640px);
   height: auto;
-  border-radius: calc(var(--radius) - 12px);
 }
 
 .room-head {
@@ -4003,11 +3993,7 @@ body.menu-closing .float-dock {
     font-size: clamp(2.15rem, 9.2vw, 2.7rem);
   }
 
-  .rete-panel {
-    padding: clamp(16px, 4vw, 28px);
-  }
-
-  .rete-panel__map {
+  .rete-map {
     width: min(100%, 420px);
   }
 
