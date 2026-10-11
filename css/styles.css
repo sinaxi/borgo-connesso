@@ -486,17 +486,19 @@ h3 {
   content: "";
   position: absolute;
   inset: 0;
+  z-index: 1;
   background: linear-gradient(
     90deg,
     rgba(17, 17, 17, 0.5) 0%,
     rgba(17, 17, 17, 0.18) 28%,
     rgba(17, 17, 17, 0) 52%
   );
+  pointer-events: none;
 }
 
 .hero-copy {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   padding: 48px 40px 0;
   max-width: none;
   animation: rise 0.8s var(--ease) both;
@@ -837,6 +839,57 @@ h3 {
 .room {
   background: var(--ivory);
   padding: clamp(28px, 4vw, 52px);
+}
+
+.room--rete {
+  background: var(--ivory);
+}
+
+.rete-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  gap: clamp(24px, 4vw, 48px);
+  align-items: center;
+}
+
+.rete-intro {
+  display: grid;
+  gap: 18px;
+  align-content: center;
+  min-width: 0;
+}
+
+.rete-intro h2 {
+  margin: 0;
+  font-size: clamp(2.8rem, 5.2vw, 4.6rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.rete-intro p {
+  margin: 0;
+  max-width: 28ch;
+  color: var(--sage);
+  font-size: 1.08rem;
+  line-height: 1.5;
+}
+
+.rete-panel {
+  background: #fff;
+  border-radius: var(--radius);
+  padding: clamp(18px, 3vw, 36px);
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  box-shadow: 0 18px 44px rgba(17, 17, 17, 0.08);
+}
+
+.rete-panel__map {
+  display: block;
+  width: min(100%, 560px);
+  height: auto;
+  border-radius: calc(var(--radius) - 12px);
 }
 
 .room-head {
@@ -3725,6 +3778,7 @@ body.menu-closing .float-dock {
   .hero-side,
   .room-head,
   .borgo-grid,
+  .rete-grid,
   .mosaic,
   .process-body,
   .facts,
@@ -3977,6 +4031,27 @@ body.menu-closing .float-dock {
 
   .hero-visual h1 {
     font-size: clamp(2.15rem, 9.2vw, 2.7rem);
+  }
+
+  .rete-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .rete-intro h2 {
+    font-size: clamp(2.4rem, 10vw, 3.4rem);
+  }
+
+  .rete-intro p {
+    max-width: none;
+  }
+
+  .rete-panel {
+    padding: clamp(16px, 4vw, 28px);
+  }
+
+  .rete-panel__map {
+    width: min(100%, 420px);
   }
 
   .room h2 {
