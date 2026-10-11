@@ -2799,11 +2799,11 @@ h3 {
   inset: -1px;
   z-index: 1;
   background: radial-gradient(
-    ellipse 78% 72% at 0% 100%,
-    rgba(0, 0, 0, 0.82) 0%,
-    rgba(0, 0, 0, 0.48) 32%,
-    rgba(0, 0, 0, 0.14) 58%,
-    transparent 72%
+    ellipse 115% 88% at 0% 100%,
+    rgba(0, 0, 0, 0.86) 0%,
+    rgba(0, 0, 0, 0.58) 28%,
+    rgba(0, 0, 0, 0.22) 52%,
+    transparent 70%
   );
   pointer-events: none;
 }
