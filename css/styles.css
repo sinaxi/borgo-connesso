@@ -2800,8 +2800,10 @@ h3 {
   z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(17, 17, 17, 0.05) 20%,
-    rgba(17, 17, 17, 0.72) 100%
+    transparent 28%,
+    rgba(0, 0, 0, 0.35) 55%,
+    rgba(0, 0, 0, 0.72) 78%,
+    rgba(0, 0, 0, 0.88) 100%
   );
   pointer-events: none;
 }
