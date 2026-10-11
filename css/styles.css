@@ -845,12 +845,14 @@ h3 {
   display: grid;
   place-items: center;
   overflow: hidden;
+  border: 1px solid rgba(0, 0, 0, 0.1);
   background:
     radial-gradient(
-      ellipse 70% 70% at 50% 50%,
-      #d4d4d4 0%,
-      #e4e4e4 42%,
-      #efefef 100%
+      ellipse 68% 68% at 50% 50%,
+      #b8b8b8 0%,
+      #d0d0d0 28%,
+      #e6e6e6 62%,
+      #f2f2f2 100%
     );
 }
 
