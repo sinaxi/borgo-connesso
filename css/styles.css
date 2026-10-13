@@ -3200,6 +3200,16 @@ h3 {
   color: #111;
 }
 
+.news-excerpt {
+  margin: 0;
+  max-width: 36ch;
+  color: var(--sage);
+  font-size: 0.92rem;
+  font-weight: 400;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}
+
 .news-feature.is-swap .news-feature-media img {
   opacity: 0.35;
   transform: scale(1.03);
