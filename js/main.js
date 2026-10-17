@@ -771,15 +771,15 @@ function initReteRail() {
   clone.removeAttribute("data-rete-set");
   set.parentElement.append(clone);
 
-  rail.style.touchAction = "pan-y";
-
   let held = false;
   let offscreen = false;
   let dragging = false;
   let lastX = 0;
   let wheelTimer = 0;
+  let releaseTimer = 0;
   let x = 0;
   const speed = reducedMotion ? 0 : 0.72;
+  const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const resting = () => held || offscreen || dragging;
 
   const loopWidth = () => set.offsetWidth;
@@ -794,6 +794,14 @@ function initReteRail() {
     x = rail.scrollLeft;
   };
 
+  const scheduleRelease = (delay) => {
+    window.clearTimeout(releaseTimer);
+    releaseTimer = window.setTimeout(() => {
+      syncFromRail();
+      held = (finePointer && rail.matches(":hover")) || rail.matches(":focus-within");
+    }, delay);
+  };
+
   const tick = () => {
     if (!resting() && speed) {
       x += speed;
@@ -803,6 +811,10 @@ function initReteRail() {
   };
 
   rail.addEventListener("pointerdown", (event) => {
+    if (event.pointerType !== "mouse") {
+      held = true;
+      return;
+    }
     if (event.button !== 0) return;
     dragging = true;
     syncFromRail();
@@ -827,12 +839,24 @@ function initReteRail() {
   rail.addEventListener("pointerup", endDrag);
   rail.addEventListener("pointercancel", endDrag);
 
-  rail.addEventListener("mouseenter", () => {
+  rail.addEventListener("touchstart", () => {
     held = true;
-  });
-  rail.addEventListener("mouseleave", () => {
-    held = rail.matches(":focus-within");
-  });
+  }, { passive: true });
+  rail.addEventListener("touchend", () => scheduleRelease(80), { passive: true });
+  rail.addEventListener("touchcancel", () => scheduleRelease(80), { passive: true });
+  rail.addEventListener("scroll", () => {
+    if (!held || dragging) return;
+    scheduleRelease(180);
+  }, { passive: true });
+
+  if (finePointer) {
+    rail.addEventListener("mouseenter", () => {
+      held = true;
+    });
+    rail.addEventListener("mouseleave", () => {
+      held = rail.matches(":focus-within");
+    });
+  }
   rail.addEventListener("focusin", () => {
     held = true;
   });
