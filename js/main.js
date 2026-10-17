@@ -760,3 +760,121 @@ if (newsRotator) {
   paintNews(index);
   playNews();
 }
+
+function initReteRail() {
+  const rail = document.querySelector("[data-rete-rail]");
+  const set = rail?.querySelector("[data-rete-set]");
+  if (!rail || !set) return;
+
+  const clone = set.cloneNode(true);
+  clone.setAttribute("aria-hidden", "true");
+  clone.removeAttribute("data-rete-set");
+  set.parentElement.append(clone);
+
+  rail.style.touchAction = "pan-y";
+
+  let held = false;
+  let offscreen = false;
+  let dragging = false;
+  let lastX = 0;
+  let wheelTimer = 0;
+  const speed = reducedMotion ? 0 : 0.72;
+  const resting = () => held || offscreen || dragging;
+
+  const loopWidth = () => set.offsetWidth;
+
+  const wrap = () => {
+    const width = loopWidth();
+    if (!width) return;
+    if (rail.scrollLeft >= width) rail.scrollLeft -= width;
+    if (rail.scrollLeft < 0) rail.scrollLeft += width;
+  };
+
+  const tick = () => {
+    if (!resting() && speed) {
+      rail.scrollLeft += speed;
+      wrap();
+    }
+    requestAnimationFrame(tick);
+  };
+
+  rail.addEventListener("pointerdown", (event) => {
+    if (event.button !== 0) return;
+    dragging = true;
+    lastX = event.clientX;
+    rail.classList.add("is-dragging");
+    rail.setPointerCapture(event.pointerId);
+  });
+
+  rail.addEventListener("pointermove", (event) => {
+    if (!dragging) return;
+    const dx = event.clientX - lastX;
+    lastX = event.clientX;
+    if (rail.scrollLeft <= 0 && dx > 0) rail.scrollLeft = loopWidth();
+    rail.scrollLeft -= dx;
+    wrap();
+  });
+
+  const endDrag = () => {
+    dragging = false;
+    rail.classList.remove("is-dragging");
+  };
+
+  rail.addEventListener("pointerup", endDrag);
+  rail.addEventListener("pointercancel", endDrag);
+
+  rail.addEventListener("mouseenter", () => {
+    held = true;
+  });
+  rail.addEventListener("mouseleave", () => {
+    held = rail.matches(":focus-within");
+  });
+  rail.addEventListener("focusin", () => {
+    held = true;
+  });
+  rail.addEventListener("focusout", (event) => {
+    if (!rail.contains(event.relatedTarget)) held = rail.matches(":hover");
+  });
+
+  rail.addEventListener(
+    "wheel",
+    (event) => {
+      if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      held = true;
+      window.clearTimeout(wheelTimer);
+      wheelTimer = window.setTimeout(() => {
+        held = rail.matches(":hover") || rail.matches(":focus-within");
+      }, 900);
+    },
+    { passive: true }
+  );
+
+  rail.addEventListener("keydown", (event) => {
+    const step = 320;
+    if (event.key === "ArrowRight") {
+      rail.scrollLeft += step;
+      wrap();
+      event.preventDefault();
+    }
+    if (event.key === "ArrowLeft") {
+      if (rail.scrollLeft < step) rail.scrollLeft += loopWidth();
+      rail.scrollLeft -= step;
+      wrap();
+      event.preventDefault();
+    }
+  });
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        offscreen = !entry.isIntersecting;
+      },
+      { threshold: 0.15 }
+    );
+    observer.observe(rail);
+  }
+
+  requestAnimationFrame(tick);
+}
+
+initReteRail();
