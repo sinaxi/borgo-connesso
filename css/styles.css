@@ -917,7 +917,6 @@ h3 {
 }
 
 .rete-num,
-.rete-kicker,
 .rete-title {
   margin: 0;
   color: #111111;
@@ -939,31 +938,22 @@ h3 {
   background: #111111;
 }
 
-.rete-kicker {
-  font-size: 0.78rem;
-  font-weight: 600;
-  letter-spacing: 0.14em;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-
 .rete-title {
-  max-width: 11ch;
-  margin-top: 10px;
-  font-size: 1.72rem;
+  margin-top: 8px;
+  font-size: 1.85rem;
   font-weight: 800;
   letter-spacing: -0.035em;
-  line-height: 0.94;
+  line-height: 0.92;
   text-transform: uppercase;
   text-wrap: wrap;
 }
 
 .rete-doodle {
   position: absolute;
-  right: 12px;
-  bottom: 10px;
-  width: 112px;
-  height: 112px;
+  right: 14px;
+  bottom: 12px;
+  width: 138px;
+  height: 120px;
   fill: none;
   stroke: #111111;
   stroke-width: 2.15;
