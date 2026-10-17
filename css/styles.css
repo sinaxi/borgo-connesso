@@ -2812,9 +2812,9 @@ h3 {
   padding: 14px 14px 22px;
   border: 2.5px solid #111111;
   border-radius: 32px;
-  background: #f3e7b0;
+  background: #ffffff;
   color: #111111;
-  box-shadow: 7px 7px 0 #f7f1d2;
+  box-shadow: 7px 7px 0 #5c5c5c;
   transition:
     transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
     box-shadow 200ms cubic-bezier(0.16, 1, 0.3, 1);
@@ -2851,13 +2851,13 @@ h3 {
 @media (hover: hover) and (pointer: fine) {
   .prova-card:hover .prova-face {
     transform: translate(5px, 5px);
-    box-shadow: 2px 2px 0 #f7f1d2;
+    box-shadow: 2px 2px 0 #5c5c5c;
   }
 }
 
 .prova-card:active .prova-face {
   transform: translate(6px, 6px);
-  box-shadow: 1px 1px 0 #f7f1d2;
+  box-shadow: 1px 1px 0 #5c5c5c;
 }
 
 .ricordi-slot {
