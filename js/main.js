@@ -778,22 +778,26 @@ function initReteRail() {
   let dragging = false;
   let lastX = 0;
   let wheelTimer = 0;
+  let x = 0;
   const speed = reducedMotion ? 0 : 0.72;
   const resting = () => held || offscreen || dragging;
 
   const loopWidth = () => set.offsetWidth;
 
-  const wrap = () => {
+  const apply = () => {
     const width = loopWidth();
-    if (!width) return;
-    if (rail.scrollLeft >= width) rail.scrollLeft -= width;
-    if (rail.scrollLeft < 0) rail.scrollLeft += width;
+    if (width > 0) x = ((x % width) + width) % width;
+    rail.scrollLeft = x;
+  };
+
+  const syncFromRail = () => {
+    x = rail.scrollLeft;
   };
 
   const tick = () => {
     if (!resting() && speed) {
-      rail.scrollLeft += speed;
-      wrap();
+      x += speed;
+      apply();
     }
     requestAnimationFrame(tick);
   };
@@ -801,18 +805,18 @@ function initReteRail() {
   rail.addEventListener("pointerdown", (event) => {
     if (event.button !== 0) return;
     dragging = true;
+    syncFromRail();
     lastX = event.clientX;
     rail.classList.add("is-dragging");
-    rail.setPointerCapture(event.pointerId);
+    if (rail.setPointerCapture) rail.setPointerCapture(event.pointerId);
   });
 
   rail.addEventListener("pointermove", (event) => {
     if (!dragging) return;
     const dx = event.clientX - lastX;
     lastX = event.clientX;
-    if (rail.scrollLeft <= 0 && dx > 0) rail.scrollLeft = loopWidth();
-    rail.scrollLeft -= dx;
-    wrap();
+    x -= dx;
+    apply();
   });
 
   const endDrag = () => {
@@ -843,6 +847,7 @@ function initReteRail() {
       held = true;
       window.clearTimeout(wheelTimer);
       wheelTimer = window.setTimeout(() => {
+        syncFromRail();
         held = rail.matches(":hover") || rail.matches(":focus-within");
       }, 900);
     },
@@ -851,17 +856,11 @@ function initReteRail() {
 
   rail.addEventListener("keydown", (event) => {
     const step = 320;
-    if (event.key === "ArrowRight") {
-      rail.scrollLeft += step;
-      wrap();
-      event.preventDefault();
-    }
-    if (event.key === "ArrowLeft") {
-      if (rail.scrollLeft < step) rail.scrollLeft += loopWidth();
-      rail.scrollLeft -= step;
-      wrap();
-      event.preventDefault();
-    }
+    if (event.key !== "ArrowRight" && event.key !== "ArrowLeft") return;
+    syncFromRail();
+    x += event.key === "ArrowRight" ? step : -step;
+    apply();
+    event.preventDefault();
   });
 
   if ("IntersectionObserver" in window) {

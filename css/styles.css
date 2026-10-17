@@ -842,6 +842,8 @@ h3 {
 }
 
 .room--rete {
+  min-width: 0;
+  max-width: 100%;
   padding: 4px 0 14px;
   border: 0;
   border-radius: 0;
@@ -850,8 +852,12 @@ h3 {
 }
 
 .rete-rail {
-  overflow-x: auto;
+  width: 100%;
+  min-width: 0;
+  overflow-x: scroll;
+  scroll-behavior: auto;
   overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
   cursor: grab;
   user-select: none;
   scrollbar-width: none;
