@@ -762,9 +762,9 @@ if (newsRotator) {
 function initReteRails() {
   const rail = document.querySelector("[data-rete-rail]");
   if (!rail) return;
-  const tones = ["#ffffff", "#c8c8c8"];
+  const tones = ["#ffffff", "#dcdcdc", "#ffffff", "#bdbdbd", "#ffffff", "#9a9a9a"];
   rail.querySelectorAll("[data-rete-set] .rete-card").forEach((card, index) => {
-    card.style.setProperty("--tone", tones[index % 2]);
+    card.style.setProperty("--tone", tones[index] || "#ffffff");
   });
   initReteRail(rail, 0);
 }
