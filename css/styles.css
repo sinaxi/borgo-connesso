@@ -2469,7 +2469,7 @@ h3 {
 
 .season-stage {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
+  grid-template-columns: 1fr 1fr;
   min-height: 460px;
   border-radius: var(--radius);
   overflow: hidden;
@@ -3079,6 +3079,7 @@ h3 {
 .room--news {
   background: #dedede;
   color: #111;
+  border: 1px solid #c8c8c8;
 }
 
 .news-head {
