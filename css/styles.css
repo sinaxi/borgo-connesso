@@ -851,6 +851,10 @@ h3 {
   overflow: visible;
 }
 
+.rete-rail + .rete-rail {
+  margin-top: 13px;
+}
+
 .rete-rail {
   width: 100%;
   min-width: 0;

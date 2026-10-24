@@ -759,8 +759,19 @@ if (newsRotator) {
   playNews();
 }
 
-function initReteRail() {
-  const rail = document.querySelector("[data-rete-rail]");
+function initReteRails() {
+  const first = document.querySelector("[data-rete-rail]");
+  if (!first) return;
+  const second = first.cloneNode(true);
+  second.removeAttribute("tabindex");
+  second.setAttribute("aria-hidden", "true");
+  second.querySelector(".sr")?.remove();
+  first.after(second);
+  initReteRail(first, 0);
+  initReteRail(second, 360);
+}
+
+function initReteRail(rail, start) {
   const set = rail?.querySelector("[data-rete-set]");
   if (!rail || !set) return;
 
@@ -775,7 +786,7 @@ function initReteRail() {
   let lastX = 0;
   let wheelTimer = 0;
   let releaseTimer = 0;
-  let x = 0;
+  let x = start || 0;
   const speed = reducedMotion ? 0 : 0.72;
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
   const resting = () => held || offscreen || dragging;
@@ -898,4 +909,4 @@ function initReteRail() {
   requestAnimationFrame(tick);
 }
 
-initReteRail();
+initReteRails();
