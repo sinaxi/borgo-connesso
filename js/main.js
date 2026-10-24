@@ -767,6 +767,14 @@ function initReteRails() {
   second.setAttribute("aria-hidden", "true");
   second.querySelector(".sr")?.remove();
   first.after(second);
+  const siteTones = ["#ffffff", "#dedede", "#d4eef8", "#ffd0c4", "#ff3b30", "#111111"];
+  const siteInk = [null, null, null, null, "is-lake", "is-ink"];
+  first.querySelectorAll("[data-rete-set] .rete-card").forEach((card, index) => {
+    const tone = siteTones[index];
+    if (!tone) return;
+    card.style.setProperty("--tone", tone);
+    if (siteInk[index]) card.classList.add(siteInk[index]);
+  });
   initReteRail(first, 0);
   initReteRail(second, 360);
 }
