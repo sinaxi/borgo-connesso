@@ -926,27 +926,6 @@ h3 {
   box-shadow: 1px 1px 0 #111111;
 }
 
-.rete-card.is-lake .rete-num,
-.rete-card.is-lake .rete-title,
-.rete-card.is-ink .rete-num,
-.rete-card.is-ink .rete-title {
-  color: #fff;
-}
-
-.rete-card.is-lake .rete-rule,
-.rete-card.is-ink .rete-rule {
-  background: #fff;
-}
-
-.rete-card.is-lake .rete-doodle,
-.rete-card.is-ink .rete-doodle {
-  stroke: #fff;
-}
-
-.rete-card.is-ink .rete-face {
-  border-color: #fff;
-}
-
 .rete-num,
 .rete-title {
   margin: 0;
