@@ -1252,7 +1252,7 @@ h3 {
 .tile-band {
   position: relative;
   grid-column: 1 / -1;
-  min-height: clamp(360px, 48vw, 560px);
+  min-height: 100svh;
   border-radius: 24px;
   overflow: hidden;
   color: #fff;
@@ -1372,8 +1372,8 @@ h3 {
 
 @media (max-width: 720px) {
   .tile-band {
-    min-height: clamp(380px, 78vw, 460px);
-    border-radius: 20px;
+    min-height: 100svh;
+    border-radius: 0;
   }
 
   .tile-band-copy {
@@ -3257,6 +3257,23 @@ h3 {
   align-self: stretch;
 }
 
+@media (min-width: 1041px) {
+  .news-list {
+    container-type: size;
+    container-name: news-side;
+  }
+
+  .news-list li:nth-child(n + 4) {
+    display: none;
+  }
+}
+
+@container news-side (min-height: 700px) {
+  .news-list li:nth-child(4) {
+    display: flex;
+  }
+}
+
 .news-list li {
   display: flex;
   flex-direction: column;
@@ -4372,6 +4389,23 @@ body.menu-closing .float-dock {
 
   .room--ricordi {
     padding: 28px 20px;
+  }
+
+  #territorio {
+    overflow: visible;
+  }
+
+  .tile-band {
+    --band-bleed: calc(12px + clamp(28px, 4vw, 52px));
+    width: calc(100% + (2 * var(--band-bleed)));
+    margin-left: calc(var(--band-bleed) * -1);
+    min-height: 100svh;
+    border-radius: 0;
+    box-shadow: none;
+  }
+
+  .tile-band-copy {
+    padding-bottom: calc(108px + env(safe-area-inset-bottom, 0px));
   }
 }
 

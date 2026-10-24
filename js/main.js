@@ -690,7 +690,13 @@ if (newsRotator) {
 
   function paintNews(next) {
     if (!feature || !items.length) return;
-    index = ((next % items.length) + items.length) % items.length;
+    let cursor = ((next % items.length) + items.length) % items.length;
+    let guard = 0;
+    while (getComputedStyle(items[cursor]).display === "none" && guard < items.length) {
+      cursor = (cursor + 1) % items.length;
+      guard += 1;
+    }
+    index = cursor;
     const item = items[index];
 
     items.forEach((li, i) => {
@@ -756,6 +762,14 @@ if (newsRotator) {
   newsRotator.addEventListener("focusout", (event) => {
     if (!newsRotator.contains(event.relatedTarget)) playNews();
   });
+
+  const newsList = newsRotator.querySelector(".news-list");
+  if (newsList && "ResizeObserver" in window) {
+    const newsResize = new ResizeObserver(() => {
+      if (getComputedStyle(items[index]).display === "none") paintNews(0);
+    });
+    newsResize.observe(newsList);
+  }
 
   paintNews(index);
   playNews();
