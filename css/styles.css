@@ -2348,7 +2348,7 @@ h3 {
 }
 
 .acc-panel {
-  padding: 0 0 18px 2.3em;
+  padding: 0 0 18px calc(1.4 * clamp(1.45rem, 2vw, 1.9rem) + 14px);
 }
 
 .acc-panel p + p {
@@ -4277,10 +4277,6 @@ body.menu-closing .float-dock {
 
   .place-caption {
     max-width: 26ch;
-  }
-
-  .acc-panel {
-    padding-left: 0;
   }
 
   .news-head {
