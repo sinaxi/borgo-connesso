@@ -4391,3 +4391,206 @@ body.menu-closing .float-dock {
     scroll-behavior: auto;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Pisogne — seconda metà della pagina
+   Bivio «pacchetto pronto / su misura», pacchetti extra, rete per ruoli,
+   sezione onestà al posto delle recensioni.
+   --------------------------------------------------------------------------- */
+
+.bivio {
+  margin: 0 0 clamp(24px, 3vw, 36px);
+  padding: clamp(22px, 3vw, 34px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--ivory);
+}
+
+.bivio-title {
+  margin: 0 0 18px;
+  font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.bivio-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(18px, 3vw, 36px);
+}
+
+.bivio-card h4 {
+  margin: 0 0 8px;
+  font-family: var(--display);
+  font-size: 1.12rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--olive-night);
+}
+
+.bivio-card p {
+  margin: 0;
+  color: var(--sage);
+}
+
+.bivio-card + .bivio-card {
+  border-left: 1px solid var(--line);
+  padding-left: clamp(18px, 3vw, 36px);
+}
+
+.bivio-foot {
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  color: var(--olive-night);
+  font-weight: 600;
+}
+
+.path:nth-of-type(5) img { object-position: center 42%; }
+.path:nth-of-type(6) img { object-position: center 50%; }
+.path:nth-of-type(7) img { object-position: center 46%; }
+
+.extra-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 22px);
+  margin-top: clamp(18px, 2.4vw, 28px);
+}
+
+.extra-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: clamp(22px, 3vw, 32px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--sky);
+}
+
+.extra-kicker {
+  margin: 0;
+  color: var(--sage);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.extra-card h3 {
+  margin: 0;
+  font-size: clamp(1.7rem, 2.6vw, 2.4rem);
+  letter-spacing: -0.035em;
+  line-height: 1;
+}
+
+.extra-card p {
+  margin: 0;
+  color: var(--sage);
+}
+
+.extra-card .btn {
+  margin-top: 8px;
+  color: var(--olive-night);
+}
+
+.extra-card .btn:hover {
+  background: var(--olive-night);
+  color: var(--ivory);
+}
+
+.extra-note {
+  font-weight: 600;
+}
+
+.who--six {
+  row-gap: 34px;
+}
+
+.who--six article:nth-child(3n + 1) {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.regole-title,
+.impegni-title {
+  margin: clamp(32px, 4vw, 48px) 0 14px;
+  font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+  letter-spacing: -0.03em;
+}
+
+.regole,
+.impegni {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  max-width: 78ch;
+}
+
+.regole li,
+.impegni li {
+  position: relative;
+  padding-left: 18px;
+  color: var(--sage);
+}
+
+.regole li::before,
+.impegni li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lake);
+}
+
+.regole strong {
+  color: var(--olive-night);
+}
+
+.room--reviews .impegni-title {
+  color: #fff;
+}
+
+.room--reviews .impegni li {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.reviews-lede {
+  margin: 18px 0 8px;
+  max-width: 72ch;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.reviews-scene p {
+  margin: 0;
+  max-width: 42ch;
+  font-size: clamp(1.05rem, 1.6vw, 1.35rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .bivio-grid,
+  .extra-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bivio-card + .bivio-card {
+    border-left: 0;
+    padding-left: 0;
+    border-top: 1px solid var(--line);
+    padding-top: 18px;
+  }
+}
+
+#percorsi .path--long h3 {
+  font-size: clamp(1.7rem, 2.3vw, 2.4rem);
+  line-height: 1.02;
+}
