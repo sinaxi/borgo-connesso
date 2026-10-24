@@ -433,17 +433,7 @@ if (heroVisual) {
   showHero(0);
 }
 
-const percorso = document.querySelector("#percorso");
-
-document.querySelectorAll("[data-percorso]").forEach((link) => {
-  link.addEventListener("click", () => {
-    const value = link.getAttribute("data-percorso");
-    if (percorso && value) {
-      percorso.value = value;
-      percorso.removeAttribute("aria-invalid");
-    }
-  });
-});
+const chi = document.querySelector("#chi");
 
 const form = document.querySelector("#proposta-form");
 const formStatus = document.querySelector("#form-status");
@@ -458,43 +448,37 @@ form?.addEventListener("submit", (event) => {
   event.preventDefault();
   const nome = form.querySelector("#nome");
   const email = form.querySelector("#email");
-  const organizzazione = form.querySelector("#organizzazione");
-  const persone = form.querySelector("#persone");
-  const periodo = form.querySelector("#periodo");
   const messaggio = form.querySelector("#messaggio");
 
   const nomeOk = nome.value.trim().length > 1;
   const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value.trim());
-  const percorsoOk = Boolean(percorso.value);
+  const chiOk = Boolean(chi?.value);
 
   setInvalid(nome, !nomeOk);
   setInvalid(email, !emailOk);
-  setInvalid(percorso, !percorsoOk);
+  setInvalid(chi, !chiOk);
 
-  if (!nomeOk || !emailOk || !percorsoOk) {
+  if (!nomeOk || !emailOk || !chiOk) {
     formStatus.textContent = !nomeOk
-      ? "Manca il nome."
+      ? "Manca nome e cognome."
       : !emailOk
         ? "L'email non è completa."
-        : "Scegli un pacchetto, anche «Da comporre insieme».";
+        : "Scegli Aziende, Famiglia, Freelancer o Altro.";
     const firstInvalid = form.querySelector("[aria-invalid='true']");
     firstInvalid?.focus();
     return;
   }
 
-  const percorsoLabel = percorso.selectedOptions[0]?.textContent?.trim() || percorso.value;
+  const chiLabel = chi.selectedOptions[0]?.textContent?.trim() || chi.value;
   const body = [
-    `Nome: ${nome.value.trim()}`,
+    `Nome e cognome: ${nome.value.trim()}`,
     `Email: ${email.value.trim()}`,
-    `Pacchetto: ${percorsoLabel}`,
-    `Organizzazione o famiglia: ${organizzazione.value.trim() || "—"}`,
-    `Persone: ${persone.value.trim() || "—"}`,
-    `Periodo: ${periodo.value.trim() || "—"}`,
+    `Chi: ${chiLabel}`,
     "",
-    messaggio.value.trim() || "Nessun messaggio aggiuntivo.",
+    messaggio.value.trim() || "Nessun messaggio.",
   ].join("\n");
 
-  const href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Proposta Borgo Connesso — ${percorsoLabel}`)}&body=${encodeURIComponent(body)}`;
+  const href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(`Informazioni Borgo Connesso — ${chiLabel}`)}&body=${encodeURIComponent(body)}`;
   formStatus.textContent = `Se il programma di posta non si apre, scrivi a ${CONTACT_EMAIL}.`;
   window.location.href = href;
 });
