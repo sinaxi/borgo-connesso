@@ -20,7 +20,7 @@ Borgo Connesso coordina soggiorni a Pisogne: lavoro, attività all'aperto, welln
 
 ## Positioning
 
-Ospitalità, spazio di lavoro e territorio stanno nello stesso programma, con un referente. Non è un catalogo di singole attività né la scheda di una struttura. Il progetto non possiede niente: coordina quello che a Pisogne c'è già.
+Ospitalità, spazio di lavoro e territorio stanno nello stesso programma. Non è un catalogo di singole attività né la scheda di una struttura. Il progetto non possiede niente: coordina quello che a Pisogne c'è già.
 
 ## Operating Context
 
@@ -59,7 +59,7 @@ Quattro immagini in `assets/` ritraggono la Toscana (`hero-borgo.jpg`, `team-bor
 
 ## Product Principles
 
-- Un referente, un programma.
+- Un programma già composto.
 - Distinguere ciò che si coordina da ciò che si quota dopo.
 - Parlare a team, singoli e famiglie con la stessa concretezza.
 - Far chiedere una proposta, senza un imbuto opaco.
