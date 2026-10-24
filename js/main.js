@@ -760,21 +760,13 @@ if (newsRotator) {
 }
 
 function initReteRails() {
-  const first = document.querySelector("[data-rete-rail]");
-  if (!first) return;
-  const second = first.cloneNode(true);
-  second.removeAttribute("tabindex");
-  second.setAttribute("aria-hidden", "true");
-  second.querySelector(".sr")?.remove();
-  first.after(second);
-  const siteTones = ["#ffffff", "#f0f0f0", "#e0e0e0", "#d0d0d0", "#c0c0c0", "#b0b0b0"];
-  first.querySelectorAll("[data-rete-set] .rete-card").forEach((card, index) => {
-    const tone = siteTones[index];
-    if (!tone) return;
-    card.style.setProperty("--tone", tone);
+  const rail = document.querySelector("[data-rete-rail]");
+  if (!rail) return;
+  const tones = ["#ffffff", "#c8c8c8"];
+  rail.querySelectorAll("[data-rete-set] .rete-card").forEach((card, index) => {
+    card.style.setProperty("--tone", tones[index % 2]);
   });
-  initReteRail(first, 0);
-  initReteRail(second, 360);
+  initReteRail(rail, 0);
 }
 
 function initReteRail(rail, start) {
