@@ -4211,6 +4211,11 @@ body.menu-closing .float-dock {
     -webkit-text-stroke: 8px var(--ivory);
     margin-top: -2.24rem;
   }
+
+  .tile-band {
+    align-self: stretch;
+    width: 100%;
+  }
 }
 
 @media (max-width: 720px) {
@@ -4394,7 +4399,8 @@ body.menu-closing .float-dock {
   }
 
   .tile-band {
-    width: auto;
+    align-self: stretch;
+    width: 100%;
     margin-left: 0;
     min-height: clamp(320px, 72vw, 460px);
     border-radius: 20px;
