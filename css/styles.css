@@ -4216,6 +4216,33 @@ body.menu-closing .float-dock {
     align-self: stretch;
     width: 100%;
   }
+
+  #rete-locale .room-head {
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 8px;
+  }
+
+  #rete-locale .room-head h2,
+  #rete-locale .room-head p {
+    width: 100%;
+    max-width: none;
+    text-align: left;
+  }
+
+  #rete-locale .who--six {
+    gap: 0;
+  }
+
+  #rete-locale .who article {
+    padding: 18px 0;
+  }
+
+  #rete-locale .who article + article {
+    margin-top: 0;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+  }
 }
 
 @media (max-width: 720px) {
