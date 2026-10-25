@@ -666,6 +666,7 @@ if (newsRotator) {
   const feature = newsRotator.querySelector(".news-feature");
   const items = [...newsRotator.querySelectorAll(".news-list > li")];
   const dateEl = feature?.querySelector("[data-news-date]");
+  const tagsEl = feature?.querySelector("[data-news-tags]");
   const mediaEl = feature?.querySelector("[data-news-media]");
   const imgEl = feature?.querySelector("[data-news-img]");
   const linkEl = feature?.querySelector("[data-news-link]");
@@ -694,6 +695,14 @@ if (newsRotator) {
       if (dateEl) {
         dateEl.textContent = item.dataset.date || "";
         dateEl.setAttribute("datetime", item.dataset.datetime || "");
+      }
+      if (tagsEl) {
+        const tags = (item.dataset.tags || "").split("|").map((tag) => tag.trim()).filter(Boolean);
+        tagsEl.replaceChildren(...tags.map((tag) => {
+          const chip = document.createElement("span");
+          chip.textContent = tag;
+          return chip;
+        }));
       }
       if (imgEl) {
         imgEl.src = item.dataset.img || imgEl.src;
