@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=168">
+  <link rel="stylesheet" href="css/styles.css?v=169">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -272,14 +272,16 @@
           <div class="pathway-land__seat" data-skyline-seat></div>
         </div>
 
-        <div class="pathway-stage" data-pathway-stage>
-          <svg class="pathway-stage__svg pathway-stage__svg--desk" viewBox="0 0 1944.2 6151.5" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <path data-pathway-path fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="500" d="M1085 250c-868 126.5-961 907-29.5 1453S1397 3353 733 3318s-606-718-53.6-808"/>
-            <path data-pathway-path-b fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="500" d="M679.3 2510c552.3-90 1689.3 743.4 475.6 1689-985 767.5-234 1313-234 1702.5"/>
+        <div class="pathway-stage" data-pathway-stage data-scroll-offset="-27%,100%">
+          <svg id="desktop-svg" class="pathway-stage__svg pathway-stage__svg--desk" viewBox="0 0 1944.2 6151.5" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path id="main-path" data-pathway-path fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="500" d="M1085 250c-868 126.5-961 907-29.5 1453S1397 3353 733 3318s-606-718-53.6-808"/>
+            <path id="secondary-path" data-pathway-path-b fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="500" d="M679.3 2510c552.3-90 1689.3 743.4 475.6 1689-985 767.5-234 1313-234 1702.5"/>
+            <path id="shadow-path" data-pathway-shadow fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="500" opacity="0" d="M1055.5 1703C1987 2249 1397 3353 733 3318"/>
           </svg>
-          <svg class="pathway-stage__svg pathway-stage__svg--mob" viewBox="0 0 847.9 4471" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-            <path data-pathway-path-m fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="250" d="M508,131.1c-474,11.9-357.9,671.3-49,1079.1,308.8,407.8,263,1206.2-79.6,1206.2s-335.9-596.5-5.8-603.4"/>
-            <path data-pathway-path-mb fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="250" d="M373.6,1813c1.9,0,3.9-0.1,5.8-0.1c335.8,0,514.9,555.2,112.5,1261.5c-326.6,573.2-77.6,980.7-77.6,1271.6"/>
+          <svg id="mobile-svg" class="pathway-stage__svg pathway-stage__svg--mob" viewBox="0 0 847.9 4471" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path id="mobile-main-path" data-pathway-path-m fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="250" d="M508,131.1c-474,11.9-357.9,671.3-49,1079.1,308.8,407.8,263,1206.2-79.6,1206.2s-335.9-596.5-5.8-603.4"/>
+            <path id="mobile-overlap-end" data-pathway-path-mb fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="250" d="M373.6,1813c1.9,0,3.9-0.1,5.8-0.1c335.8,0,514.9,555.2,112.5,1261.5c-326.6,573.2-77.6,980.7-77.6,1271.6"/>
+            <path id="mobile-shadow-path" data-pathway-shadow-m fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="250" opacity="0" d="M459,1210.2c308.8,407.8,265.5,1206.2-81.5,1206.2"/>
           </svg>
 
           <div class="pathway-card" data-pathway-tile style="--tile:#ff705d">
@@ -333,6 +335,26 @@
               </a>
             </div>
           </div>
+
+          <div class="pathway-end" data-pathway-end aria-hidden="true">
+            <img class="pathway-end__cloud pathway-end__cloud--1" src="assets/pathway/timeline_end_cloud_1.svg" width="517" height="104" alt="" decoding="async">
+            <img class="pathway-end__cloud pathway-end__cloud--2" src="assets/pathway/timeline_end_cloud_2.svg" width="247" height="58" alt="" decoding="async">
+            <img class="pathway-end__cloud pathway-end__cloud--3" src="assets/pathway/timeline_end_cloud_3.svg" width="372" height="75" alt="" decoding="async">
+            <img class="pathway-end__cloud pathway-end__cloud--4" src="assets/pathway/timeline_end_cloud_4.svg" width="173" height="40" alt="" decoding="async">
+            <img class="pathway-end__cloud pathway-end__cloud--5" src="assets/pathway/timeline_end_cloud_5.svg" width="108" height="34" alt="" decoding="async">
+            <img class="pathway-end__green pathway-end__green--back" src="assets/pathway/timeline-end-green-back.svg" width="1512" height="432" alt="" decoding="async">
+            <img class="pathway-end__green pathway-end__green--middle" src="assets/pathway/timeline-end-green-middle.svg" width="1512" height="215" alt="" decoding="async">
+            <img class="pathway-end__green pathway-end__green--front" src="assets/pathway/timeline-end-green-front.svg" width="1512" height="285" alt="" decoding="async">
+          </div>
+        </div>
+
+        <div class="pathway-ready" data-pathway-ready>
+          <p class="pathway-ready__title">Pronto quando<br>lo sei tu.</p>
+          <p class="pathway-ready__text">Un soggiorno sul lago, già composto o messo insieme su misura. Scrivici e partiamo da lì.</p>
+          <a class="pathway-ready__cta" href="mailto:ciao@borgoconnesso.it">
+            <span>Scrivici</span>
+            <span class="pathway-ready__arrow" aria-hidden="true"></span>
+          </a>
         </div>
       </section>
 
@@ -1332,6 +1354,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=45"></script>
+  <script src="js/main.js?v=46"></script>
 </body>
 </html>

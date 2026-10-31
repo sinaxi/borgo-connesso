@@ -952,42 +952,121 @@ function initPathway() {
   const stage = section.querySelector("[data-pathway-stage]");
   const seed = section.querySelector("[data-pathway-seed]");
   const tiles = [...section.querySelectorAll("[data-pathway-tile]")];
-  const deskPaths = [...section.querySelectorAll("[data-pathway-path], [data-pathway-path-b]")];
-  const mobPaths = [...section.querySelectorAll("[data-pathway-path-m], [data-pathway-path-mb]")];
+  const mainPath = section.querySelector("#main-path");
+  const secondaryPath = section.querySelector("#secondary-path");
+  const shadowPath = section.querySelector("#shadow-path");
+  const mobileMainPath = section.querySelector("#mobile-main-path");
+  const mobileOverlap = section.querySelector("#mobile-overlap-end");
+  const mobileShadow = section.querySelector("#mobile-shadow-path");
 
   const clamp01 = (value) => Math.min(1, Math.max(0, value));
   const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+  const power1In = (t) => t * t;
+
+  // MindMarket CustomEase: M0,0 C0.952,0.017 0.744,0.69 1,1
+  const customEase = (() => {
+    const x1 = 0.952;
+    const y1 = 0.017;
+    const x2 = 0.744;
+    const y2 = 0.69;
+    const sampleX = (t) =>
+      3 * (1 - t) * (1 - t) * t * x1 + 3 * (1 - t) * t * t * x2 + t * t * t;
+    const sampleY = (t) =>
+      3 * (1 - t) * (1 - t) * t * y1 + 3 * (1 - t) * t * t * y2 + t * t * t;
+    const sampleDX = (t) =>
+      3 * (1 - t) * (1 - t) * x1 +
+      6 * (1 - t) * t * (x2 - x1) +
+      3 * t * t * (1 - x2);
+    return (x) => {
+      let t = x;
+      for (let i = 0; i < 6; i += 1) {
+        const dx = sampleDX(t);
+        if (Math.abs(dx) < 1e-6) break;
+        t -= (sampleX(t) - x) / dx;
+        t = Math.min(1, Math.max(0, t));
+      }
+      return sampleY(t);
+    };
+  })();
 
   const setupPath = (el) => {
     if (!el) return null;
     const length = el.getTotalLength();
-    el.style.strokeDasharray = reducedMotion ? `${length}, 0` : `0, ${length}`;
+    el.style.strokeDasharray = reducedMotion ? `${length}px, 0.1px` : `0px, ${length}px`;
     el.style.strokeDashoffset = "0";
     return { el, length };
   };
 
-  let desk = deskPaths.map(setupPath).filter(Boolean);
-  let mob = mobPaths.map(setupPath).filter(Boolean);
+  const paintDraw = (item, pct) => {
+    if (!item) return;
+    const drawn = item.length * clamp01(pct);
+    const rest = Math.max(0.1, item.length - drawn);
+    item.el.style.strokeDasharray = `${drawn}px, ${rest}px`;
+    item.el.style.strokeDashoffset = "0";
+  };
+
+  let deskMain = setupPath(mainPath);
+  let deskSecondary = setupPath(secondaryPath);
+  let deskShadow = setupPath(shadowPath);
+  let mobMain = setupPath(mobileMainPath);
+  let mobOverlap = setupPath(mobileOverlap);
+  let mobShadow = setupPath(mobileShadow);
   const seedStroke = setupPath(seed);
+
+  if (deskShadow) deskShadow.el.style.opacity = reducedMotion ? "1" : "0";
+  if (mobShadow) mobShadow.el.style.opacity = reducedMotion ? "1" : "0";
 
   const isMobile = () => window.matchMedia("(max-width: 1040px)").matches;
 
-  const sectionProgress = () => {
+  // MindMarket data-scroll-offset="-27%,100%" + position start,end
+  const pathProgress = () => {
     if (!stage) return 0;
     const rect = stage.getBoundingClientRect();
     const vh = window.innerHeight || 1;
-    const total = rect.height + vh * 0.35;
-    const traveled = vh * 0.85 - rect.top;
-    return clamp01(traveled / Math.max(1, total));
+    const start = vh * 1.27;
+    const end = vh - rect.height;
+    return clamp01((start - rect.top) / Math.max(1, start - end));
   };
 
-  const paintStroke = (items, progress) => {
-    items.forEach((item, index) => {
-      if (!item) return;
-      const local = clamp01((progress - index * 0.18) / 0.55);
-      const drawn = item.length * easeOut(local);
-      item.el.style.strokeDasharray = `${drawn}, ${item.length}`;
-    });
+  const paintDesktopTimeline = (progress) => {
+    // GSAP: main 0.9 + secondary 1.0 = 1.9; shadow at 0.95 for 0.15
+    const total = 1.9;
+    const time = progress * total;
+
+    if (time <= 0.9) {
+      const local = customEase(clamp01(time / 0.9));
+      paintDraw(deskMain, 0.05 + local * 0.95);
+      paintDraw(deskSecondary, 0);
+    } else {
+      paintDraw(deskMain, 1);
+      paintDraw(deskSecondary, clamp01((time - 0.9) / 1));
+    }
+
+    if (deskShadow) {
+      const shadowT = clamp01((time - 0.95) / 0.15);
+      deskShadow.el.style.opacity = String(shadowT);
+      paintDraw(deskShadow, shadowT > 0 ? 1 : 0);
+    }
+  };
+
+  const paintMobileTimeline = (progress) => {
+    // GSAP: main 1.0 + overlap 1.0 = 2.0; shadow at 1.05 for 0.15
+    const total = 2;
+    const time = progress * total;
+
+    if (time <= 1) {
+      paintDraw(mobMain, 0.001 + power1In(clamp01(time)) * 0.999);
+      paintDraw(mobOverlap, 0);
+    } else {
+      paintDraw(mobMain, 1);
+      paintDraw(mobOverlap, clamp01(time - 1));
+    }
+
+    if (mobShadow) {
+      const shadowT = clamp01((time - 1.05) / 0.15);
+      mobShadow.el.style.opacity = String(shadowT);
+      paintDraw(mobShadow, shadowT > 0 ? 1 : 0);
+    }
   };
 
   const paintSkyline = () => {
@@ -995,7 +1074,6 @@ function initPathway() {
     const skyH = skyline.offsetHeight || 1;
     const seatTop = seat.getBoundingClientRect().top;
     const fixedTop = vh - skyH;
-    // Catch only when the green seat rises up to the drawing at the bottom.
     const landed = seatTop <= fixedTop;
 
     skyline.classList.toggle("is-fixed", !landed);
@@ -1017,15 +1095,16 @@ function initPathway() {
       const land = document.querySelector("[data-skyline-land]");
       const landTop = land?.getBoundingClientRect().top ?? seatTop;
       const landProgress = clamp01((vh * 0.95 - landTop) / (vh * 0.7));
-      const drawn = reducedMotion ? seedStroke.length : seedStroke.length * easeOut(landProgress);
-      seedStroke.el.style.strokeDasharray = `${drawn}, ${seedStroke.length}`;
+      paintDraw(seedStroke, reducedMotion ? 1 : easeOut(landProgress));
     }
   };
 
   const paint = () => {
     const vh = window.innerHeight || 1;
     paintSkyline();
-    paintStroke(isMobile() ? mob : desk, reducedMotion ? 1 : sectionProgress());
+    const progress = reducedMotion ? 1 : pathProgress();
+    if (isMobile()) paintMobileTimeline(progress);
+    else paintDesktopTimeline(progress);
     tiles.forEach((tile) => {
       const top = tile.getBoundingClientRect().top;
       tile.classList.toggle("is-in", reducedMotion || top < vh * 0.82);
@@ -1045,8 +1124,14 @@ function initPathway() {
   paint();
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
-    desk = deskPaths.map(setupPath).filter(Boolean);
-    mob = mobPaths.map(setupPath).filter(Boolean);
+    deskMain = setupPath(mainPath);
+    deskSecondary = setupPath(secondaryPath);
+    deskShadow = setupPath(shadowPath);
+    mobMain = setupPath(mobileMainPath);
+    mobOverlap = setupPath(mobileOverlap);
+    mobShadow = setupPath(mobileShadow);
+    if (deskShadow) deskShadow.el.style.opacity = reducedMotion ? "1" : "0";
+    if (mobShadow) mobShadow.el.style.opacity = reducedMotion ? "1" : "0";
     ticking = false;
     paint();
   });
