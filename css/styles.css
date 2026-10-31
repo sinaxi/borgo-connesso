@@ -539,7 +539,24 @@ body.is-rail-open .rail-show {
   will-change: transform, top, bottom;
 }
 
+.skyline__cloud {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  z-index: 0;
+  width: 38%;
+  max-width: 220px;
+  height: auto;
+  transform: translateX(-50%);
+  opacity: 0.18;
+  filter: blur(1px);
+  pointer-events: none;
+  user-select: none;
+}
+
 .skyline__art {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: auto;
