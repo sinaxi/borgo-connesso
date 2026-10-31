@@ -1023,16 +1023,6 @@ function initPathway() {
 
   const isMobile = () => window.matchMedia("(max-width: 1040px)").matches;
 
-  // MindMarket data-scroll-offset="-27%,100%" + position start,end
-  const pathProgress = () => {
-    if (!stage) return 0;
-    const rect = stage.getBoundingClientRect();
-    const vh = window.innerHeight || 1;
-    const start = vh * 1.27;
-    const end = vh - rect.height;
-    return clamp01((start - rect.top) / Math.max(1, start - end));
-  };
-
   const paintDesktopTimeline = (progress) => {
     // GSAP: main 0.9 + secondary 1.0 = 1.9; shadow at 0.95 for 0.15
     const total = 1.9;
@@ -1075,14 +1065,30 @@ function initPathway() {
   const video = document.querySelector(".hero-visual");
   const skyFlat = skyline?.querySelector("[data-skyline-flat]");
   const skyCurve = skyline?.querySelector("[data-skyline-curve]");
-  const START_SCALE = 0.78;
+  const START_SCALE = 0.72;
   const END_SCALE = 1;
   // Mid-arch ground line in borgo-curve.png (~20% up from image bottom).
   const GROUND_LIFT = 0.2;
   // Dig deep enough that the high right side of the arch still meets the green.
-  const NEST_PX = 90;
+  const NEST_PX = 110;
   let skySize = { w: 0, h: 0 };
   let skyLanded = false;
+  let lastSkyTransform = "";
+  let lastFlatOp = "";
+  let lastCurveOp = "";
+
+  // Document-space anchors: scroll paint uses only scrollY (no layout reads).
+  const anchors = {
+    tipDocX: 0,
+    tipDocY: 0,
+    videoDocLeft: 0,
+    videoDocWidth: 0,
+    videoDocBottom: 0,
+    stageDocTop: 0,
+    stageHeight: 0,
+    tileDocTops: [],
+    ready: false,
+  };
 
   const measureSkyline = () => {
     if (!skyline) return;
@@ -1090,18 +1096,18 @@ function initPathway() {
   };
 
   // Landing mark: on the tip BODY (along the path), not the far round-cap tip.
-  const tipCrest = () => {
+  const tipCrestFromDom = () => {
     const mobile = isMobile();
     const pathEl = mobile ? mobileMainPath : mainPath;
     const svg = pathEl?.ownerSVGElement;
     if (!pathEl || !svg) {
       const fallback = seat.getBoundingClientRect();
-      return { x: fallback.left, y: fallback.top };
+      return { x: fallback.left + fallback.width * 0.5, y: fallback.top };
     }
     const ctm = pathEl.getScreenCTM();
     if (!ctm) {
       const fallback = seat.getBoundingClientRect();
-      return { x: fallback.left, y: fallback.top };
+      return { x: fallback.left + fallback.width * 0.5, y: fallback.top };
     }
     const stroke = Number(pathEl.getAttribute("stroke-width")) || (mobile ? 250 : 500);
     const len = pathEl.getTotalLength() || 1;
@@ -1115,35 +1121,96 @@ function initPathway() {
     return { x, y };
   };
 
-  const paintSkyline = () => {
+  const measureAnchors = () => {
+    measureSkyline();
+    const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    const scrollX = window.scrollX || document.documentElement.scrollLeft || 0;
+    const crest = tipCrestFromDom();
+    // Ignore pre-layout junk (svg not sized yet).
+    if (!Number.isFinite(crest.x) || !Number.isFinite(crest.y) || crest.y < -2e3 || crest.y > 1e5) {
+      anchors.ready = false;
+      return;
+    }
+    anchors.tipDocX = scrollX + crest.x;
+    anchors.tipDocY = scrollY + crest.y;
+    if (video) {
+      const vr = video.getBoundingClientRect();
+      anchors.videoDocLeft = scrollX + vr.left;
+      anchors.videoDocWidth = vr.width;
+      anchors.videoDocBottom = scrollY + vr.bottom;
+    } else {
+      const vh = window.innerHeight || 1;
+      anchors.videoDocLeft = 0;
+      anchors.videoDocWidth = window.innerWidth || 1;
+      anchors.videoDocBottom = scrollY + vh * 0.72;
+    }
+    if (stage) {
+      const sr = stage.getBoundingClientRect();
+      anchors.stageDocTop = scrollY + sr.top;
+      anchors.stageHeight = sr.height;
+    }
+    anchors.tileDocTops = tiles.map((tile) => scrollY + tile.getBoundingClientRect().top);
+    anchors.ready = Number.isFinite(anchors.tipDocY) && anchors.stageHeight > 100;
+  };
+
+  const pathProgressFromAnchors = (scrollY, vh) => {
+    if (!anchors.ready) return 0;
+    const top = anchors.stageDocTop - scrollY;
+    const start = vh * 1.27;
+    const end = vh - anchors.stageHeight;
+    return clamp01((start - top) / Math.max(1, start - end));
+  };
+
+  const paintSkyline = (scrollY, vh) => {
     if (!skyline || !seat) return;
+    if (!anchors.ready) measureAnchors();
+    if (!anchors.ready) return;
     if (!skySize.h) measureSkyline();
 
-    const vh = window.innerHeight || 1;
-    const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
-    const videoRect = video
-      ? video.getBoundingClientRect()
-      : { left: 0, width: window.innerWidth, bottom: vh * 0.72 };
-    const crest = tipCrest();
+    const scrollX = window.scrollX || document.documentElement.scrollLeft || 0;
+    let crest = {
+      x: anchors.tipDocX - scrollX,
+      y: anchors.tipDocY - scrollY,
+    };
+    // If anchors went stale (early layout / bfcache), remeasure once.
+    if (crest.y < -vh || crest.y > vh * 4) {
+      measureAnchors();
+      if (!anchors.ready) return;
+      crest = {
+        x: anchors.tipDocX - scrollX,
+        y: anchors.tipDocY - scrollY,
+      };
+    }
     const { w: naturalW, h: naturalH } = skySize;
 
     // Sit slightly into the white margin under the video.
-    const startBottom = videoRect.bottom + 10;
+    const startBottom = anchors.videoDocBottom - scrollY + 10;
     // Align PNG ground to crest, then nest into the green.
     const endBottom = crest.y + naturalH * GROUND_LIFT + NEST_PX;
-    const startCenter = videoRect.left + videoRect.width * 0.5;
+    const startCenter = anchors.videoDocLeft - scrollX + anchors.videoDocWidth * 0.5;
+    // Keep the landed center on the crest — enlarging must not drift right.
     const endCenter = crest.x;
-    const crestDoc = scrollY + crest.y;
     const landY = vh * 0.46;
-    const endScroll = Math.max(1, crestDoc - landY);
+    const endScroll = Math.max(1, anchors.tipDocY - landY);
 
     const place = (center, bottom, scale, morph, landed) => {
       const x = center - naturalW * 0.5;
       const y = bottom - naturalH;
-      // Transform-only: stays on the compositor, avoids layout thrash from top/left.
-      skyline.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
-      if (skyFlat) skyFlat.style.opacity = String(1 - morph);
-      if (skyCurve) skyCurve.style.opacity = String(morph);
+      const transform = `translate3d(${x.toFixed(2)}px, ${y.toFixed(2)}px, 0) scale(${scale})`;
+      if (transform !== lastSkyTransform) {
+        lastSkyTransform = transform;
+        skyline.style.transform = transform;
+      }
+      const flatOp = String(1 - morph);
+      const curveOp = String(morph);
+      if (skyFlat && flatOp !== lastFlatOp) {
+        lastFlatOp = flatOp;
+        skyFlat.style.opacity = flatOp;
+      }
+      if (skyCurve && curveOp !== lastCurveOp) {
+        lastCurveOp = curveOp;
+        skyCurve.style.opacity = curveOp;
+      }
       if (landed !== skyLanded) {
         skyLanded = landed;
         skyline.classList.toggle("is-landed", landed);
@@ -1168,13 +1235,15 @@ function initPathway() {
   };
 
   const paint = () => {
+    if (!anchors.ready) measureAnchors();
     const vh = window.innerHeight || 1;
-    paintSkyline();
-    const progress = reducedMotion ? 1 : pathProgress();
+    const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    paintSkyline(scrollY, vh);
+    const progress = reducedMotion ? 1 : pathProgressFromAnchors(scrollY, vh);
     if (isMobile()) paintMobileTimeline(progress);
     else paintDesktopTimeline(progress);
-    tiles.forEach((tile) => {
-      const top = tile.getBoundingClientRect().top;
+    tiles.forEach((tile, i) => {
+      const top = anchors.tileDocTops[i] - scrollY;
       // Open earlier than the fold so the card is already expanding as the snake arrives.
       tile.classList.toggle("is-in", reducedMotion || top < vh * 1.12);
     });
@@ -1190,22 +1259,39 @@ function initPathway() {
     });
   };
 
-  measureSkyline();
-  paint();
-  window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", () => {
+  const onResize = () => {
     deskMain = setupPath(mainPath);
     deskSecondary = setupPath(secondaryPath);
     deskShadow = setupShadow(shadowPath);
     mobMain = setupPath(mobileMainPath);
     mobOverlap = setupPath(mobileOverlap);
     mobShadow = setupShadow(mobileShadow);
-    measureSkyline();
+    measureAnchors();
     ticking = false;
     paint();
+  };
+
+  measureAnchors();
+  paint();
+  // Remeasure after layout settles (tall SVG path is often unready on first paint).
+  requestAnimationFrame(() => {
+    requestAnimationFrame(() => {
+      measureAnchors();
+      paint();
+    });
   });
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onResize);
+  if (stage && typeof ResizeObserver !== "undefined") {
+    const ro = new ResizeObserver(() => {
+      measureAnchors();
+      paint();
+    });
+    ro.observe(stage);
+  }
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden) {
+      measureAnchors();
       ticking = false;
       paint();
     }
