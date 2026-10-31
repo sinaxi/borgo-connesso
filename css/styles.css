@@ -4223,13 +4223,34 @@ body.menu-closing {
   justify-content: center;
   padding: 0 16px;
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, 18px, 0);
+  transition:
+    opacity 0.35s var(--ease),
+    transform 0.35s var(--ease),
+    visibility 0s linear 0.35s;
+}
+
+.float-dock.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+  transition:
+    opacity 0.4s var(--ease),
+    transform 0.4s var(--ease),
+    visibility 0s linear 0s;
+}
+
+.float-dock.is-visible .float-dock__row {
+  pointer-events: auto;
 }
 
 .float-dock__row {
   display: flex;
   align-items: center;
   gap: 8px;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .float-dock__circle,
@@ -4345,8 +4366,10 @@ body.menu-closing {
 body.menu-open .float-dock,
 body.menu-opening .float-dock,
 body.menu-closing .float-dock {
-  opacity: 0;
-  pointer-events: none;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translate3d(0, 18px, 0);
 }
 
 @media (max-width: 520px) {

@@ -1138,3 +1138,34 @@ function initPathway() {
 }
 
 initPathway();
+
+function initFloatDock() {
+  const dock = document.querySelector("[data-float-dock]");
+  const borgo = document.querySelector("#borgo");
+  if (!dock || !borgo) return;
+
+  const paint = () => {
+    const vh = window.innerHeight || 1;
+    // Appear once the white Perché block starts entering the viewport
+    // (after the green meadow has been scrolled past).
+    const show = borgo.getBoundingClientRect().top < vh * 0.94;
+    dock.classList.toggle("is-visible", show);
+    dock.setAttribute("aria-hidden", show ? "false" : "true");
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      paint();
+      ticking = false;
+    });
+  };
+
+  paint();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", paint);
+}
+
+initFloatDock();
