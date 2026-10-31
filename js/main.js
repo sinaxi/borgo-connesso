@@ -951,11 +951,9 @@ function initPathway() {
 
   const stage = section.querySelector("[data-pathway-stage]");
   const tiles = [...section.querySelectorAll("[data-pathway-tile]")];
-  const upPath = section.querySelector("#up-path");
   const mainPath = section.querySelector("#main-path");
   const secondaryPath = section.querySelector("#secondary-path");
   const shadowPath = section.querySelector("#shadow-path");
-  const mobileUpPath = section.querySelector("#mobile-up-path");
   const mobileMainPath = section.querySelector("#mobile-main-path");
   const mobileOverlap = section.querySelector("#mobile-overlap-end");
   const mobileShadow = section.querySelector("#mobile-shadow-path");
@@ -1015,11 +1013,9 @@ function initPathway() {
     return { el };
   };
 
-  let deskUp = setupPath(upPath);
   let deskMain = setupPath(mainPath);
   let deskSecondary = setupPath(secondaryPath);
   let deskShadow = setupShadow(shadowPath);
-  let mobUp = setupPath(mobileUpPath);
   let mobMain = setupPath(mobileMainPath);
   let mobOverlap = setupPath(mobileOverlap);
   let mobShadow = setupShadow(mobileShadow);
@@ -1037,10 +1033,9 @@ function initPathway() {
   };
 
   const paintDesktopTimeline = (progress) => {
+    // GSAP: main 0.9 + secondary 1.0 = 1.9; shadow at 0.95 for 0.15
     const total = 1.9;
     const time = progress * total;
-    // Short tip grows upward while the snake draws down — layout stays put.
-    paintDraw(deskUp, reducedMotion ? 1 : easeOut(clamp01(progress / 0.22)));
 
     if (time <= 0.9) {
       const local = customEase(clamp01(time / 0.9));
@@ -1058,9 +1053,9 @@ function initPathway() {
   };
 
   const paintMobileTimeline = (progress) => {
+    // GSAP: main 1.0 + overlap 1.0 = 2.0; shadow at 1.05 for 0.15
     const total = 2;
     const time = progress * total;
-    paintDraw(mobUp, reducedMotion ? 1 : easeOut(clamp01(progress / 0.22)));
 
     if (time <= 1) {
       paintDraw(mobMain, 0.001 + power1In(clamp01(time)) * 0.999);
@@ -1122,15 +1117,12 @@ function initPathway() {
     });
   };
 
-  section.style.transform = "";
   paint();
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
-    deskUp = setupPath(upPath);
     deskMain = setupPath(mainPath);
     deskSecondary = setupPath(secondaryPath);
     deskShadow = setupShadow(shadowPath);
-    mobUp = setupPath(mobileUpPath);
     mobMain = setupPath(mobileMainPath);
     mobOverlap = setupPath(mobileOverlap);
     mobShadow = setupShadow(mobileShadow);
