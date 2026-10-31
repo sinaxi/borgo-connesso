@@ -522,7 +522,7 @@ body.is-rail-open .rail-show {
   gap: 12px;
   min-height: calc(100svh - 24px);
   position: relative;
-  z-index: 3;
+  z-index: 2;
 }
 
 .skyline {
@@ -1009,7 +1009,7 @@ body.is-rail-open .rail-show {
   position: relative;
   z-index: 1;
   width: 100%;
-  aspect-ratio: 1944.2 / 6511.5;
+  aspect-ratio: 1944.2 / 6151.5;
   margin: 0;
   overflow: visible;
 }
@@ -1017,7 +1017,7 @@ body.is-rail-open .rail-show {
 .pathway-stage__seat {
   position: absolute;
   left: 50%;
-  top: 9%;
+  top: 1.5%;
   z-index: 5;
   width: 1px;
   height: 1px;
@@ -4571,14 +4571,14 @@ body.menu-closing .float-dock {
   }
 
   .pathway-stage {
-    aspect-ratio: 847.9 / 4731;
+    aspect-ratio: 847 / 4471;
     margin-left: -45%;
     margin-right: -54%;
     width: auto;
   }
 
   .pathway-stage__seat {
-    top: 8.5%;
+    top: 1.2%;
   }
 
   .pathway-stage__svg--desk {
