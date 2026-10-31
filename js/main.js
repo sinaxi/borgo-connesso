@@ -954,9 +954,11 @@ function initPathway() {
   const mainPath = section.querySelector("#main-path");
   const secondaryPath = section.querySelector("#secondary-path");
   const shadowPath = section.querySelector("#shadow-path");
+  const tipHill = section.querySelector("[data-pathway-tip]");
   const mobileMainPath = section.querySelector("#mobile-main-path");
   const mobileOverlap = section.querySelector("#mobile-overlap-end");
   const mobileShadow = section.querySelector("#mobile-shadow-path");
+  const tipHillMob = section.querySelector("[data-pathway-tip-m]");
 
   const clamp01 = (value) => Math.min(1, Math.max(0, value));
   const easeOut = (t) => 1 - Math.pow(1 - t, 3);
@@ -1037,6 +1039,10 @@ function initPathway() {
       paintDraw(deskSecondary, clamp01((time - 0.9) / 1));
     }
 
+    if (tipHill) {
+      tipHill.style.opacity = reducedMotion || time > 0.001 ? "1" : "0";
+    }
+
     if (deskShadow) {
       const shadowT = reducedMotion ? 1 : clamp01((time - 0.95) / 0.15);
       deskShadow.el.style.opacity = String(shadowT);
@@ -1054,6 +1060,10 @@ function initPathway() {
     } else {
       paintDraw(mobMain, 1);
       paintDraw(mobOverlap, clamp01(time - 1));
+    }
+
+    if (tipHillMob) {
+      tipHillMob.style.opacity = reducedMotion || time > 0.001 ? "1" : "0";
     }
 
     if (mobShadow) {
@@ -1095,9 +1105,19 @@ function initPathway() {
     skySize = { w: skyline.offsetWidth || 1, h: skyline.offsetHeight || 1 };
   };
 
-  // Landing mark: on the tip BODY (along the path), not the far round-cap tip.
+  // Landing mark: top of the humpy tip hill (falls back to the stroke tip).
   const tipCrestFromDom = () => {
     const mobile = isMobile();
+    const hill = mobile ? tipHillMob : tipHill;
+    if (hill) {
+      const hr = hill.getBoundingClientRect();
+      if (hr.width > 20 && hr.height > 20) {
+        return {
+          x: hr.left + hr.width * 0.52,
+          y: hr.top + hr.height * 0.1,
+        };
+      }
+    }
     const pathEl = mobile ? mobileMainPath : mainPath;
     const svg = pathEl?.ownerSVGElement;
     if (!pathEl || !svg) {
@@ -1111,7 +1131,6 @@ function initPathway() {
     }
     const stroke = Number(pathEl.getAttribute("stroke-width")) || (mobile ? 250 : 500);
     const len = pathEl.getTotalLength() || 1;
-    // Far enough along that the village width sits on the thick body, not past the tip.
     const pt = pathEl.getPointAtLength(Math.min(len * 0.045, stroke * 0.7));
     const vb = svg.viewBox.baseVal;
     const svgRect = svg.getBoundingClientRect();
