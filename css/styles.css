@@ -29,6 +29,7 @@
 html {
   scroll-behavior: smooth;
   scrollbar-color: var(--sage) var(--paper);
+  overflow-x: clip;
 }
 
 body {
@@ -39,6 +40,7 @@ body {
   font-size: 1.0625rem;
   line-height: 1.65;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 body.menu-open {
@@ -514,21 +516,13 @@ body.is-rail-open .rail-show {
   padding-top: 12px;
 }
 
-.cover-stack {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  isolation: isolate;
-}
-
 .hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 12px;
   min-height: calc(100svh - 24px);
-  position: sticky;
-  top: 0;
-  z-index: 1;
+  position: relative;
+  z-index: 2;
 }
 
 .skyline {
@@ -1002,14 +996,13 @@ body.is-rail-open .rail-show {
   z-index: 2;
   width: calc(100% + (var(--pathway-bleed) * 2));
   max-width: none;
-  margin: -28px 0 0;
+  margin: 8px 0 0;
   margin-left: calc(var(--pathway-bleed) * -1);
   margin-right: calc(var(--pathway-bleed) * -1);
   padding: 0;
   overflow: clip;
-  border-radius: 56px 56px 0 0;
+  border-radius: 50px 50px 0 0;
   background: var(--pathway-beige);
-  box-shadow: 0 -18px 48px rgba(17, 17, 17, 0.08);
 }
 
 .pathway-stage {
@@ -4570,8 +4563,8 @@ body.menu-closing .float-dock {
 
   .pathway {
     --pathway-bleed: 0px;
-    border-radius: 32px 32px 0 0;
-    margin-top: -20px;
+    border-radius: 28px 28px 0 0;
+    margin-top: 18px;
     width: 100%;
     margin-left: 0;
     margin-right: 0;
