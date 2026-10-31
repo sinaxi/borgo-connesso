@@ -150,15 +150,7 @@ function stopMenuWaves() {
   if (wavesRaf) cancelAnimationFrame(wavesRaf);
 }
 
-function setRailMenuFace(open) {
-  const railMenu = document.querySelector(".rail-menu");
-  if (!railMenu) return;
-  railMenu.setAttribute("aria-expanded", String(open));
-  railMenu.setAttribute("aria-label", open ? "Chiudi il menu" : "Apri il menu");
-}
-
 function setMenuChrome(open) {
-  setRailMenuFace(open);
   menuOpeners.forEach((btn) => btn.setAttribute("aria-expanded", String(open)));
   document.body.classList.toggle("menu-open", open);
   document.body.classList.toggle("menu-opening", false);
@@ -218,7 +210,6 @@ function toggleWaveMenu(open) {
 
   menuAnimating = true;
   menuOpened = open;
-  setRailMenuFace(open);
   timeStart = Date.now();
   pointsDelay = Array.from(
     { length: waveCfg.numPoints },
@@ -277,6 +268,27 @@ window.addEventListener("resize", () => {
 menuOpeners.forEach((btn) => {
   btn.addEventListener("click", () => setMenu(!isMenuOpen()));
 });
+
+const rail = document.querySelector(".rail");
+const railShow = document.querySelector(".rail-show");
+const railHide = document.querySelector(".rail-hide");
+
+function setRailOpen(open) {
+  if (!rail) return;
+  document.body.classList.toggle("is-rail-open", open);
+  rail.setAttribute("aria-hidden", String(!open));
+  rail.inert = !open;
+  railShow?.setAttribute("aria-expanded", String(open));
+}
+
+railShow?.addEventListener("click", () => {
+  setRailOpen(true);
+  railHide?.focus();
+});
+railHide?.addEventListener("click", () => {
+  setRailOpen(false);
+  railShow?.focus();
+});
 menuClose?.addEventListener("click", () => {
   setMenu(false);
 });
@@ -287,6 +299,10 @@ menu?.addEventListener("click", (event) => {
 });
 
 document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && document.body.classList.contains("is-rail-open") && !isMenuOpen()) {
+    setRailOpen(false);
+    railShow?.focus();
+  }
   if (event.key === "Escape" && menu && isMenuOpen()) {
     setMenu(false);
   }

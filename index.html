@@ -15,17 +15,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=160">
+  <link rel="stylesheet" href="css/styles.css?v=163">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
+  <button class="rail-show" type="button" aria-expanded="false" aria-controls="rail" aria-label="Apri la barra">
+    <span class="rail-show-plus" aria-hidden="true"></span>
+  </button>
 
   <div class="frame">
-    <aside class="rail">
+    <aside class="rail" id="rail" aria-hidden="true" inert>
       <div class="rail-top">
         <a class="logo" href="#top">Borgo Connesso</a>
-        <button class="icon-button menu-open rail-menu" type="button" aria-expanded="false" aria-controls="menu" aria-label="Apri il menu">
-          <span class="rail-menu-label">Menu</span>
+        <button class="icon-button rail-hide" type="button" aria-label="Chiudi la barra">
           <span class="rail-menu-x" aria-hidden="true"></span>
         </button>
       </div>
@@ -1251,6 +1253,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=39"></script>
+  <script src="js/main.js?v=40"></script>
 </body>
 </html>
