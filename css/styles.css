@@ -530,12 +530,12 @@ body.is-rail-open .rail-show {
   left: 0;
   top: 0;
   z-index: 25;
-  /* Village ~55–60% of tip-hill width — plump green base reads larger underneath */
-  width: min(44vw, 440px);
+  /* 3× prior size — dominant on the tip and under the hero video */
+  width: min(54vw, 840px);
   margin: 0;
   padding: 0;
   aspect-ratio: 760 / 350;
-  transform: translate3d(0, 0, 0) scale(0.78);
+  transform: translate3d(0, 0, 0) scale(0.9);
   transform-origin: 50% 100%;
   pointer-events: none;
   will-change: transform;
@@ -1017,8 +1017,9 @@ body.is-rail-open .rail-show {
 
 .pathway-stage__seat {
   position: absolute;
-  left: 56%;
-  top: 1.15%;
+  /* Path tip M1085,250 / stroke 500 → ridge at ~55.8%, ~1% */
+  left: 55.8%;
+  top: 1%;
   z-index: 5;
   width: 1px;
   height: 1px;
@@ -4559,12 +4560,14 @@ body.menu-closing .float-dock {
   }
 
   .skyline {
-    width: min(68vw, 300px);
+    /* 3× prior mobile size */
+    width: min(92vw, 630px);
   }
 
   .pathway-stage__seat {
+    /* Path tip M508,131 / stroke 250 → ridge ~60%, ~0.8% */
     left: 60%;
-    top: 0.9%;
+    top: 0.8%;
   }
 
   .pathway {
@@ -4575,6 +4578,8 @@ body.menu-closing .float-dock {
     width: 100%;
     margin-left: 0;
     margin-right: 0;
+    /* Let the bled snake paint outside the beige box (MindMarket). */
+    overflow: visible;
   }
 
   .pathway-stage {

@@ -954,11 +954,9 @@ function initPathway() {
   const mainPath = section.querySelector("#main-path");
   const secondaryPath = section.querySelector("#secondary-path");
   const shadowPath = section.querySelector("#shadow-path");
-  const tipHill = section.querySelector("[data-pathway-tip]");
   const mobileMainPath = section.querySelector("#mobile-main-path");
   const mobileOverlap = section.querySelector("#mobile-overlap-end");
   const mobileShadow = section.querySelector("#mobile-shadow-path");
-  const tipHillMob = section.querySelector("[data-pathway-tip-m]");
 
   const clamp01 = (value) => Math.min(1, Math.max(0, value));
   const easeOut = (t) => 1 - Math.pow(1 - t, 3);
@@ -1039,10 +1037,6 @@ function initPathway() {
       paintDraw(deskSecondary, clamp01((time - 0.9) / 1));
     }
 
-    if (tipHill) {
-      tipHill.style.opacity = reducedMotion || time > 0.001 ? "1" : "0";
-    }
-
     if (deskShadow) {
       const shadowT = reducedMotion ? 1 : clamp01((time - 0.95) / 0.15);
       deskShadow.el.style.opacity = String(shadowT);
@@ -1055,15 +1049,12 @@ function initPathway() {
     const time = progress * total;
 
     if (time <= 1) {
-      paintDraw(mobMain, 0.001 + power1In(clamp01(time)) * 0.999);
+      // Keep a visible round tip from the first paint (like desktop 5% start).
+      paintDraw(mobMain, 0.04 + power1In(clamp01(time)) * 0.96);
       paintDraw(mobOverlap, 0);
     } else {
       paintDraw(mobMain, 1);
       paintDraw(mobOverlap, clamp01(time - 1));
-    }
-
-    if (tipHillMob) {
-      tipHillMob.style.opacity = reducedMotion || time > 0.001 ? "1" : "0";
     }
 
     if (mobShadow) {
@@ -1075,12 +1066,12 @@ function initPathway() {
   const video = document.querySelector(".hero-visual");
   const skyFlat = skyline?.querySelector("[data-skyline-flat]");
   const skyCurve = skyline?.querySelector("[data-skyline-curve]");
-  const START_SCALE = 0.78;
+  const START_SCALE = 0.9;
   const END_SCALE = 1;
   // Cropped villaggio: black ground line ~12.5% up from the bottom edge.
   const GROUND_LIFT = 0.125;
-  // Nest into the plump tip so PNG green washes into the snake hill.
-  const NEST_PX = 22;
+  // Plant into the tip so PNG green merges with the snake crest.
+  const NEST_PX = 28;
   let skySize = { w: 0, h: 0 };
   let skyLanded = false;
   let lastSkyTransform = "";
@@ -1105,40 +1096,28 @@ function initPathway() {
     skySize = { w: skyline.offsetWidth || 1, h: skyline.offsetHeight || 1 };
   };
 
-  // Landing mark: top of the humpy tip hill (falls back to the stroke tip).
+  // Landing mark: top of the round stroke tip (plump hill crest).
   const tipCrestFromDom = () => {
     const mobile = isMobile();
-    const hill = mobile ? tipHillMob : tipHill;
-    if (hill) {
-      const hr = hill.getBoundingClientRect();
-      if (hr.width > 20 && hr.height > 20) {
-        // Top crest of the plump oval tip (village sits flush here).
-        return {
-          x: hr.left + hr.width * 0.5,
-          y: hr.top + hr.height * 0.04,
-        };
-      }
-    }
     const pathEl = mobile ? mobileMainPath : mainPath;
     const svg = pathEl?.ownerSVGElement;
-    if (!pathEl || !svg) {
-      const fallback = seat.getBoundingClientRect();
-      return { x: fallback.left + fallback.width * 0.5, y: fallback.top };
-    }
+    const fallback = () => {
+      const r = seat.getBoundingClientRect();
+      return { x: r.left + r.width * 0.5, y: r.top };
+    };
+    if (!pathEl || !svg) return fallback();
     const ctm = pathEl.getScreenCTM();
-    if (!ctm) {
-      const fallback = seat.getBoundingClientRect();
-      return { x: fallback.left + fallback.width * 0.5, y: fallback.top };
-    }
+    if (!ctm) return fallback();
     const stroke = Number(pathEl.getAttribute("stroke-width")) || (mobile ? 250 : 500);
-    const len = pathEl.getTotalLength() || 1;
-    const pt = pathEl.getPointAtLength(Math.min(len * 0.045, stroke * 0.7));
-    const vb = svg.viewBox.baseVal;
-    const svgRect = svg.getBoundingClientRect();
-    const scaleY = svgRect.height / Math.max(1, vb.height);
-    const x = ctm.a * pt.x + ctm.c * pt.y + ctm.e;
-    const y = ctm.b * pt.x + ctm.d * pt.y + ctm.f - stroke * 0.5 * scaleY;
-    return { x, y };
+    const pt = pathEl.getPointAtLength(0);
+    // Uniform-ish screen scale (preserveAspectRatio=none can differ on X/Y).
+    const scale =
+      (Math.hypot(ctm.a, ctm.b) + Math.hypot(ctm.c, ctm.d)) / 2 || 1;
+    const cx = ctm.a * pt.x + ctm.c * pt.y + ctm.e;
+    const cy = ctm.b * pt.x + ctm.d * pt.y + ctm.f;
+    // Sit on the upper ridge of the round tip (not the mathematical apex).
+    const y = cy - stroke * 0.38 * scale;
+    return { x: cx, y };
   };
 
   const measureAnchors = () => {
