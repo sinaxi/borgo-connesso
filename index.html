@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=163">
+  <link rel="stylesheet" href="css/styles.css?v=164">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -153,6 +153,13 @@
         </div>
       </div>
 
+      <figure class="skyline-dock" data-skyline-dock aria-hidden="true">
+        <img class="skyline-dock__art" src="assets/borgo-skyline.png" width="1024" height="512" alt="" decoding="async">
+        <svg class="skyline-dock__seed" viewBox="0 0 824 120" preserveAspectRatio="none" focusable="false">
+          <path fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="72" d="M612 48c-86 10-168 22-246 38-74 15-144 33-208 54"/>
+        </svg>
+      </figure>
+
       <section class="room room--rete" id="rete" aria-labelledby="rete-label">
         <h2 id="rete-label" class="sr">Nel soggiorno</h2>
         <div class="rete-rail" data-rete-rail tabindex="0">
@@ -257,6 +264,64 @@
                 </div>
               </article>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="pathway" id="percorso" data-pathway aria-labelledby="pathway-title">
+        <h2 id="pathway-title" class="sr">Come funziona il soggiorno</h2>
+        <div class="pathway-intro">
+          <img class="pathway-art" data-pathway-art src="assets/borgo-skyline.png" width="1024" height="512" alt="Illustrazione del borgo: case, alberi, chiosco e bici lungo il lungolago" decoding="async">
+          <svg class="pathway-seed" viewBox="0 0 824.5 180" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+            <path data-pathway-seed fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="88" d="M549.4,90c-48.6,7.1-94.8,16.2-138.5,27.3-52.2,13.2-100.9,29.1-146,47.4"/>
+          </svg>
+        </div>
+
+        <div class="pathway-body">
+          <svg class="pathway-line" viewBox="0 0 1000 2400" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path data-pathway-path fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="120" d="M620 40c-280 40-420 180-80 360s280 340-40 480-220 260 40 380 300 260-20 420-260 280-40 520"/>
+          </svg>
+
+          <div class="pathway-cards">
+            <article class="pathway-tile" data-pathway-tile style="--tile: #ff3b30">
+              <div class="pathway-tile__bg" aria-hidden="true"></div>
+              <div class="pathway-tile__veil" aria-hidden="true"></div>
+              <div class="pathway-tile__inner">
+                <h3>Tutto in un posto.</h3>
+                <p>Casa, tavolo per lavorare, outdoor e cena: non giri tra fornitori diversi. Un solo soggiorno, già composto, pronto da vivere.</p>
+                <a class="pathway-tile__cta" href="#percorsi">I pacchetti</a>
+              </div>
+            </article>
+
+            <article class="pathway-tile" data-pathway-tile style="--tile: #f0c24b">
+              <div class="pathway-tile__bg" aria-hidden="true"></div>
+              <div class="pathway-tile__veil" aria-hidden="true"></div>
+              <div class="pathway-tile__inner">
+                <h3>Un brief. Un soggiorno.</h3>
+                <p>Ci dici giorni, persone e cosa vi serve. Componiamo la proposta con la stessa rete dei pacchetti pronti. Arriva entro due giorni lavorativi.</p>
+                <a class="pathway-tile__cta" href="#proposta">Contattaci</a>
+              </div>
+            </article>
+
+            <article class="pathway-tile" data-pathway-tile style="--tile: #3d7ea6">
+              <div class="pathway-tile__bg" aria-hidden="true"></div>
+              <div class="pathway-tile__veil" aria-hidden="true"></div>
+              <div class="pathway-tile__inner">
+                <h3>Il linguaggio del lago.</h3>
+                <p>Kayak, sentieri, lungolago e tavola locale: il fuori dalla porta parla la stessa lingua del lavoro che porti con te.</p>
+                <a class="pathway-tile__cta" href="#territorio">Il territorio</a>
+              </div>
+            </article>
+
+            <article class="pathway-tile" data-pathway-tile style="--tile: #e08a9a">
+              <div class="pathway-tile__bg" aria-hidden="true"></div>
+              <div class="pathway-tile__veil" aria-hidden="true"></div>
+              <div class="pathway-tile__inner">
+                <h3>Una rete vera.</h3>
+                <p>Case, guide, cucina e hub: persone del paese, non un catalogo anonimo. Ogni soggiorno lascia qualcosa a chi resta.</p>
+                <a class="pathway-tile__cta" href="#borgo">Perché</a>
+              </div>
+            </article>
           </div>
         </div>
       </section>
@@ -1253,6 +1318,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=40"></script>
+  <script src="js/main.js?v=41"></script>
 </body>
 </html>

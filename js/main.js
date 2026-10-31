@@ -942,3 +942,93 @@ function initReteRail(rail, start) {
 }
 
 initReteRails();
+
+function initPathway() {
+  const section = document.querySelector("[data-pathway]");
+  const dock = document.querySelector("[data-skyline-dock]");
+  if (!section) return;
+
+  const path = section.querySelector("[data-pathway-path]");
+  const seed = section.querySelector("[data-pathway-seed]");
+  const art = section.querySelector("[data-pathway-art]");
+  const tiles = [...section.querySelectorAll("[data-pathway-tile]")];
+
+  const setupStroke = (el) => {
+    if (!el) return 0;
+    const length = el.getTotalLength();
+    el.style.strokeDasharray = `${length}`;
+    el.style.strokeDashoffset = reducedMotion ? "0" : `${length}`;
+    return length;
+  };
+
+  const pathLen = setupStroke(path);
+  const seedLen = setupStroke(seed);
+
+  const clamp01 = (value) => Math.min(1, Math.max(0, value));
+  const easeOut = (t) => 1 - Math.pow(1 - t, 3);
+
+  const progressIn = (el, start = 0.9, end = 0.15) => {
+    const rect = el.getBoundingClientRect();
+    const vh = window.innerHeight || 1;
+    const startY = vh * start;
+    const endY = vh * end;
+    return clamp01((startY - rect.top) / Math.max(1, startY - endY));
+  };
+
+  const paint = () => {
+    if (reducedMotion) {
+      if (dock) dock.style.opacity = "0";
+      if (art) art.style.transform = "none";
+      tiles.forEach((tile) => tile.classList.add("is-in"));
+      if (path) path.style.strokeDashoffset = "0";
+      if (seed) seed.style.strokeDashoffset = "0";
+      return;
+    }
+
+    const intro = progressIn(section, 1.05, 0.35);
+    const draw = progressIn(section, 0.85, -0.05);
+    const dockFade = progressIn(section, 1.15, 0.55);
+
+    if (dock) {
+      const lift = intro * 36;
+      const grow = 1 + intro * 0.18;
+      dock.style.opacity = String(1 - easeOut(dockFade));
+      dock.style.transform = `scale(${grow}) translate3d(0, ${-lift}px, 0)`;
+    }
+
+    if (art) {
+      const scale = 0.82 + easeOut(intro) * 0.22;
+      art.style.transform = `scale(${scale})`;
+    }
+
+    if (seed && seedLen) {
+      seed.style.strokeDashoffset = `${seedLen * (1 - easeOut(Math.min(1, intro * 1.35)))}`;
+    }
+
+    if (path && pathLen) {
+      path.style.strokeDashoffset = `${pathLen * (1 - easeOut(draw))}`;
+    }
+
+    const vh = window.innerHeight || 1;
+    tiles.forEach((tile) => {
+      const top = tile.getBoundingClientRect().top;
+      tile.classList.toggle("is-in", top < vh * 0.78);
+    });
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      paint();
+      ticking = false;
+    });
+  };
+
+  paint();
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+}
+
+initPathway();
