@@ -29,6 +29,7 @@
 html {
   scroll-behavior: smooth;
   scrollbar-color: var(--sage) var(--paper);
+  overflow-x: clip;
 }
 
 body {
@@ -39,6 +40,7 @@ body {
   font-size: 1.0625rem;
   line-height: 1.65;
   text-rendering: optimizeLegibility;
+  overflow-x: clip;
 }
 
 body.menu-open {
@@ -972,14 +974,16 @@ body.is-rail-open .rail-show {
   --pathway-green: #8ed462;
   --pathway-ease: cubic-bezier(0.17, 0.67, 0.3, 1.33);
   --pathway-smooth: cubic-bezier(0.5, 0, 0, 1);
+  --pathway-bleed: 12px;
   position: relative;
   z-index: 2;
-  width: 100vw;
-  max-width: 100vw;
+  width: calc(100% + (var(--pathway-bleed) * 2));
+  max-width: none;
   margin: 8px 0 0;
-  margin-left: calc(50% - 50vw);
+  margin-left: calc(var(--pathway-bleed) * -1);
+  margin-right: calc(var(--pathway-bleed) * -1);
   padding: 0;
-  overflow: visible;
+  overflow: clip;
   border-radius: 50px 50px 0 0;
   background: var(--pathway-beige);
 }
@@ -989,7 +993,7 @@ body.is-rail-open .rail-show {
   z-index: 1;
   width: 100%;
   aspect-ratio: 1944.2 / 6151.5;
-  margin: 0 -2vw;
+  margin: 0;
   overflow: visible;
 }
 
@@ -1158,18 +1162,16 @@ body.is-rail-open .rail-show {
 }
 
 .pathway-end {
-  position: absolute;
+  position: relative;
   z-index: 2;
-  left: 0;
-  bottom: -1px;
   width: 100%;
-  height: 60vw;
-  min-height: 280px;
-  max-height: 720px;
+  height: clamp(220px, 38vw, 520px);
+  margin-top: clamp(-160px, -22vw, -100px);
   display: flex;
   align-items: flex-end;
   pointer-events: none;
-  overflow: visible;
+  overflow: hidden;
+  background: #8ed462;
 }
 
 .pathway-end__cloud,
@@ -1219,25 +1221,30 @@ body.is-rail-open .rail-show {
 .pathway-end__green--back,
 .pathway-end__green--middle,
 .pathway-end__green--front {
-  left: 50%;
-  width: 100vw;
-  max-width: none;
-  transform: translateX(-50%);
+  left: 0;
+  width: 100%;
+  min-width: 100%;
+  transform: none;
+  object-fit: cover;
+  object-position: center bottom;
 }
 
 .pathway-end__green--back {
-  bottom: -10%;
+  bottom: -8%;
   z-index: 0;
+  height: 78%;
 }
 
 .pathway-end__green--middle {
   bottom: 0;
   z-index: 2;
+  height: 48%;
 }
 
 .pathway-end__green--front {
   bottom: 0;
   z-index: 3;
+  height: 58%;
 }
 
 .pathway-ready {
@@ -4560,8 +4567,12 @@ body.menu-closing .float-dock {
   }
 
   .pathway {
+    --pathway-bleed: 0px;
     border-radius: 28px 28px 0 0;
     margin-top: 18px;
+    width: 100%;
+    margin-left: 0;
+    margin-right: 0;
   }
 
   .pathway-stage {
@@ -4584,16 +4595,16 @@ body.menu-closing .float-dock {
   }
 
   .pathway-end {
-    height: 85vw;
-    max-height: none;
+    height: clamp(200px, 58vw, 420px);
+    margin-top: clamp(-140px, -36vw, -90px);
   }
 
   .pathway-end__green--back,
   .pathway-end__green--middle,
   .pathway-end__green--front {
-    left: 50%;
-    width: 100vw;
-    transform: translateX(-50%);
+    left: 0;
+    width: 100%;
+    transform: none;
   }
 
   .pathway-card {
