@@ -1071,28 +1071,61 @@ function initPathway() {
     }
   };
 
+  const video = document.querySelector(".hero-visual");
+  const START_SCALE = 0.78;
+  const END_SCALE = 1;
+
   const paintSkyline = () => {
     if (!skyline || !seat) return;
+
     const vh = window.innerHeight || 1;
-    const skyH = skyline.offsetHeight || 1;
-    const seatTop = seat.getBoundingClientRect().top;
-    const fixedTop = vh - skyH;
-    const landed = seatTop <= fixedTop;
+    const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
+    const videoRect = video
+      ? video.getBoundingClientRect()
+      : { left: 0, width: window.innerWidth, bottom: vh * 0.72 };
+    const seatRect = seat.getBoundingClientRect();
+    const seatTop = seatRect.top;
+    const naturalH = skyline.offsetHeight || 1;
 
-    skyline.classList.toggle("is-fixed", !landed);
-    skyline.classList.toggle("is-landed", landed);
+    // Sit slightly into the white margin under the video.
+    const startBottom = videoRect.bottom + 10;
+    // Nest the baseline a few px into the green crest so it reads as attached.
+    const endBottom = seatTop + 8;
+    const startCenter = videoRect.left + videoRect.width * 0.5;
+    const endCenter = seatRect.left;
+    const seatDoc = scrollY + seatTop;
+    // Land once the green ridge has risen into the upper half of the viewport.
+    const landY = vh * 0.46;
+    const endScroll = Math.max(1, seatDoc - landY);
 
-    if (landed) {
+    if (reducedMotion) {
+      skyline.classList.add("is-landed");
+      skyline.classList.remove("is-docked");
+      skyline.style.setProperty("--skyline-scale", String(END_SCALE));
+      skyline.style.setProperty("--skyline-morph", "1");
+      skyline.style.left = `${Math.round(endCenter)}px`;
+      skyline.style.top = `${Math.round(endBottom - naturalH)}px`;
       skyline.style.bottom = "auto";
-      skyline.style.top = `${Math.round(seatTop)}px`;
-      skyline.style.setProperty("--skyline-scale", "1");
-    } else {
-      skyline.style.top = "auto";
-      skyline.style.bottom = "0px";
-      const approach = clamp01(1 - (seatTop - fixedTop) / Math.max(1, vh));
-      const scale = reducedMotion ? 1 : 0.92 + easeOut(approach) * 0.08;
-      skyline.style.setProperty("--skyline-scale", String(scale));
+      return;
     }
+
+    const progress = clamp01(scrollY / endScroll);
+    const eased = easeOut(progress);
+    const scale = START_SCALE + (END_SCALE - START_SCALE) * eased;
+    const morph = clamp01((eased - 0.08) / 0.6);
+    const landed = progress >= 0.995 || seatTop <= landY + 1;
+
+    const bottom = landed ? endBottom : startBottom + (endBottom - startBottom) * eased;
+    const center = landed ? endCenter : startCenter + (endCenter - startCenter) * eased;
+    const top = bottom - naturalH;
+
+    skyline.classList.toggle("is-landed", landed);
+    skyline.classList.toggle("is-docked", !landed);
+    skyline.style.setProperty("--skyline-scale", String(landed ? END_SCALE : scale));
+    skyline.style.setProperty("--skyline-morph", String(landed ? 1 : morph));
+    skyline.style.left = `${Math.round(center)}px`;
+    skyline.style.top = `${Math.round(top)}px`;
+    skyline.style.bottom = "auto";
   };
 
   const paint = () => {
