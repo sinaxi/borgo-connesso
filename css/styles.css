@@ -537,7 +537,24 @@ body.is-rail-open .rail-show {
   will-change: transform, top, bottom;
 }
 
+.skyline__cloud {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  z-index: 0;
+  width: 38%;
+  max-width: 220px;
+  height: auto;
+  transform: translateX(-50%);
+  opacity: 0.18;
+  filter: blur(1px);
+  pointer-events: none;
+  user-select: none;
+}
+
 .skyline__art {
+  position: relative;
+  z-index: 1;
   display: block;
   width: 100%;
   height: auto;
@@ -974,41 +991,11 @@ body.is-rail-open .rail-show {
   --pathway-smooth: cubic-bezier(0.5, 0, 0, 1);
   position: relative;
   z-index: 2;
-  margin: 28px 0 0;
+  margin: 8px 0 0;
   padding: 0;
   overflow: visible;
   border-radius: 50px 50px 0 0;
   background: var(--pathway-beige);
-}
-
-.pathway-spacer {
-  height: 55vh;
-  min-height: 320px;
-}
-
-.pathway-land {
-  position: relative;
-  z-index: 4;
-  width: min(92%, 920px);
-  margin: 0 auto;
-  aspect-ratio: 824.5 / 420;
-  pointer-events: none;
-}
-
-.pathway-land__green {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.pathway-land__seat {
-  position: absolute;
-  left: 50%;
-  top: 8%;
-  width: 1px;
-  height: 1px;
-  transform: translateX(-50%);
 }
 
 .pathway-stage {
@@ -1018,6 +1005,17 @@ body.is-rail-open .rail-show {
   aspect-ratio: 1944.2 / 6151.5;
   margin: 0 -2vw;
   overflow: visible;
+}
+
+.pathway-stage__seat {
+  position: absolute;
+  left: 50%;
+  top: 1.5%;
+  z-index: 5;
+  width: 1px;
+  height: 1px;
+  transform: translateX(-50%);
+  pointer-events: none;
 }
 
 .pathway-stage__svg {
@@ -4553,21 +4551,15 @@ body.menu-closing .float-dock {
     margin-top: 18px;
   }
 
-  .pathway-land {
-    width: min(100%, 640px);
-    margin-top: 0;
-    aspect-ratio: 824.5 / 480;
-  }
-
-  .pathway-land__seat {
-    top: 22%;
-  }
-
   .pathway-stage {
     aspect-ratio: 847 / 4471;
     margin-left: -45%;
     margin-right: -54%;
     width: auto;
+  }
+
+  .pathway-stage__seat {
+    top: 1.2%;
   }
 
   .pathway-stage__svg--desk {

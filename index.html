@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=169">
+  <link rel="stylesheet" href="css/styles.css?v=171">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -263,16 +263,9 @@
 
       <section class="pathway" id="percorso" data-pathway aria-labelledby="pathway-title">
         <h2 id="pathway-title" class="sr">Come funziona il soggiorno</h2>
-        <div class="pathway-spacer" aria-hidden="true"></div>
-
-        <div class="pathway-land" data-skyline-land aria-hidden="true">
-          <svg class="pathway-land__green" viewBox="0 0 824.5 590.8" focusable="false">
-            <path data-pathway-seed fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="500" d="M549.4,251c-48.6,7.1-94.8,16.2-138.5,27.3-52.2,13.2-100.9,29.1-146,47.4"/>
-          </svg>
-          <div class="pathway-land__seat" data-skyline-seat></div>
-        </div>
 
         <div class="pathway-stage" data-pathway-stage data-scroll-offset="-27%,100%">
+          <div class="pathway-stage__seat" data-skyline-seat aria-hidden="true"></div>
           <svg id="desktop-svg" class="pathway-stage__svg pathway-stage__svg--desk" viewBox="0 0 1944.2 6151.5" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <path id="main-path" data-pathway-path fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="500" d="M1085 250c-868 126.5-961 907-29.5 1453S1397 3353 733 3318s-606-718-53.6-808"/>
             <path id="secondary-path" data-pathway-path-b fill="none" stroke="#8ED462" stroke-linecap="round" stroke-width="500" d="M679.3 2510c552.3-90 1689.3 743.4 475.6 1689-985 767.5-234 1313-234 1702.5"/>
@@ -1326,6 +1319,13 @@
   </svg>
 
   <figure class="skyline is-fixed" data-skyline aria-hidden="true">
+    <img
+      class="skyline__cloud"
+      src="assets/pathway/timeline_end_cloud_1.svg"
+      width="517"
+      height="104"
+      alt=""
+      decoding="async">
     <img class="skyline__art" src="assets/borgo-skyline.png?v=2" width="1024" height="577" alt="" decoding="async">
   </figure>
 
@@ -1354,6 +1354,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=46"></script>
+  <script src="js/main.js?v=47"></script>
 </body>
 </html>

@@ -950,7 +950,6 @@ function initPathway() {
   if (!section || !skyline || !seat) return;
 
   const stage = section.querySelector("[data-pathway-stage]");
-  const seed = section.querySelector("[data-pathway-seed]");
   const tiles = [...section.querySelectorAll("[data-pathway-tile]")];
   const mainPath = section.querySelector("#main-path");
   const secondaryPath = section.querySelector("#secondary-path");
@@ -1011,7 +1010,6 @@ function initPathway() {
   let mobMain = setupPath(mobileMainPath);
   let mobOverlap = setupPath(mobileOverlap);
   let mobShadow = setupPath(mobileShadow);
-  const seedStroke = setupPath(seed);
 
   if (deskShadow) deskShadow.el.style.opacity = reducedMotion ? "1" : "0";
   if (mobShadow) mobShadow.el.style.opacity = reducedMotion ? "1" : "0";
@@ -1089,13 +1087,6 @@ function initPathway() {
       const approach = clamp01(1 - (seatTop - fixedTop) / Math.max(1, vh));
       const scale = reducedMotion ? 1 : 0.92 + easeOut(approach) * 0.08;
       skyline.style.setProperty("--skyline-scale", String(scale));
-    }
-
-    if (seedStroke) {
-      const land = document.querySelector("[data-skyline-land]");
-      const landTop = land?.getBoundingClientRect().top ?? seatTop;
-      const landProgress = clamp01((vh * 0.95 - landTop) / (vh * 0.7));
-      paintDraw(seedStroke, reducedMotion ? 1 : easeOut(landProgress));
     }
   };
 
