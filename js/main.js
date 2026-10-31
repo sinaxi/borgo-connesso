@@ -1004,15 +1004,21 @@ function initPathway() {
     item.el.style.strokeDashoffset = "0";
   };
 
+  const setupShadow = (el) => {
+    if (!el) return null;
+    // MindMarket: shadow is fully drawn; only opacity fades in at the overlap.
+    el.style.strokeDasharray = "none";
+    el.style.strokeDashoffset = "0";
+    el.style.opacity = reducedMotion ? "1" : "0";
+    return { el };
+  };
+
   let deskMain = setupPath(mainPath);
   let deskSecondary = setupPath(secondaryPath);
-  let deskShadow = setupPath(shadowPath);
+  let deskShadow = setupShadow(shadowPath);
   let mobMain = setupPath(mobileMainPath);
   let mobOverlap = setupPath(mobileOverlap);
-  let mobShadow = setupPath(mobileShadow);
-
-  if (deskShadow) deskShadow.el.style.opacity = reducedMotion ? "1" : "0";
-  if (mobShadow) mobShadow.el.style.opacity = reducedMotion ? "1" : "0";
+  let mobShadow = setupShadow(mobileShadow);
 
   const isMobile = () => window.matchMedia("(max-width: 1040px)").matches;
 
@@ -1041,9 +1047,8 @@ function initPathway() {
     }
 
     if (deskShadow) {
-      const shadowT = clamp01((time - 0.95) / 0.15);
+      const shadowT = reducedMotion ? 1 : clamp01((time - 0.95) / 0.15);
       deskShadow.el.style.opacity = String(shadowT);
-      paintDraw(deskShadow, shadowT > 0 ? 1 : 0);
     }
   };
 
@@ -1061,9 +1066,8 @@ function initPathway() {
     }
 
     if (mobShadow) {
-      const shadowT = clamp01((time - 1.05) / 0.15);
+      const shadowT = reducedMotion ? 1 : clamp01((time - 1.05) / 0.15);
       mobShadow.el.style.opacity = String(shadowT);
-      paintDraw(mobShadow, shadowT > 0 ? 1 : 0);
     }
   };
 
@@ -1098,7 +1102,8 @@ function initPathway() {
     else paintDesktopTimeline(progress);
     tiles.forEach((tile) => {
       const top = tile.getBoundingClientRect().top;
-      tile.classList.toggle("is-in", reducedMotion || top < vh * 0.82);
+      // Open earlier than the fold so the card is already expanding as the snake arrives.
+      tile.classList.toggle("is-in", reducedMotion || top < vh * 1.12);
     });
   };
 
@@ -1117,12 +1122,10 @@ function initPathway() {
   window.addEventListener("resize", () => {
     deskMain = setupPath(mainPath);
     deskSecondary = setupPath(secondaryPath);
-    deskShadow = setupPath(shadowPath);
+    deskShadow = setupShadow(shadowPath);
     mobMain = setupPath(mobileMainPath);
     mobOverlap = setupPath(mobileOverlap);
-    mobShadow = setupPath(mobileShadow);
-    if (deskShadow) deskShadow.el.style.opacity = reducedMotion ? "1" : "0";
-    if (mobShadow) mobShadow.el.style.opacity = reducedMotion ? "1" : "0";
+    mobShadow = setupShadow(mobileShadow);
     ticking = false;
     paint();
   });
