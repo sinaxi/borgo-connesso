@@ -1075,12 +1075,12 @@ function initPathway() {
   const video = document.querySelector(".hero-visual");
   const skyFlat = skyline?.querySelector("[data-skyline-flat]");
   const skyCurve = skyline?.querySelector("[data-skyline-curve]");
-  const START_SCALE = 0.72;
+  const START_SCALE = 0.78;
   const END_SCALE = 1;
-  // Mid-arch ground line in borgo-curve.png (~20% up from image bottom).
-  const GROUND_LIFT = 0.2;
-  // Dig deep enough that the high right side of the arch still meets the green.
-  const NEST_PX = 110;
+  // Cropped villaggio: black ground line ~12.5% up from the bottom edge.
+  const GROUND_LIFT = 0.125;
+  // Nest into the plump tip so PNG green washes into the snake hill.
+  const NEST_PX = 22;
   let skySize = { w: 0, h: 0 };
   let skyLanded = false;
   let lastSkyTransform = "";
@@ -1112,9 +1112,10 @@ function initPathway() {
     if (hill) {
       const hr = hill.getBoundingClientRect();
       if (hr.width > 20 && hr.height > 20) {
+        // Top crest of the plump oval tip (village sits flush here).
         return {
-          x: hr.left + hr.width * 0.52,
-          y: hr.top + hr.height * 0.1,
+          x: hr.left + hr.width * 0.5,
+          y: hr.top + hr.height * 0.04,
         };
       }
     }
