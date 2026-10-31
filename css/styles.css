@@ -526,20 +526,20 @@ body.is-rail-open .rail-show {
 }
 
 .skyline {
-  --skyline-scale: 0.78;
-  --skyline-morph: 0;
   position: fixed;
-  left: 50%;
+  left: 0;
   top: 0;
   z-index: 25;
   width: min(64vw, 620px);
   margin: 0;
   padding: 0;
   aspect-ratio: 892 / 455;
-  transform: translate3d(-50%, 0, 0) scale(var(--skyline-scale));
+  transform: translate3d(0, 0, 0) scale(0.78);
   transform-origin: 50% 100%;
   pointer-events: none;
-  will-change: transform, top, opacity;
+  will-change: transform;
+  contain: layout style;
+  backface-visibility: hidden;
 }
 
 .skyline__art {
@@ -551,19 +551,15 @@ body.is-rail-open .rail-show {
   object-fit: contain;
   object-position: center bottom;
   user-select: none;
+  backface-visibility: hidden;
 }
 
 .skyline__art--flat {
-  opacity: calc(1 - var(--skyline-morph));
+  opacity: 1;
 }
 
 .skyline__art--curve {
-  opacity: var(--skyline-morph);
-}
-
-.skyline.is-landed {
-  --skyline-scale: 1;
-  --skyline-morph: 1;
+  opacity: 0;
 }
 
 .hero-visual,

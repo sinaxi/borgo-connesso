@@ -998,10 +998,11 @@ function initPathway() {
 
   const paintDraw = (item, pct) => {
     if (!item) return;
-    const drawn = item.length * clamp01(pct);
-    const rest = Math.max(0.1, item.length - drawn);
+    const drawn = Math.round(item.length * clamp01(pct));
+    if (item._drawn === drawn) return;
+    item._drawn = drawn;
+    const rest = Math.max(1, Math.round(item.length - drawn));
     item.el.style.strokeDasharray = `${drawn}px, ${rest}px`;
-    item.el.style.strokeDashoffset = "0";
   };
 
   const setupShadow = (el) => {
@@ -1072,11 +1073,21 @@ function initPathway() {
   };
 
   const video = document.querySelector(".hero-visual");
+  const skyFlat = skyline?.querySelector("[data-skyline-flat]");
+  const skyCurve = skyline?.querySelector("[data-skyline-curve]");
   const START_SCALE = 0.78;
   const END_SCALE = 1;
+  let skySize = { w: 0, h: 0 };
+  let skyLanded = false;
+
+  const measureSkyline = () => {
+    if (!skyline) return;
+    skySize = { w: skyline.offsetWidth || 1, h: skyline.offsetHeight || 1 };
+  };
 
   const paintSkyline = () => {
     if (!skyline || !seat) return;
+    if (!skySize.h) measureSkyline();
 
     const vh = window.innerHeight || 1;
     const scrollY = window.scrollY || document.documentElement.scrollTop || 0;
@@ -1085,7 +1096,7 @@ function initPathway() {
       : { left: 0, width: window.innerWidth, bottom: vh * 0.72 };
     const seatRect = seat.getBoundingClientRect();
     const seatTop = seatRect.top;
-    const naturalH = skyline.offsetHeight || 1;
+    const { w: naturalW, h: naturalH } = skySize;
 
     // Sit slightly into the white margin under the video.
     const startBottom = videoRect.bottom + 10;
@@ -1098,14 +1109,22 @@ function initPathway() {
     const landY = vh * 0.46;
     const endScroll = Math.max(1, seatDoc - landY);
 
+    const place = (center, bottom, scale, morph, landed) => {
+      const x = center - naturalW * 0.5;
+      const y = bottom - naturalH;
+      // Transform-only: stays on the compositor, avoids layout thrash from top/left.
+      skyline.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
+      if (skyFlat) skyFlat.style.opacity = String(1 - morph);
+      if (skyCurve) skyCurve.style.opacity = String(morph);
+      if (landed !== skyLanded) {
+        skyLanded = landed;
+        skyline.classList.toggle("is-landed", landed);
+        skyline.classList.toggle("is-docked", !landed);
+      }
+    };
+
     if (reducedMotion) {
-      skyline.classList.add("is-landed");
-      skyline.classList.remove("is-docked");
-      skyline.style.setProperty("--skyline-scale", String(END_SCALE));
-      skyline.style.setProperty("--skyline-morph", "1");
-      skyline.style.left = `${Math.round(endCenter)}px`;
-      skyline.style.top = `${Math.round(endBottom - naturalH)}px`;
-      skyline.style.bottom = "auto";
+      place(endCenter, endBottom, END_SCALE, 1, true);
       return;
     }
 
@@ -1114,18 +1133,10 @@ function initPathway() {
     const scale = START_SCALE + (END_SCALE - START_SCALE) * eased;
     const morph = clamp01((eased - 0.08) / 0.6);
     const landed = progress >= 0.995 || seatTop <= landY + 1;
-
     const bottom = landed ? endBottom : startBottom + (endBottom - startBottom) * eased;
     const center = landed ? endCenter : startCenter + (endCenter - startCenter) * eased;
-    const top = bottom - naturalH;
 
-    skyline.classList.toggle("is-landed", landed);
-    skyline.classList.toggle("is-docked", !landed);
-    skyline.style.setProperty("--skyline-scale", String(landed ? END_SCALE : scale));
-    skyline.style.setProperty("--skyline-morph", String(landed ? 1 : morph));
-    skyline.style.left = `${Math.round(center)}px`;
-    skyline.style.top = `${Math.round(top)}px`;
-    skyline.style.bottom = "auto";
+    place(center, bottom, landed ? END_SCALE : scale, landed ? 1 : morph, landed);
   };
 
   const paint = () => {
@@ -1151,6 +1162,7 @@ function initPathway() {
     });
   };
 
+  measureSkyline();
   paint();
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
@@ -1160,6 +1172,7 @@ function initPathway() {
     mobMain = setupPath(mobileMainPath);
     mobOverlap = setupPath(mobileOverlap);
     mobShadow = setupShadow(mobileShadow);
+    measureSkyline();
     ticking = false;
     paint();
   });
