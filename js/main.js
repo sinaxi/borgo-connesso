@@ -1036,11 +1036,20 @@ function initPathway() {
     return clamp01((start - rect.top) / Math.max(1, start - end));
   };
 
+  const paintUpUnderVideo = (progress) => {
+    // Only after scroll/composition starts: grow the tip upward and slide
+    // a short piece under the hero video. At rest, layout stays as before.
+    const local = reducedMotion ? 1 : easeOut(clamp01(progress / 0.2));
+    paintDraw(isMobile() ? mobUp : deskUp, local);
+    const reach = Math.min((window.innerHeight || 1) * 0.18, 150);
+    const tuck = reducedMotion ? 0 : local * reach;
+    section.style.transform = tuck > 0.5 ? `translate3d(0, ${-tuck}px, 0)` : "";
+  };
+
   const paintDesktopTimeline = (progress) => {
-    // Up stem fills quickly as scroll starts (under the video), then main + secondary.
     const total = 1.9;
     const time = progress * total;
-    paintDraw(deskUp, reducedMotion ? 1 : easeOut(clamp01(progress / 0.18)));
+    paintUpUnderVideo(progress);
 
     if (time <= 0.9) {
       const local = customEase(clamp01(time / 0.9));
@@ -1060,7 +1069,7 @@ function initPathway() {
   const paintMobileTimeline = (progress) => {
     const total = 2;
     const time = progress * total;
-    paintDraw(mobUp, reducedMotion ? 1 : easeOut(clamp01(progress / 0.18)));
+    paintUpUnderVideo(progress);
 
     if (time <= 1) {
       paintDraw(mobMain, 0.001 + power1In(clamp01(time)) * 0.999);
