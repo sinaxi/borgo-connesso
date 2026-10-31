@@ -150,7 +150,15 @@ function stopMenuWaves() {
   if (wavesRaf) cancelAnimationFrame(wavesRaf);
 }
 
+function setRailMenuFace(open) {
+  const railMenu = document.querySelector(".rail-menu");
+  if (!railMenu) return;
+  railMenu.setAttribute("aria-expanded", String(open));
+  railMenu.setAttribute("aria-label", open ? "Chiudi il menu" : "Apri il menu");
+}
+
 function setMenuChrome(open) {
+  setRailMenuFace(open);
   menuOpeners.forEach((btn) => btn.setAttribute("aria-expanded", String(open)));
   document.body.classList.toggle("menu-open", open);
   document.body.classList.toggle("menu-opening", false);
@@ -210,6 +218,7 @@ function toggleWaveMenu(open) {
 
   menuAnimating = true;
   menuOpened = open;
+  setRailMenuFace(open);
   timeStart = Date.now();
   pointsDelay = Array.from(
     { length: waveCfg.numPoints },

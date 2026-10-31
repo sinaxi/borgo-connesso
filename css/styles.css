@@ -217,6 +217,78 @@ h3 {
   margin-left: auto;
 }
 
+.rail-menu {
+  width: auto;
+  min-width: 42px;
+  height: 42px;
+  padding: 0 2px;
+  color: #fff;
+}
+
+.rail-menu-label {
+  font-family: var(--display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1;
+}
+
+.rail-menu-x {
+  display: none;
+  width: 16px;
+  height: 16px;
+  position: relative;
+}
+
+.rail-menu-x::before,
+.rail-menu-x::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 7px;
+  width: 16px;
+  height: 2px;
+  border-radius: 99px;
+  background: currentColor;
+}
+
+.rail-menu-x::before {
+  transform: rotate(45deg);
+}
+
+.rail-menu-x::after {
+  transform: rotate(-45deg);
+}
+
+.rail-menu[aria-expanded="true"] {
+  width: 42px;
+  padding: 0;
+}
+
+.rail-menu[aria-expanded="true"] .rail-menu-label {
+  display: none;
+}
+
+.rail-menu[aria-expanded="true"] .rail-menu-x {
+  display: block;
+}
+
+body.menu-open .rail,
+body.menu-opening .rail,
+body.menu-closing .rail {
+  z-index: auto;
+}
+
+body.menu-open .rail-menu,
+body.menu-opening .rail-menu,
+body.menu-closing .rail-menu {
+  position: fixed;
+  z-index: 80;
+  top: 26px;
+  left: calc(var(--sidebar) - 64px);
+  color: #fff;
+}
+
 .rail-mid {
   flex: 1 1 auto;
   display: flex;
@@ -3812,31 +3884,30 @@ body.menu-closing {
 }
 
 .float-dock__burger {
-  position: relative;
-  display: block;
-  width: 18px;
-  height: 2px;
-  background: currentColor;
-  border-radius: 1px;
+  display: grid;
+  justify-items: start;
+  gap: 5px;
+  width: 22px;
+  height: auto;
+  background: none;
 }
 
 .float-dock__burger::before,
 .float-dock__burger::after {
   content: "";
-  position: absolute;
-  left: 0;
-  width: 18px;
-  height: 2px;
+  display: block;
+  position: static;
+  height: 3.5px;
+  border-radius: 99px;
   background: currentColor;
-  border-radius: 1px;
 }
 
 .float-dock__burger::before {
-  top: -6px;
+  width: 22px;
 }
 
 .float-dock__burger::after {
-  top: 6px;
+  width: 13px;
 }
 
 body.menu-open .float-dock,
@@ -3998,6 +4069,14 @@ body.menu-closing .float-dock {
 
   .menu-bars span {
     height: 3.5px;
+  }
+
+  body.menu-open .rail-menu,
+  body.menu-opening .rail-menu,
+  body.menu-closing .rail-menu {
+    top: 12px;
+    left: auto;
+    right: 14px;
   }
 
   .stage {
