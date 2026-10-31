@@ -996,10 +996,10 @@ body.is-rail-open .rail-show {
   z-index: 2;
   width: calc(100% + (var(--pathway-bleed) * 2));
   max-width: none;
-  margin: 8px 0 0;
+  margin: 20px 0 0;
   margin-left: calc(var(--pathway-bleed) * -1);
   margin-right: calc(var(--pathway-bleed) * -1);
-  padding: 0;
+  padding: clamp(40px, 6vw, 72px) 0 0;
   overflow: clip;
   border-radius: 50px 50px 0 0;
   background: var(--pathway-beige);
@@ -4564,7 +4564,8 @@ body.menu-closing .float-dock {
   .pathway {
     --pathway-bleed: 0px;
     border-radius: 28px 28px 0 0;
-    margin-top: 18px;
+    margin-top: 24px;
+    padding-top: clamp(32px, 8vw, 56px);
     width: 100%;
     margin-left: 0;
     margin-right: 0;
