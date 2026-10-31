@@ -523,35 +523,24 @@ body.is-rail-open .rail-show {
   z-index: 2;
 }
 
-.skyline-dock {
-  position: relative;
-  z-index: 5;
-  width: min(72%, 760px);
-  margin: -14vw auto -4vw;
+.skyline {
+  position: fixed;
+  left: 50%;
+  bottom: 0;
+  z-index: 25;
+  width: min(78vw, 720px);
+  margin: 0;
+  padding: 0;
+  transform: translate3d(-50%, 0, 0) scale(var(--skyline-scale, 1));
+  transform-origin: 50% 100%;
   pointer-events: none;
-  transform-origin: 50% 80%;
-  will-change: transform, opacity;
+  will-change: transform, top, bottom;
 }
 
-.skyline-dock__inner {
-  position: relative;
-}
-
-.skyline-dock__art {
-  position: relative;
-  z-index: 2;
+.skyline__art {
   display: block;
   width: 100%;
   height: auto;
-}
-
-.skyline-dock__seed {
-  position: absolute;
-  z-index: 1;
-  width: 78%;
-  right: 13%;
-  bottom: -29%;
-  pointer-events: none;
 }
 
 .hero-visual,
@@ -992,71 +981,34 @@ body.is-rail-open .rail-show {
   background: var(--pathway-beige);
 }
 
-.pathway-intro {
-  position: relative;
-  z-index: 5;
-  margin-bottom: -20vw;
+.pathway-spacer {
+  height: 55vh;
+  min-height: 320px;
 }
 
-.pathway-intro__wrap {
-  position: absolute;
-  top: -100svh;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 2;
+.pathway-land {
+  position: relative;
+  z-index: 4;
+  width: min(92%, 920px);
+  margin: 0 auto;
+  aspect-ratio: 824.5 / 420;
   pointer-events: none;
 }
 
-.pathway-intro__sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
-  display: flex;
-  align-items: flex-end;
-  justify-content: center;
-}
-
-.pathway-intro__illus {
-  position: relative;
-  width: min(100%, 750px);
-  margin-bottom: -14.5vw;
-  padding-top: 1vw;
-  transform: scale(var(--pathway-scale, 0.9));
-  transform-origin: 50% 80%;
-  will-change: transform;
-}
-
-.pathway-intro__canvas {
-  position: relative;
-  z-index: 2;
-  width: calc(9 / 16 * 100%);
-  max-width: 100%;
-  margin: 0 auto;
-  aspect-ratio: 1430 / 1022;
-}
-
-.pathway-intro__canvas img {
+.pathway-land__green {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  display: block;
 }
 
-.pathway-intro__path {
+.pathway-land__seat {
   position: absolute;
-  z-index: 0;
-  width: 92%;
-  right: 4%;
-  bottom: -34%;
-  pointer-events: none;
-}
-
-.pathway-intro__ghost {
-  width: calc(9 / 16 * 100%);
-  max-width: 920px;
-  margin: 0 auto;
-  aspect-ratio: 1430 / 600;
+  left: 50%;
+  top: 8%;
+  width: 1px;
+  height: 1px;
+  transform: translateX(-50%);
 }
 
 .pathway-stage {
@@ -1221,23 +1173,23 @@ body.is-rail-open .rail-show {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .skyline-dock,
-  .pathway-intro__illus,
+  .skyline,
   .pathway-card__bg,
   .pathway-card__inner h3,
   .pathway-card__inner p,
   .pathway-card__cta {
     transition: none !important;
-    transform: none !important;
-    opacity: 1 !important;
   }
 
   .pathway-card__bg {
     transform: scale(1) !important;
   }
 
-  .pathway-intro__illus {
-    --pathway-scale: 1;
+  .pathway-card__inner h3,
+  .pathway-card__inner p,
+  .pathway-card__cta {
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
@@ -4436,15 +4388,8 @@ body.menu-closing .float-dock {
     padding: 12px;
   }
 
-  .skyline-dock {
-    width: min(92%, 560px);
-    margin: -18vw auto -8vw;
-  }
-
-  .skyline-dock__seed {
-    width: 110%;
-    right: -12%;
-    bottom: 0;
+  .skyline {
+    width: min(92vw, 560px);
   }
 
   .pathway {
@@ -4452,31 +4397,14 @@ body.menu-closing .float-dock {
     margin-top: 18px;
   }
 
-  .pathway-intro {
-    margin-bottom: -24vw;
+  .pathway-land {
+    width: min(100%, 640px);
+    margin-top: 0;
+    aspect-ratio: 824.5 / 480;
   }
 
-  .pathway-intro__illus {
-    width: 100%;
-    margin-bottom: -42vw;
-    padding: 5vw 5% 28vw;
-    overflow: hidden;
-  }
-
-  .pathway-intro__canvas {
-    width: 115%;
-    margin-left: -7.5%;
-  }
-
-  .pathway-intro__path {
-    width: 110%;
-    right: -12%;
-    bottom: 0;
-  }
-
-  .pathway-intro__ghost {
-    width: 96%;
-    aspect-ratio: 1430 / 850;
+  .pathway-land__seat {
+    top: 22%;
   }
 
   .pathway-stage {

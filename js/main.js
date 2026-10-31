@@ -945,10 +945,10 @@ initReteRails();
 
 function initPathway() {
   const section = document.querySelector("[data-pathway]");
-  const dock = document.querySelector("[data-skyline-dock]");
-  if (!section) return;
+  const skyline = document.querySelector("[data-skyline]");
+  const seat = document.querySelector("[data-skyline-seat]");
+  if (!section || !skyline || !seat) return;
 
-  const illus = section.querySelector("[data-pathway-illus]");
   const stage = section.querySelector("[data-pathway-stage]");
   const seed = section.querySelector("[data-pathway-seed]");
   const tiles = [...section.querySelectorAll("[data-pathway-tile]")];
@@ -981,15 +981,6 @@ function initPathway() {
     return clamp01(traveled / Math.max(1, total));
   };
 
-  const introProgress = () => {
-    const wrap = section.querySelector(".pathway-intro__wrap");
-    if (!wrap) return 0;
-    const rect = wrap.getBoundingClientRect();
-    const vh = window.innerHeight || 1;
-    const span = Math.max(1, rect.height - vh);
-    return clamp01((vh - rect.top) / (span + vh * 0.35));
-  };
-
   const paintStroke = (items, progress) => {
     items.forEach((item, index) => {
       if (!item) return;
@@ -999,29 +990,42 @@ function initPathway() {
     });
   };
 
-  const paint = () => {
-    const intro = introProgress();
-    const pathProgress = sectionProgress();
+  const paintSkyline = () => {
     const vh = window.innerHeight || 1;
+    const skyH = skyline.offsetHeight || 1;
+    const seatTop = seat.getBoundingClientRect().top;
+    const fixedTop = vh - skyH;
+    // Catch only when the green seat rises up to the drawing at the bottom.
+    const landed = seatTop <= fixedTop;
 
-    if (illus) {
-      const scale = reducedMotion ? 1 : 0.9 + easeOut(intro) * 0.1;
-      illus.style.setProperty("--pathway-scale", String(scale));
+    skyline.classList.toggle("is-fixed", !landed);
+    skyline.classList.toggle("is-landed", landed);
+
+    if (landed) {
+      skyline.style.bottom = "auto";
+      skyline.style.top = `${Math.round(seatTop)}px`;
+      skyline.style.setProperty("--skyline-scale", "1");
+    } else {
+      skyline.style.top = "auto";
+      skyline.style.bottom = "0px";
+      const approach = clamp01(1 - (seatTop - fixedTop) / Math.max(1, vh));
+      const scale = reducedMotion ? 1 : 0.92 + easeOut(approach) * 0.08;
+      skyline.style.setProperty("--skyline-scale", String(scale));
     }
 
     if (seedStroke) {
-      const drawn = reducedMotion ? seedStroke.length : seedStroke.length * easeOut(Math.min(1, intro * 1.4));
+      const land = document.querySelector("[data-skyline-land]");
+      const landTop = land?.getBoundingClientRect().top ?? seatTop;
+      const landProgress = clamp01((vh * 0.95 - landTop) / (vh * 0.7));
+      const drawn = reducedMotion ? seedStroke.length : seedStroke.length * easeOut(landProgress);
       seedStroke.el.style.strokeDasharray = `${drawn}, ${seedStroke.length}`;
     }
+  };
 
-    if (dock) {
-      const fade = clamp01((section.getBoundingClientRect().top - vh * 0.15) / (vh * 0.55));
-      dock.style.opacity = String(reducedMotion ? 0 : fade);
-      dock.style.transform = `scale(${1 + (1 - fade) * 0.12})`;
-    }
-
-    paintStroke(isMobile() ? mob : desk, reducedMotion ? 1 : pathProgress);
-
+  const paint = () => {
+    const vh = window.innerHeight || 1;
+    paintSkyline();
+    paintStroke(isMobile() ? mob : desk, reducedMotion ? 1 : sectionProgress());
     tiles.forEach((tile) => {
       const top = tile.getBoundingClientRect().top;
       tile.classList.toggle("is-in", reducedMotion || top < vh * 0.82);
