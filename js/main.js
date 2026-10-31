@@ -1077,12 +1077,42 @@ function initPathway() {
   const skyCurve = skyline?.querySelector("[data-skyline-curve]");
   const START_SCALE = 0.78;
   const END_SCALE = 1;
+  // Mid-arch ground line in borgo-curve.png (~20% up from image bottom).
+  const GROUND_LIFT = 0.2;
+  // Dig deep enough that the high right side of the arch still meets the green.
+  const NEST_PX = 90;
   let skySize = { w: 0, h: 0 };
   let skyLanded = false;
 
   const measureSkyline = () => {
     if (!skyline) return;
     skySize = { w: skyline.offsetWidth || 1, h: skyline.offsetHeight || 1 };
+  };
+
+  // Landing mark: on the tip BODY (along the path), not the far round-cap tip.
+  const tipCrest = () => {
+    const mobile = isMobile();
+    const pathEl = mobile ? mobileMainPath : mainPath;
+    const svg = pathEl?.ownerSVGElement;
+    if (!pathEl || !svg) {
+      const fallback = seat.getBoundingClientRect();
+      return { x: fallback.left, y: fallback.top };
+    }
+    const ctm = pathEl.getScreenCTM();
+    if (!ctm) {
+      const fallback = seat.getBoundingClientRect();
+      return { x: fallback.left, y: fallback.top };
+    }
+    const stroke = Number(pathEl.getAttribute("stroke-width")) || (mobile ? 250 : 500);
+    const len = pathEl.getTotalLength() || 1;
+    // Far enough along that the village width sits on the thick body, not past the tip.
+    const pt = pathEl.getPointAtLength(Math.min(len * 0.045, stroke * 0.7));
+    const vb = svg.viewBox.baseVal;
+    const svgRect = svg.getBoundingClientRect();
+    const scaleY = svgRect.height / Math.max(1, vb.height);
+    const x = ctm.a * pt.x + ctm.c * pt.y + ctm.e;
+    const y = ctm.b * pt.x + ctm.d * pt.y + ctm.f - stroke * 0.5 * scaleY;
+    return { x, y };
   };
 
   const paintSkyline = () => {
@@ -1094,20 +1124,18 @@ function initPathway() {
     const videoRect = video
       ? video.getBoundingClientRect()
       : { left: 0, width: window.innerWidth, bottom: vh * 0.72 };
-    const seatRect = seat.getBoundingClientRect();
-    const seatTop = seatRect.top;
+    const crest = tipCrest();
     const { w: naturalW, h: naturalH } = skySize;
 
     // Sit slightly into the white margin under the video.
     const startBottom = videoRect.bottom + 10;
-    // Nest the baseline a few px into the green crest so it reads as attached.
-    const endBottom = seatTop + 8;
+    // Align PNG ground to crest, then nest into the green.
+    const endBottom = crest.y + naturalH * GROUND_LIFT + NEST_PX;
     const startCenter = videoRect.left + videoRect.width * 0.5;
-    const endCenter = seatRect.left;
-    const seatDoc = scrollY + seatTop;
-    // Land once the green ridge has risen into the upper half of the viewport.
+    const endCenter = crest.x;
+    const crestDoc = scrollY + crest.y;
     const landY = vh * 0.46;
-    const endScroll = Math.max(1, seatDoc - landY);
+    const endScroll = Math.max(1, crestDoc - landY);
 
     const place = (center, bottom, scale, morph, landed) => {
       const x = center - naturalW * 0.5;
@@ -1132,7 +1160,7 @@ function initPathway() {
     const eased = easeOut(progress);
     const scale = START_SCALE + (END_SCALE - START_SCALE) * eased;
     const morph = clamp01((eased - 0.08) / 0.6);
-    const landed = progress >= 0.995 || seatTop <= landY + 1;
+    const landed = progress >= 0.995 || crest.y <= landY + 1;
     const bottom = landed ? endBottom : startBottom + (endBottom - startBottom) * eased;
     const center = landed ? endCenter : startCenter + (endCenter - startCenter) * eased;
 

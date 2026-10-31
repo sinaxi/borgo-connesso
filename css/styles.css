@@ -533,7 +533,7 @@ body.is-rail-open .rail-show {
   width: min(64vw, 620px);
   margin: 0;
   padding: 0;
-  aspect-ratio: 892 / 455;
+  aspect-ratio: 889 / 423;
   transform: translate3d(0, 0, 0) scale(0.78);
   transform-origin: 50% 100%;
   pointer-events: none;
