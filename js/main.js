@@ -947,7 +947,7 @@ function initPathway() {
   const section = document.querySelector("[data-pathway]");
   const skyline = document.querySelector("[data-skyline]");
   const seat = document.querySelector("[data-skyline-seat]");
-  if (!section || !skyline || !seat) return;
+  if (!section) return;
 
   const stage = section.querySelector("[data-pathway-stage]");
   const tiles = [...section.querySelectorAll("[data-pathway-tile]")];
@@ -1072,6 +1072,7 @@ function initPathway() {
   };
 
   const paintSkyline = () => {
+    if (!skyline || !seat) return;
     const vh = window.innerHeight || 1;
     const skyH = skyline.offsetHeight || 1;
     const seatTop = seat.getBoundingClientRect().top;
