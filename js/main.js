@@ -942,3 +942,67 @@ function initReteRail(rail, start) {
 }
 
 initReteRails();
+
+
+/* --------------------------------------------------------------------------
+   NEL SOGGIORNO · card impilate (sezione id="soggiorno")
+   - Calcola dove si fermano le card (--sog-top): se la barra del menu è
+     sticky in alto si fermano subito sotto, altrimenti vale il CSS
+     (72px su mobile, 24px su desktop).
+   - Mentre scorri, la card coperta dalla successiva si rimpicciolisce (fino
+     al 6%), si inclina di 1,5° e si scurisce un poco.
+   - Con "riduci movimento" attivo le card si impilano lo stesso, senza effetti.
+   -------------------------------------------------------------------------- */
+function initSoggiornoStack() {
+  const room = document.querySelector("[data-sog-stack]");
+  if (!room) return;
+  const cards = [...room.querySelectorAll(".sog-card")];
+  const bar = document.querySelector(".rail");
+
+  // Se la barra del menu è fissa in alto (sticky), le card si fermano
+  // subito sotto. Altrimenti vale il valore di --sog-top nel CSS.
+  const setTop = () => {
+    const barIsSticky = bar && getComputedStyle(bar).position === "sticky";
+    if (barIsSticky) {
+      room.style.setProperty("--sog-top", `${bar.offsetHeight + 16}px`);
+    } else {
+      room.style.removeProperty("--sog-top");
+    }
+  };
+  setTop();
+  window.addEventListener("resize", setTop);
+
+  if (reducedMotion) return;
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    cards.forEach((card, i) => {
+      const next = cards[i + 1];
+      if (!next) return;
+      const a = card.getBoundingClientRect();
+      const b = next.getBoundingClientRect();
+      // 0 = la successiva è ancora lontana, 1 = la copre del tutto
+      const cover = Math.min(1, Math.max(0, 1 - (b.top - a.top) / a.height));
+      if (cover > 0) {
+        const tilt = i % 2 ? 1.5 : -1.5;
+        card.style.transform = `scale(${1 - cover * 0.06}) rotate(${cover * tilt}deg)`;
+        card.style.filter = `brightness(${1 - cover * 0.12})`;
+      } else {
+        card.style.transform = "";
+        card.style.filter = "";
+      }
+    });
+  };
+  const onScroll = () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  };
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  update();
+}
+
+initSoggiornoStack();
