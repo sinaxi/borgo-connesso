@@ -4898,24 +4898,33 @@ body.menu-closing .float-dock {
   --sog-ink: #0a0a0a;
   --sog-muted: #6a6a6a;
   --sog-top: 24px;       /* dove si ferma la card: JS lo alza su mobile */
-  /* .room taglia il contenuto con overflow: hidden, che spegne lo sticky.
-     clip taglia allo stesso modo ma lascia funzionare la pila di card;
-     dove clip non c'è, resta visible. */
+  /* Full-bleed: niente padding .room e niente gutters .frame. */
+  width: calc(100% + 24px);
+  max-width: none;
+  margin-inline: -12px;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  /* .room taglia con overflow: hidden e spegne lo sticky.
+     clip taglia allo stesso modo ma lascia funzionare la pila. */
   overflow: visible;
   overflow: clip;
 }
 
 .sog-grid {
   display: grid;
-  max-width: 720px;
-  margin-inline: auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 
 /* Mobile e tablet: le card si fermano più in basso, per non finire sotto
-   il pulsante "+" fisso in alto a sinistra */
+   il pulsante "+" fisso in alto a sinistra; .frame già senza gutters. */
 @media (max-width: 1040px) {
   .room--soggiorno {
     --sog-top: 72px;
+    width: 100%;
+    margin-inline: 0;
   }
 }
 
@@ -4924,7 +4933,7 @@ body.menu-closing .float-dock {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 18px;
+  gap: 0;
 }
 
 .sog-card {
@@ -4933,9 +4942,9 @@ body.menu-closing .float-dock {
   display: grid;
   gap: 12px;
   align-content: start;
-  min-height: 290px;
-  padding: 28px 24px;
-  border-radius: 24px;
+  min-height: min(78svh, 640px);
+  padding: clamp(28px, 5vw, 48px) clamp(20px, 4vw, 40px);
+  border-radius: 0;
   background: var(--tone);
   color: var(--sog-ink);
   transform-origin: 50% 0;
