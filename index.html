@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=163">
+  <link rel="stylesheet" href="css/styles.css?v=165">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -152,6 +152,80 @@
           </section>
         </div>
       </div>
+
+      <!-- ===================================================================
+           NEL SOGGIORNO · solo card impilate (stile Clay)
+           Scorrendo, ogni card si ferma in alto e la successiva sale a
+           coprirla; quella coperta si rimpicciolisce e si inclina.
+           - Testi: si cambiano qui sotto, card per card.
+           - Colori: variabili --sog-* in css/styles.css.
+           - --tone su ogni <li>; --i scala le card di 12px in pila.
+           - Animazione: initSoggiornoStack() in js/main.js.
+           =================================================================== -->
+      <section class="room room--soggiorno" id="soggiorno" aria-labelledby="soggiorno-title" data-sog-stack>
+        <h2 id="soggiorno-title" class="sr">Nel soggiorno — sei cose già pronte quando arrivi</h2>
+        <div class="sog-grid">
+          <ol class="sog-stack">
+            <!-- 1 · Case vacanza -->
+            <li class="sog-card is-dark" style="--i:0; --tone:var(--sog-pink)">
+              <h3>Case vacanza</h3>
+              <p>Case vacanza del paese, scelte sul numero di persone e sulle date.</p>
+              <div class="sog-ui">
+                <div class="sog-row"><span><span class="sog-ok" aria-hidden="true">✓</span>Casa per il gruppo</span><span>nella proposta</span></div>
+                <div class="sog-row"><span><span class="sog-ok" aria-hidden="true">✓</span>Bassa stagione</span><span>novembre–marzo</span></div>
+              </div>
+            </li>
+
+            <!-- 2 · Sala riunioni -->
+            <li class="sog-card is-dark" style="--i:1; --tone:var(--sog-teal)">
+              <h3>Sala riunioni</h3>
+              <p>Uno spazio vostro per riunioni, workshop e call di gruppo.</p>
+              <div class="sog-ui">
+                <div class="sog-row"><span>Sala riunioni</span><span>per il vostro team</span></div>
+                <div class="sog-row"><span>Cabine per le call</span><span>nell’hub</span></div>
+              </div>
+            </li>
+
+            <!-- 3 · Esperienze outdoor (lo sci è nelle stazioni vicine, non a Pisogne) -->
+            <li class="sog-card" style="--i:2; --tone:var(--sog-lav)">
+              <h3>Esperienze outdoor</h3>
+              <p>Guide locali per lago e montagna, in ogni stagione.</p>
+              <div class="sog-ui">
+                <ul class="sog-chips">
+                  <li>Kayak all’alba</li><li>Corna Trentapassi</li><li>Sentiero della Valeriana</li><li>Ciaspole</li><li>Sci in giornata</li>
+                </ul>
+              </div>
+            </li>
+
+            <!-- 4 · Wellness -->
+            <li class="sog-card" style="--i:3; --tone:var(--sog-peach)">
+              <h3>Wellness</h3>
+              <p>Pause per staccare tra una giornata di lavoro e l’altra.</p>
+              <div class="sog-ui">
+                <ul class="sog-chips"><li>Mindfulness</li><li>Cura del corpo</li><li>Silenzio</li></ul>
+              </div>
+            </li>
+
+            <!-- 5 · Wi-Fi kiosk (le tacche si animano: sono solo decorative) -->
+            <li class="sog-card" style="--i:4; --tone:var(--sog-ochre)">
+              <h3>Wi-Fi kiosk</h3>
+              <p>Chioschi connessi sul lungolago e in paese, per lavorare anche fuori dall’hub.</p>
+              <div class="sog-ui">
+                <div class="sog-row"><span>Ti siedi, ti colleghi, vai avanti</span><span class="sog-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+              </div>
+            </li>
+
+            <!-- 6 · Degustazioni -->
+            <li class="sog-card" style="--i:5; --tone:var(--sog-cream)">
+              <h3>Degustazioni</h3>
+              <p>Cibo di stagione dai produttori della zona.</p>
+              <div class="sog-ui">
+                <ul class="sog-chips"><li>Pesce di lago</li><li>Olio del Sebino</li><li>Formaggi della valle</li></ul>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
 
       <section class="room room--rete" id="rete" aria-labelledby="rete-label">
         <h2 id="rete-label" class="sr">Nel soggiorno</h2>
@@ -1253,6 +1327,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=40"></script>
+  <script src="js/main.js?v=41"></script>
 </body>
 </html>
