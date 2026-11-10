@@ -4898,8 +4898,8 @@ body.menu-closing .float-dock {
   --sog-ink: #0a0a0a;
   --sog-muted: #6a6a6a;
   --sog-top: 24px;       /* dove si ferma la card: JS lo alza su mobile */
-  /* Stessi margini laterali delle altre .room; niente fascia sotto. */
-  padding-block: 0;
+  /* Allineate all’hero: solo i gutters .frame (12px), niente padding .room. */
+  padding: 0;
   background: transparent;
   /* .room taglia con overflow: hidden e spegne lo sticky.
      clip taglia allo stesso modo ma lascia funzionare la pila. */
