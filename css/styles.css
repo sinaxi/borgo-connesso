@@ -933,14 +933,11 @@ body.is-rail-open .rail-show {
   padding: clamp(28px, 4vw, 52px);
 }
 
-.room--rete {
+.rete-embed {
   min-width: 0;
   max-width: 100%;
-  padding: 0;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  overflow: visible;
+  margin-block: clamp(28px, 4vw, 52px);
+  padding-bottom: 8px;
 }
 
 .rete-rail {
