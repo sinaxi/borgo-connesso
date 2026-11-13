@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=194">
+  <link rel="stylesheet" href="css/styles.css?v=197">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -74,6 +74,7 @@
     </aside>
 
     <main class="stage" id="contenuto">
+      <div class="hero-wrap">
       <div class="hero">
         <section class="hero-visual" aria-roledescription="carousel" aria-label="Immagini del borgo">
           <div class="hero-slides">
@@ -151,26 +152,44 @@
             </div>
           </section>
         </div>
+      </div>
 
-        <!-- Foresta Cozy Hollow–style: livelli + volpe; sticky con fascia verde in base -->
+        <!-- Foresta a livelli: sticky, scorre sopra i contenuti della home -->
         <div class="hero-forest-pin" aria-hidden="true">
           <div class="hero-forest">
-            <div class="hero-forest__sky"></div>
             <div class="hero-layer layer-1"></div>
             <div class="hero-layer layer-2"></div>
             <div class="hero-layer layer-3"></div>
+            <div class="waterfall-foam">
+              <span class="wf-sheet"></span>
+              <span class="wf-b wf-b1"></span>
+              <span class="wf-b wf-b2"></span>
+              <span class="wf-b wf-b3"></span>
+              <span class="wf-b wf-b4"></span>
+              <span class="wf-b wf-b5"></span>
+              <span class="wf-b wf-b6"></span>
+            </div>
             <div class="hero-bottom">
-              <object
+              <img
                 class="hero-bottom__svg"
-                data="assets/forest/ground.svg?v=6"
-                type="image/svg+xml"
-                tabindex="-1"
-              ></object>
+                src="assets/forest/ground.svg?v=7"
+                width="2000"
+                height="562"
+                alt=""
+              >
             </div>
             <div class="hero-forest__base"></div>
           </div>
         </div>
       </div>
+
+      <!-- Fascia verde continua dopo la foresta -->
+      <section class="forest-green" id="bosco" aria-labelledby="forest-green-title">
+        <div class="forest-green__inner">
+          <h2 id="forest-green-title">Lago, lavoro e tavola nello stesso programma</h2>
+          <p>Da novembre a marzo a Pisogne c’è posto. Casa e attività si mettono insieme: scegli le date e quante persone siete.</p>
+        </div>
+      </section>
 
       <!-- ===================================================================
            NEL SOGGIORNO · solo card impilate (stile Clay)
@@ -1350,6 +1369,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=45"></script>
+  <script src="js/main.js?v=48"></script>
 </body>
 </html>

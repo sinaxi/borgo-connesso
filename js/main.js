@@ -1007,37 +1007,37 @@ function initSoggiornoStack() {
 
 initSoggiornoStack();
 
-/* Foresta hero: parallax a velocità diverse + fascia verde in base */
+/* Foresta hero: parallax a velocità diverse; primo piano sopra la home */
 function initHeroForest() {
-  const hero = document.querySelector(".hero");
+  const hero = document.querySelector(".hero-wrap") || document.querySelector(".hero");
   const forest = document.querySelector(".hero-forest");
   if (!hero || !forest) return;
 
   const layers = [
     { el: forest.querySelector(".layer-1"), speed: 0.2 },
     { el: forest.querySelector(".layer-2"), speed: 0.4 },
-    { el: forest.querySelector(".layer-3"), speed: 0.6 },
+    { el: forest.querySelector(".layer-3"), speed: 0.55 },
+    { el: forest.querySelector(".hero-bottom"), speed: 0.75 },
+    { el: forest.querySelector(".waterfall-foam"), speed: 0.4 },
   ].filter((l) => l.el);
 
   const root = document.documentElement;
   const setDockClearance = () => {
     const forestRect = forest.getBoundingClientRect();
     const forestH = forest.offsetHeight || 0;
-    // Solleva il float-dock solo mentre la silhouette tocca ancora il viewport
     const visible =
       forestRect.bottom > 8 &&
       forestRect.top < window.innerHeight &&
-      hero.getBoundingClientRect().bottom > forestH * 0.2;
+      hero.getBoundingClientRect().bottom > forestH * 0.15;
     root.style.setProperty(
       "--float-dock-clearance",
-      visible ? `${Math.round(forestH * 0.48 + 12)}px` : "16px"
+      visible ? `${Math.round(forestH * 0.42 + 12)}px` : "16px"
     );
   };
 
   const update = () => {
     setDockClearance();
     if (reducedMotion) return;
-    // Parallax legato allo scorrimento dentro l’hero (come reference)
     const heroTop = hero.getBoundingClientRect().top;
     const y = Math.max(0, -heroTop);
     layers.forEach(({ el, speed }) => {
@@ -1061,3 +1061,49 @@ function initHeroForest() {
 }
 
 initHeroForest();
+
+/* Float-dock: compare solo quando inizia l’area «Perché» (#borgo) */
+function initFloatDockReveal() {
+  const dock = document.querySelector(".float-dock");
+  const trigger = document.querySelector("#borgo");
+  if (!dock || !trigger) return;
+
+  const setVisible = (show) => {
+    dock.classList.toggle("is-on", show);
+    dock.toggleAttribute("inert", !show);
+    dock.setAttribute("aria-hidden", show ? "false" : "true");
+  };
+
+  const update = () => {
+    setVisible(trigger.getBoundingClientRect().top <= window.innerHeight * 0.92);
+  };
+
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        const hit = entries.some((e) => e.isIntersecting);
+        if (hit) setVisible(true);
+        else update();
+      },
+      { root: null, threshold: 0, rootMargin: "0px 0px 0px 0px" }
+    );
+    io.observe(trigger);
+  }
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      update();
+    });
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  document.addEventListener("scroll", onScroll, { passive: true, capture: true });
+  window.addEventListener("resize", onScroll);
+  update();
+}
+
+initFloatDockReveal();
