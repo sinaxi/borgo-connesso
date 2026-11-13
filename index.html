@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=176">
+  <link rel="stylesheet" href="css/styles.css?v=178">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -1264,57 +1264,53 @@
   </div>
 
   <div class="skyline" aria-hidden="true">
-    <svg class="skyline-svg" viewBox="0 0 1600 260" preserveAspectRatio="xMidYMax slice" focusable="false">
+    <svg class="skyline-svg" viewBox="0 0 1600 300" preserveAspectRatio="xMidYMax slice" focusable="false">
       <defs>
-        <linearGradient id="skyline-haze" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#efefef" stop-opacity="0"/>
-          <stop offset="35%" stop-color="#ebe8e2" stop-opacity="0.35"/>
-          <stop offset="70%" stop-color="#e3e7df" stop-opacity="0.7"/>
-          <stop offset="100%" stop-color="#d7e0d8" stop-opacity="0.92"/>
-        </linearGradient>
         <linearGradient id="skyline-far-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#c5cdd0"/>
-          <stop offset="55%" stop-color="#aebcbe"/>
-          <stop offset="100%" stop-color="#9aadaa"/>
+          <stop offset="0%" stop-color="#6d858c"/>
+          <stop offset="100%" stop-color="#557870"/>
         </linearGradient>
-        <linearGradient id="skyline-mid-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#b4c2a6"/>
-          <stop offset="60%" stop-color="#97a988"/>
-          <stop offset="100%" stop-color="#7f9270"/>
+        <linearGradient id="skyline-ridge-a" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#5a7a45"/>
+          <stop offset="55%" stop-color="#456334"/>
+          <stop offset="100%" stop-color="#354f28"/>
+        </linearGradient>
+        <linearGradient id="skyline-ridge-b" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#4a6b38"/>
+          <stop offset="50%" stop-color="#38552c"/>
+          <stop offset="100%" stop-color="#2b4222"/>
         </linearGradient>
         <linearGradient id="skyline-near-fill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#8fa07a"/>
-          <stop offset="100%" stop-color="#667856"/>
+          <stop offset="0%" stop-color="#3a552c"/>
+          <stop offset="45%" stop-color="#2c4122"/>
+          <stop offset="100%" stop-color="#1f3018"/>
         </linearGradient>
         <linearGradient id="skyline-shore" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#7d9690"/>
-          <stop offset="100%" stop-color="#5f7a76"/>
+          <stop offset="0%" stop-color="#2f4f49"/>
+          <stop offset="100%" stop-color="#1e3531"/>
         </linearGradient>
         <linearGradient id="skyline-water" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stop-color="#9bb8ba" stop-opacity="0.85"/>
-          <stop offset="40%" stop-color="#7fa0a4"/>
-          <stop offset="100%" stop-color="#62868c"/>
+          <stop offset="0%" stop-color="#4f858c"/>
+          <stop offset="40%" stop-color="#386870"/>
+          <stop offset="100%" stop-color="#274e56"/>
         </linearGradient>
-        <filter id="skyline-soft" x="-8%" y="-20%" width="116%" height="140%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2.4"/>
-        </filter>
-        <filter id="skyline-mist" x="-5%" y="-15%" width="110%" height="130%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="1.2"/>
+        <filter id="skyline-depth" x="-2%" y="-8%" width="104%" height="116%">
+          <feDropShadow dx="0" dy="-2" stdDeviation="3" flood-color="#1a2414" flood-opacity="0.28"/>
         </filter>
       </defs>
-      <rect class="skyline-haze" width="1600" height="260" fill="url(#skyline-haze)"/>
-      <g class="skyline-far" filter="url(#skyline-soft)" opacity="0.88">
-        <path fill="url(#skyline-far-fill)" d="M0 260 V128 C140 102 240 142 380 112 C520 82 620 136 780 104 C940 72 1060 130 1220 98 C1360 72 1480 118 1600 96 V260 Z"/>
+      <g class="skyline-far">
+        <path fill="#6f8790" d="M0 300 V118 L70 92 130 108 210 58 280 90 370 32 450 78 540 18 620 70 710 40 800 86 890 24 980 74 1070 46 1160 82 1250 28 1340 72 1430 50 1520 84 1600 66 V300 Z"/>
+        <path fill="#5f7680" opacity="0.55" d="M0 300 V140 L110 112 200 132 300 88 400 124 520 70 640 118 760 84 880 130 1000 78 1120 122 1240 90 1380 128 1500 98 1600 118 V300 Z"/>
       </g>
-      <g class="skyline-mid" filter="url(#skyline-mist)">
-        <path fill="url(#skyline-mid-fill)" opacity="0.9" d="M0 260 V152 C110 128 210 164 340 140 C470 116 570 168 720 142 C870 116 980 166 1140 144 C1300 122 1420 160 1600 136 V260 Z"/>
-        <path fill="url(#skyline-mid-fill)" opacity="0.72" d="M0 260 V172 C130 152 240 184 380 164 C520 144 640 186 800 166 C960 146 1080 186 1240 168 C1400 150 1500 178 1600 164 V260 Z"/>
+      <g class="skyline-mid" filter="url(#skyline-depth)">
+        <path fill="url(#skyline-ridge-a)" d="M0 300 V158 C55 132 115 168 195 132 C275 96 340 158 450 118 C560 78 640 150 760 110 C880 70 970 146 1100 108 C1230 70 1320 142 1450 112 C1525 94 1570 126 1600 118 V300 Z"/>
+        <path fill="url(#skyline-ridge-b)" d="M0 300 V192 C85 164 165 200 270 168 C375 136 460 198 590 164 C720 130 820 196 960 164 C1100 132 1210 194 1350 168 C1470 148 1540 186 1600 172 V300 Z"/>
       </g>
-      <g class="skyline-near">
-        <path fill="url(#skyline-near-fill)" d="M0 260 V194 C100 176 200 204 330 188 C460 172 560 208 710 192 C860 176 970 210 1120 196 C1270 182 1390 208 1520 196 C1560 192 1585 198 1600 196 V260 Z"/>
-        <path fill="url(#skyline-shore)" d="M0 260 V214 C120 204 230 222 360 212 C490 202 600 224 740 214 C880 204 1000 226 1140 216 C1280 206 1400 224 1520 216 C1560 214 1585 218 1600 216 V260 Z"/>
+      <g class="skyline-near" filter="url(#skyline-depth)">
+        <path fill="url(#skyline-near-fill)" d="M0 300 V224 C75 200 145 232 250 210 C355 188 440 236 570 214 C700 192 800 240 940 220 C1080 200 1190 242 1330 224 C1470 206 1540 236 1600 226 V300 Z"/>
+        <path fill="url(#skyline-shore)" d="M0 300 V252 C100 238 200 260 320 246 C440 232 560 262 700 248 C840 234 970 264 1120 252 C1270 240 1400 262 1520 254 C1560 252 1585 256 1600 254 V300 Z"/>
       </g>
-      <path class="skyline-water" fill="url(#skyline-water)" d="M0 260 V228 C200 222 400 236 600 228 C800 220 1000 238 1200 230 C1400 222 1500 236 1600 230 V260 Z"/>
+      <path class="skyline-water" fill="url(#skyline-water)" d="M0 300 V268 C200 260 400 278 620 268 C840 258 1060 280 1280 270 C1460 262 1540 274 1600 270 V300 Z"/>
     </svg>
   </div>
 
