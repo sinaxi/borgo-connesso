@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 280" fill="none" preserveAspectRatio="xMidYMax slice">
+  <g fill="#141E16">
+    <!-- ground -->
+    <path d="M0 280V168c80-12 170-8 260 10 90 18 160 48 260 44 90-4 160-40 250-36 100 4 180 48 280 42 90-5 160-44 250-38 90 6 160 48 250 40 70-6 130-36 190-30 50 5 90 28 130 24v116H0Z"/>
+    <!-- left framing pine -->
+    <path d="M60 280V95l78-85 78 85v185H60Z"/>
+    <path d="M90 175l48-72 48 72H90Z"/>
+    <path d="M105 120l33-50 33 50H105Z"/>
+    <!-- right framing pine -->
+    <path d="M1780 280V88l82-90 82 90v192h-164Z"/>
+    <path d="M1812 170l50-76 50 76h-100Z"/>
+    <path d="M1828 112l34-52 34 52h-68Z"/>
+    <!-- mid clumps -->
+    <path d="M420 280V155l42-58 42 58v125H420Z"/>
+    <path d="M620 280V148l50-68 50 68v132H620Z"/>
+    <path d="M880 280V160l38-52 38 52v120H880Z"/>
+    <path d="M1180 280V145l48-66 48 66v135H1180Z"/>
+    <path d="M1480 280V158l40-55 40 55v122H1480Z"/>
+    <!-- small boat silhouette near center-left -->
+    <path d="M760 214c8-10 28-16 52-14 18 2 32 8 40 14H760Z"/>
+    <path d="M798 214V188l6-2 4 28"/>
+    <!-- grass tufts -->
+    <path d="M200 220c4-14 8-22 10-22s4 8 6 22c-5-6-10-6-16 0Z"/>
+    <path d="M1650 218c4-12 7-20 9-20s3 8 5 20c-4-5-9-5-14 0Z"/>
+  </g>
+</svg>

@@ -1006,3 +1006,58 @@ function initSoggiornoStack() {
 }
 
 initSoggiornoStack();
+
+/* Foresta hero: parallax a velocità diverse (asset originali Borgo) */
+function initHeroForest() {
+  const hero = document.querySelector(".hero");
+  const forest = document.querySelector(".hero-forest");
+  if (!hero || !forest) return;
+
+  const layers = [
+    { el: forest.querySelector(".layer-1"), speed: 0.2 },
+    { el: forest.querySelector(".layer-2"), speed: 0.4 },
+    { el: forest.querySelector(".layer-3"), speed: 0.6 },
+  ].filter((l) => l.el);
+
+  const root = document.documentElement;
+  const setDockClearance = () => {
+    const forestRect = forest.getBoundingClientRect();
+    const forestH = forest.offsetHeight || 0;
+    // Solleva il float-dock solo mentre la silhouette tocca ancora il viewport
+    const visible =
+      forestRect.bottom > 8 &&
+      forestRect.top < window.innerHeight &&
+      hero.getBoundingClientRect().bottom > forestH * 0.2;
+    root.style.setProperty(
+      "--float-dock-clearance",
+      visible ? `${Math.round(forestH * 0.42 + 12)}px` : "16px"
+    );
+  };
+
+  const update = () => {
+    setDockClearance();
+    if (reducedMotion) return;
+    // Parallax legato allo scorrimento dentro l’hero, non al document scroll totale
+    const heroTop = hero.getBoundingClientRect().top;
+    const y = Math.max(0, -heroTop);
+    layers.forEach(({ el, speed }) => {
+      el.style.transform = `translate3d(0, ${y * speed}px, 0)`;
+    });
+  };
+
+  let ticking = false;
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      update();
+    });
+  };
+
+  window.addEventListener("scroll", onScroll, { passive: true });
+  window.addEventListener("resize", onScroll);
+  update();
+}
+
+initHeroForest();

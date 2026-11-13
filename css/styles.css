@@ -515,10 +515,107 @@ body.is-rail-open .rail-show {
 }
 
 .hero {
+  position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 12px;
   min-height: calc(100svh - 24px);
+  isolation: isolate;
+}
+
+/* Foresta fissa in base al primo schermo; sticky per tutto l’hero alto */
+.hero-forest-pin {
+  /* Tall enough to sit into the photo and hide cream under transparent peaks */
+  --hero-forest-h: clamp(240px, 38svh, 400px);
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(100svh - 12px - var(--hero-forest-h));
+  bottom: 0;
+  /* Above .hero-side (9); below .float-dock (40) */
+  z-index: 12;
+  pointer-events: none;
+}
+
+.hero-forest {
+  position: sticky;
+  top: calc(100svh - 12px - var(--hero-forest-h));
+  height: var(--hero-forest-h);
+  overflow: hidden;
+  border-radius: 0 0 var(--radius) var(--radius);
+}
+
+/* Base scura sotto le silhouette: niente crema da .hero-visual tra i picchi */
+.hero-forest::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 58%;
+  background: #141e16;
+  z-index: 0;
+}
+
+/* Nessuna fascia colorata in alto: le cime restano sulla foto */
+.hero-forest__sky {
+  display: none;
+}
+
+.hero-layer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  background-size: cover;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+
+.hero-layer.layer-1 {
+  height: 100%;
+  background-image: url("../assets/forest/layer-1.svg?v=5");
+  z-index: 1;
+}
+
+.hero-layer.layer-2 {
+  height: 94%;
+  background-image: url("../assets/forest/layer-2.svg?v=5");
+  z-index: 2;
+}
+
+.hero-layer.layer-3 {
+  height: 86%;
+  background-image: url("../assets/forest/layer-3.svg?v=2");
+  z-index: 3;
+}
+
+.hero-bottom {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  line-height: 0;
+}
+
+.hero-bottom img {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-height: 72px;
+  object-fit: cover;
+  object-position: center bottom;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-layer {
+    will-change: auto;
+    transform: none !important;
+  }
 }
 
 .hero-visual,
@@ -536,7 +633,8 @@ body.is-rail-open .rail-show {
 .hero-visual {
   position: relative;
   min-height: 560px;
-  background: #c8b89a;
+  /* Verde bosco: se i picchi SVG sono trasparenti non torna fuori la crema */
+  background: #1e322c;
   color: var(--ivory);
 }
 
@@ -616,6 +714,8 @@ body.is-rail-open .rail-show {
 }
 
 .hero-side {
+  position: relative;
+  z-index: 9;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -3820,12 +3920,17 @@ body.menu-closing {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: max(16px, env(safe-area-inset-bottom, 0px));
+  bottom: max(
+    16px,
+    env(safe-area-inset-bottom, 0px),
+    var(--float-dock-clearance, 16px)
+  );
   z-index: 40;
   display: flex;
   justify-content: center;
   padding: 0 16px;
   pointer-events: none;
+  transition: bottom 0.35s var(--ease);
 }
 
 .float-dock__row {
@@ -4174,6 +4279,16 @@ body.menu-closing .float-dock {
 
   .hero {
     min-height: 0;
+  }
+
+  .hero-forest-pin {
+    --hero-forest-h: clamp(200px, 34svh, 280px);
+    top: calc(100svh - var(--hero-forest-h));
+  }
+
+  .hero-forest {
+    top: calc(100svh - var(--hero-forest-h));
+    border-radius: 0;
   }
 
   .hero-visual {

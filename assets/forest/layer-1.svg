@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 420" fill="none" preserveAspectRatio="xMidYMax slice">
+  <!-- Soft distant hills — denser so less photo/cream peek at the crest -->
+  <path fill="#3A564E" d="M0 420V72c60-22 130-34 210-22 90 14 150 48 230 42 88-6 148-46 230-40 92 6 160 50 248 44 78-5 140-40 214-32 88 10 154 54 238 46 72-6 128-40 196-34 76 8 134 50 204 40 52-8 96-34 146-28 44 5 82 30 124 24V420H0Z"/>
+  <path fill="#3A564E" d="M80 128l32-56 32 56h-20l14 26H86l14-26H80zm110 10l26-44 26 44h-16l10 18h-40l10-18h-16zm200-16l38-66 38 66h-24l16 30h-52l16-30h-24zm680-8l40-70 40 70h-26l17 32h-54l17-32h-26zm380 14l30-52 30 52h-18l12 22h-48l12-22h-18zm420-6l36-62 36 62h-22l15 28h-50l15-28h-22z"/>
+</svg>
