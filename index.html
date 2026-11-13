@@ -15,25 +15,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=173">
+  <link rel="stylesheet" href="css/styles.css?v=176">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
-  <div class="skyline" aria-hidden="true">
-    <svg class="skyline-svg" viewBox="0 0 1600 140" preserveAspectRatio="xMidYMax slice" focusable="false">
-      <g class="skyline-far">
-        <path fill="#b7c4ae" d="M0 140 V72 L80 38 160 58 250 22 340 48 430 8 520 44 610 14 700 50 790 20 880 52 970 6 1060 46 1150 18 1240 44 1330 4 1420 40 1510 24 1600 46 V140 Z"/>
-      </g>
-      <g class="skyline-mid">
-        <path fill="#8fa381" d="M0 140 V84 L70 58 150 74 240 40 330 66 420 32 510 64 600 38 690 70 780 42 870 72 960 34 1050 66 1140 44 1230 76 1320 40 1410 64 1500 48 1600 72 V140 Z"/>
-        <path fill="#7a9170" d="M0 140 V96 C90 74 150 98 240 78 330 58 400 92 500 70 600 48 690 90 800 68 910 46 1000 88 1110 66 1220 44 1300 86 1410 68 1500 82 1600 70 V140 Z"/>
-      </g>
-      <g class="skyline-near">
-        <path fill="#5c6e4c" d="M0 140 V108 C70 92 140 112 230 96 320 80 390 110 490 96 590 82 670 112 770 98 870 84 950 112 1050 96 1150 80 1230 110 1330 98 1430 86 1510 106 1600 96 V140 Z"/>
-        <path fill="#3f4d36" d="M0 140 V122 C100 112 190 128 300 116 410 104 500 126 620 116 740 106 840 128 960 118 1080 108 1180 128 1300 118 1420 108 1510 124 1600 118 V140 Z"/>
-      </g>
-    </svg>
-  </div>
   <button class="rail-show" type="button" aria-expanded="false" aria-controls="rail" aria-label="Apri la barra">
     <span class="rail-show-plus" aria-hidden="true"></span>
   </button>
@@ -1276,6 +1261,61 @@
         <p class="fineprint">La richiesta non viene salvata sul sito: si apre il tuo programma di posta verso ciao@borgoconnesso.it. Da qui non si prenota e non si paga: il preventivo conferma alloggio e servizi.</p>
       </section>
     </main>
+  </div>
+
+  <div class="skyline" aria-hidden="true">
+    <svg class="skyline-svg" viewBox="0 0 1600 260" preserveAspectRatio="xMidYMax slice" focusable="false">
+      <defs>
+        <linearGradient id="skyline-haze" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#efefef" stop-opacity="0"/>
+          <stop offset="35%" stop-color="#ebe8e2" stop-opacity="0.35"/>
+          <stop offset="70%" stop-color="#e3e7df" stop-opacity="0.7"/>
+          <stop offset="100%" stop-color="#d7e0d8" stop-opacity="0.92"/>
+        </linearGradient>
+        <linearGradient id="skyline-far-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#c5cdd0"/>
+          <stop offset="55%" stop-color="#aebcbe"/>
+          <stop offset="100%" stop-color="#9aadaa"/>
+        </linearGradient>
+        <linearGradient id="skyline-mid-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#b4c2a6"/>
+          <stop offset="60%" stop-color="#97a988"/>
+          <stop offset="100%" stop-color="#7f9270"/>
+        </linearGradient>
+        <linearGradient id="skyline-near-fill" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#8fa07a"/>
+          <stop offset="100%" stop-color="#667856"/>
+        </linearGradient>
+        <linearGradient id="skyline-shore" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#7d9690"/>
+          <stop offset="100%" stop-color="#5f7a76"/>
+        </linearGradient>
+        <linearGradient id="skyline-water" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#9bb8ba" stop-opacity="0.85"/>
+          <stop offset="40%" stop-color="#7fa0a4"/>
+          <stop offset="100%" stop-color="#62868c"/>
+        </linearGradient>
+        <filter id="skyline-soft" x="-8%" y="-20%" width="116%" height="140%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.4"/>
+        </filter>
+        <filter id="skyline-mist" x="-5%" y="-15%" width="110%" height="130%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="1.2"/>
+        </filter>
+      </defs>
+      <rect class="skyline-haze" width="1600" height="260" fill="url(#skyline-haze)"/>
+      <g class="skyline-far" filter="url(#skyline-soft)" opacity="0.88">
+        <path fill="url(#skyline-far-fill)" d="M0 260 V128 C140 102 240 142 380 112 C520 82 620 136 780 104 C940 72 1060 130 1220 98 C1360 72 1480 118 1600 96 V260 Z"/>
+      </g>
+      <g class="skyline-mid" filter="url(#skyline-mist)">
+        <path fill="url(#skyline-mid-fill)" opacity="0.9" d="M0 260 V152 C110 128 210 164 340 140 C470 116 570 168 720 142 C870 116 980 166 1140 144 C1300 122 1420 160 1600 136 V260 Z"/>
+        <path fill="url(#skyline-mid-fill)" opacity="0.72" d="M0 260 V172 C130 152 240 184 380 164 C520 144 640 186 800 166 C960 146 1080 186 1240 168 C1400 150 1500 178 1600 164 V260 Z"/>
+      </g>
+      <g class="skyline-near">
+        <path fill="url(#skyline-near-fill)" d="M0 260 V194 C100 176 200 204 330 188 C460 172 560 208 710 192 C860 176 970 210 1120 196 C1270 182 1390 208 1520 196 C1560 192 1585 198 1600 196 V260 Z"/>
+        <path fill="url(#skyline-shore)" d="M0 260 V214 C120 204 230 222 360 212 C490 202 600 224 740 214 C880 204 1000 226 1140 216 C1280 206 1400 224 1520 216 C1560 214 1585 218 1600 216 V260 Z"/>
+      </g>
+      <path class="skyline-water" fill="url(#skyline-water)" d="M0 260 V228 C200 222 400 236 600 228 C800 220 1000 238 1200 230 C1400 222 1500 236 1600 230 V260 Z"/>
+    </svg>
   </div>
 
   <div class="menu" id="menu" hidden data-wave-menu="closed">
