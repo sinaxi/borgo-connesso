@@ -8,4 +8,7 @@
 						<rect width="2000" height="562" fill="white"></rect>
 					</clipPath>
 					</defs>
-				</svg>
+				<g id="wolf-cover" aria-hidden="true">
+  <ellipse cx="805" cy="468" rx="58" ry="42" fill="#141E16"/>
+  <path d="M760 455 C770 430 820 425 845 448 C835 470 780 485 760 455Z" fill="#141E16"/>
+</g></svg>

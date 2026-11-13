@@ -1009,7 +1009,7 @@ initSoggiornoStack();
 
 /* Foresta hero: parallax a velocità diverse; primo piano sopra la home */
 function initHeroForest() {
-  const hero = document.querySelector(".hero-wrap") || document.querySelector(".hero");
+  const hero = document.querySelector(".hero-visual") || document.querySelector(".hero");
   const forest = document.querySelector(".hero-forest");
   if (!hero || !forest) return;
 
