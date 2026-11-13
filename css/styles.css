@@ -13,7 +13,6 @@
   --danger: #ffd0c4;
   --sidebar: 300px;
   --radius: 28px;
-  --skyline-h: clamp(200px, 28vw, 300px);
   --display: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
   --body: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
   --pitch: "Inter", "Helvetica Neue", "Segoe UI", sans-serif;
@@ -121,52 +120,11 @@ h3 {
   top: 16px;
 }
 
-/* Corona fissa in footer: paesaggio collinare */
-.skyline {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: var(--skyline-h);
-  z-index: 28;
-  pointer-events: none;
-  overflow: hidden;
-  background: transparent;
-  animation: skyline-rise 1s var(--ease) both;
-}
-
-.skyline-art {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center 38%;
-  display: block;
-}
-
-@keyframes skyline-rise {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skyline {
-    animation: none;
-  }
-}
-
 .frame {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
   gap: 12px;
-  padding: 0 12px calc(var(--skyline-h) + 12px);
+  padding: 0 12px 12px;
   align-items: start;
 }
 
@@ -554,8 +512,6 @@ body.is-rail-open .rail-show {
   gap: 24px;
   min-width: 0;
   padding-top: 12px;
-  position: relative;
-  z-index: 1;
 }
 
 .hero {
@@ -4115,7 +4071,7 @@ body.menu-closing .float-dock {
 
   .frame {
     display: block;
-    padding: 0 0 calc(var(--skyline-h) + 12px);
+    padding: 0;
   }
 
   .float-dock {
