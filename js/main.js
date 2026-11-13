@@ -1007,7 +1007,7 @@ function initSoggiornoStack() {
 
 initSoggiornoStack();
 
-/* Foresta hero: parallax a velocità diverse (asset originali Borgo) */
+/* Foresta hero: parallax a velocità diverse + fascia verde in base */
 function initHeroForest() {
   const hero = document.querySelector(".hero");
   const forest = document.querySelector(".hero-forest");
@@ -1030,14 +1030,14 @@ function initHeroForest() {
       hero.getBoundingClientRect().bottom > forestH * 0.2;
     root.style.setProperty(
       "--float-dock-clearance",
-      visible ? `${Math.round(forestH * 0.42 + 12)}px` : "16px"
+      visible ? `${Math.round(forestH * 0.48 + 12)}px` : "16px"
     );
   };
 
   const update = () => {
     setDockClearance();
     if (reducedMotion) return;
-    // Parallax legato allo scorrimento dentro l’hero, non al document scroll totale
+    // Parallax legato allo scorrimento dentro l’hero (come reference)
     const heroTop = hero.getBoundingClientRect().top;
     const y = Math.max(0, -heroTop);
     layers.forEach(({ el, speed }) => {

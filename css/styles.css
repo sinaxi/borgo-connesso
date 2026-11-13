@@ -523,10 +523,10 @@ body.is-rail-open .rail-show {
   isolation: isolate;
 }
 
-/* Foresta fissa in base al primo schermo; sticky per tutto l’hero alto */
+/* Foresta a livelli (alberi, ruscello, volpe): sticky in base al primo viewport */
 .hero-forest-pin {
-  /* Tall enough to sit into the photo and hide cream under transparent peaks */
-  --hero-forest-h: clamp(240px, 38svh, 400px);
+  --hero-forest-h: clamp(280px, 44svh, 480px);
+  --hero-forest-green: #141e16;
   position: absolute;
   left: 0;
   right: 0;
@@ -545,15 +545,26 @@ body.is-rail-open .rail-show {
   border-radius: 0 0 var(--radius) var(--radius);
 }
 
-/* Base scura sotto le silhouette: niente crema da .hero-visual tra i picchi */
+/* Base scura sotto le silhouette: niente crema tra i picchi */
 .hero-forest::before {
   content: "";
   position: absolute;
   left: 0;
   right: 0;
   bottom: 0;
-  height: 58%;
-  background: #141e16;
+  height: 62%;
+  background: var(--hero-forest-green);
+  z-index: 0;
+}
+
+/* Fascia verde sotto le silhouette (non sopra: altrimenti copre la volpe) */
+.hero-forest__base {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 36%;
+  background: var(--hero-forest-green);
   z-index: 0;
 }
 
@@ -568,28 +579,30 @@ body.is-rail-open .rail-show {
   right: 0;
   bottom: 0;
   width: 100%;
+  height: 100%;
   background-repeat: no-repeat;
-  background-position: center bottom;
-  background-size: cover;
+  /* Width-fill so the crest (top of each SVG) stays visible in the strip */
+  background-size: 100% auto;
   will-change: transform;
   transform: translate3d(0, 0, 0);
 }
 
 .hero-layer.layer-1 {
-  height: 100%;
-  background-image: url("../assets/forest/layer-1.svg?v=5");
+  background-image: url("../assets/forest/layer-1.svg?v=6");
+  background-position: center top;
   z-index: 1;
 }
 
+/* Secondo livello: alberi + ruscello/cascata */
 .hero-layer.layer-2 {
-  height: 94%;
-  background-image: url("../assets/forest/layer-2.svg?v=5");
+  background-image: url("../assets/forest/layer-2.svg?v=6");
+  background-position: center 28%;
   z-index: 2;
 }
 
 .hero-layer.layer-3 {
-  height: 86%;
-  background-image: url("../assets/forest/layer-3.svg?v=2");
+  background-image: url("../assets/forest/layer-3.svg?v=6");
+  background-position: center 42%;
   z-index: 3;
 }
 
@@ -598,17 +611,21 @@ body.is-rail-open .rail-show {
   left: 0;
   right: 0;
   bottom: 0;
+  height: 100%;
   z-index: 4;
   line-height: 0;
+  overflow: hidden;
 }
 
-.hero-bottom img {
+.hero-bottom__svg {
   display: block;
   width: 100%;
-  height: auto;
-  min-height: 72px;
-  object-fit: cover;
-  object-position: center bottom;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  pointer-events: none;
+  border: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4282,13 +4299,23 @@ body.menu-closing .float-dock {
   }
 
   .hero-forest-pin {
-    --hero-forest-h: clamp(200px, 34svh, 280px);
+    --hero-forest-h: clamp(220px, 40svh, 340px);
     top: calc(100svh - var(--hero-forest-h));
   }
 
   .hero-forest {
     top: calc(100svh - var(--hero-forest-h));
     border-radius: 0;
+  }
+
+  .hero-layer {
+    background-size: 140% auto;
+  }
+
+  .hero-bottom__svg {
+    width: 140%;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   .hero-visual {
