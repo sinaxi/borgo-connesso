@@ -5452,12 +5452,15 @@ body.menu-closing .float-dock {
    (2000 di larghezza) e il disegno cresce con l'altezza dello schermo, così
    le proporzioni restano le stesse su telefoni alti e bassi.
    - Più foresta / meno video: alza 150svh in --forest-art-w.
-   - Montagne più alte: --forest-far-k (scala della catena lontana).
+   - Fascia delle montagne più alta o più bassa: --forest-far-k e
+     --forest-ridge-k (scala delle due catene); se cambiano, il piede del
+     video (560 unità) deve restare sotto 613 × --forest-far-k.
    ========================================================================== */
 @media (max-width: 720px) and (orientation: portrait) {
   :root {
     --forest-art-w: max(104vw, min(150svh, 1300px));
-    --forest-far-k: 1.2;
+    --forest-far-k: 1;
+    --forest-ridge-k: 0.9;
     --forest-lag-ridge: 0.3;
     --forest-lag-trees: 0.23;
   }
@@ -5472,7 +5475,7 @@ body.menu-closing .float-dock {
   .hero-visual {
     flex: none;
     min-height: 0;
-    height: max(300px, calc(100svh - 12px - var(--forest-art-w) * 640 / 2000));
+    height: max(300px, calc(100svh - 12px - var(--forest-art-w) * 560 / 2000));
   }
 
   /* Il titolo parte sotto il pulsante «+», che prima copriva «il» */
@@ -5503,7 +5506,7 @@ body.menu-closing .float-dock {
     left: 50%;
     bottom: 0;
     z-index: 2;
-    width: var(--forest-art-w);
+    width: calc(var(--forest-art-w) * var(--forest-ridge-k));
     aspect-ratio: 2000 / 829;
     background: #7e9d96;
     -webkit-mask: url("../assets/forest/layer-1.svg?v=26") center / 100% 100% no-repeat;
@@ -5529,17 +5532,6 @@ body.menu-closing .float-dock {
     transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-trees)));
     will-change: transform;
     pointer-events: none;
-  }
-}
-
-/* Schermi bassi: montagne lontane più piccole, così non coprono il sottotitolo */
-@media (max-width: 720px) and (orientation: portrait) and (max-height: 700px) {
-  :root {
-    --forest-far-k: 1.05;
-  }
-
-  .hero-visual {
-    height: max(300px, calc(100svh - 12px - var(--forest-art-w) * 590 / 2000));
   }
 }
 
