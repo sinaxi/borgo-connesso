@@ -1015,6 +1015,10 @@ function initHeroForest() {
 
   const root = document.documentElement;
   const maxExtra = () => Math.round(window.innerHeight * 0.72);
+  // Testo nella fascia verde: quando la foresta si ferma le scivola sotto
+  // sfumando (maschera in CSS su --fg-cut) e non rispunta tra gli alberi.
+  const underText = document.querySelector(".forest-green__inner");
+  let lastCut = null;
 
   const update = () => {
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
@@ -1022,6 +1026,15 @@ function initHeroForest() {
     // Solo spazio verde sotto le silhouette — composizione a riposo invariata
     const extra = Math.min(y, maxExtra());
     root.style.setProperty("--forest-extra", `${extra}px`);
+    if (underText) {
+      // Base della foresta rispetto all'inizio del testo (negativo = testo più sotto)
+      const sceneBottom = window.innerHeight - extra;
+      const cut = Math.max(-40, Math.ceil(sceneBottom - underText.getBoundingClientRect().top));
+      if (cut !== lastCut) {
+        lastCut = cut;
+        underText.style.setProperty("--fg-cut", `${cut}px`);
+      }
+    }
     root.style.setProperty(
       "--float-dock-clearance",
       `${Math.round(Math.max(16, forestH * 0.22))}px`
