@@ -700,25 +700,37 @@ body.is-rail-open .rail-show {
   border-radius: 0;
   background: var(--forest-green);
   color: #cfdcd5;
+  /* Sopra la base della foresta la fascia non si vede mai: tra gli alberi
+     resta il video. --fg-band-cut arriva da js/main.js (initHeroForest). */
+  clip-path: inset(var(--fg-band-cut, 0px) 0 0 0);
+}
+
+/* Fascia verde + card impilate: un solo blocco. Quando la fascia resta
+   ferma sotto la foresta (vedi sotto), si sgancia insieme alla pila. */
+.forest-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-width: 0;
 }
 
 /* Dopo il bosco le sezioni coprono foresta e fascia verde */
-.forest-green ~ * {
+.forest-green ~ *,
+.forest-stage ~ * {
   position: relative;
   z-index: 20;
 }
 
-/* Il verde prosegue dietro le card: finché il video non è uscito, tra gli
-   alberi non si vede scorrere nient'altro. */
-.forest-green::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  right: 0;
-  left: 0;
-  height: 110vh;
-  background: var(--forest-green);
-  pointer-events: none;
+/* Schermi larghi e abbastanza alti: la foresta si ferma e il testo resta
+   fermo subito sotto, tutto in vista. Le card salgono e lo coprono.
+   Su telefono il testo è troppo alto per restare fermo: scorre sotto la
+   foresta e le card si fermano al suo posto. */
+@media (min-width: 721px) and (min-height: 560px) {
+  .forest-green {
+    position: sticky;
+    top: var(--forest-rest-top, 28vh);
+    padding-top: 28px;
+  }
 }
 
 /*
@@ -733,6 +745,11 @@ body.is-rail-open .rail-show {
   text-align: center;
   -webkit-mask-image: linear-gradient(to bottom, transparent var(--fg-cut), #000 calc(var(--fg-cut) + 36px));
   mask-image: linear-gradient(to bottom, transparent var(--fg-cut), #000 calc(var(--fg-cut) + 36px));
+}
+
+/* Testo coperto dalle card (classe messa da js/main.js, initHeroForest) */
+.forest-green.is-covered .forest-green__inner {
+  visibility: hidden;
 }
 
 /* Tiene insieme una parola e la sua punteggiatura, o una coppia di parole */
@@ -914,6 +931,11 @@ body.is-rail-open .rail-show {
   padding: 48px 40px 0;
   max-width: none;
   animation: rise 0.8s var(--ease) both;
+  /* Quando la foresta sale, titolo e sottotitolo spariscono dietro gli
+     alberi dal basso verso l'alto, invece di restare a pezzi tra un tronco
+     e l'altro. --copy-cut arriva da js/main.js (initHeroForest). */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(var(--copy-cut, 300vh) - 72px), transparent var(--copy-cut, 300vh));
+  mask-image: linear-gradient(to bottom, #000 calc(var(--copy-cut, 300vh) - 72px), transparent var(--copy-cut, 300vh));
 }
 
 .hero-visual h1 {
@@ -5274,7 +5296,9 @@ body.menu-closing .float-dock {
    - ogni card è position: sticky e si ferma a --sog-top dal bordo alto;
    - la card successiva sale e la copre: si crea la pila;
    - js/main.js (initSoggiornoStack) rimpicciolisce e inclina la card coperta
-     e aggiorna --sog-top su mobile, sotto la barra in alto.
+     e aggiorna --sog-top se la barra del menu è fissa in alto;
+   - su schermi abbastanza alti la pila si ferma sotto la foresta (vedi le
+     media query qui sotto).
    Per cambiare i colori basta modificare le variabili qui sotto.
    ========================================================================== */
 .room--soggiorno {
@@ -5309,6 +5333,24 @@ body.menu-closing .float-dock {
 @media (max-width: 1040px) {
   .room--soggiorno {
     --sog-top: 72px;
+  }
+}
+
+/* Schermi abbastanza alti: la pila si forma sotto la foresta, che resta in
+   vista in alto, e non sale a coprire cascata e primo piano.
+   --forest-rest-top arriva da js/main.js (initHeroForest): è il punto in cui
+   si ferma la base della foresta. I px in più sono l'aria tra foresta e card. */
+@media (min-height: 560px) {
+  .room--soggiorno {
+    --sog-top: calc(var(--forest-rest-top, 28vh) + 20px);
+  }
+}
+
+/* Dove il testo della fascia verde resta fermo, la prima card si ferma
+   20px sopra la sua prima riga e lo copre tutto. */
+@media (min-width: 721px) and (min-height: 560px) {
+  .room--soggiorno {
+    --sog-top: calc(var(--forest-rest-top, 28vh) + 8px);
   }
 }
 

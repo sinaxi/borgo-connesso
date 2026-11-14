@@ -948,7 +948,7 @@ initReteRails();
    NEL SOGGIORNO · card impilate (sezione id="soggiorno")
    - Calcola dove si fermano le card (--sog-top): se la barra del menu è
      sticky in alto si fermano subito sotto, altrimenti vale il CSS
-     (72px su mobile, 24px su desktop).
+     (sotto la foresta; su schermi bassi 24px su desktop e 72px su mobile).
    - Mentre scorri, la card coperta dalla successiva si rimpicciolisce (fino
      al 6%), si inclina di 1,5° e si scurisce un poco.
    - Con "riduci movimento" attivo le card si impilano lo stesso, senza effetti.
@@ -1018,7 +1018,17 @@ function initHeroForest() {
   // Testo nella fascia verde: quando la foresta si ferma le scivola sotto
   // sfumando (maschera in CSS su --fg-cut) e non rispunta tra gli alberi.
   const underText = document.querySelector(".forest-green__inner");
+  const band = document.querySelector(".forest-green");
+  const firstCard = document.querySelector(".sog-card");
+  // Titolo sul video: sparisce dietro gli alberi mentre la foresta sale
+  const copy = document.querySelector(".hero-copy");
+  const art = scene.querySelector(".layer-2 img");
+  const COPY_FADE = 72; // altezza della sfumatura, come nel CSS di .hero-copy
   let lastCut = null;
+  let lastRest = null;
+  let lastBandCut = null;
+  let lastCopyCut = null;
+  let lastCovered = null;
 
   const update = () => {
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
@@ -1026,13 +1036,55 @@ function initHeroForest() {
     // Solo spazio verde sotto le silhouette — composizione a riposo invariata
     const extra = Math.min(y, maxExtra());
     root.style.setProperty("--forest-extra", `${extra}px`);
+    // Dove si ferma la base della foresta, misurata dal bordo alto dello
+    // schermo. Su telefono le card impilate si agganciano subito sotto
+    // (--sog-top in css/styles.css, «NEL SOGGIORNO · card impilate»).
+    const rest = window.innerHeight - maxExtra();
+    if (rest !== lastRest) {
+      lastRest = rest;
+      root.style.setProperty("--forest-rest-top", `${rest}px`);
+    }
+    const sceneBottom = window.innerHeight - extra;
     if (underText) {
       // Base della foresta rispetto all'inizio del testo (negativo = testo più sotto)
-      const sceneBottom = window.innerHeight - extra;
       const cut = Math.max(-40, Math.ceil(sceneBottom - underText.getBoundingClientRect().top));
       if (cut !== lastCut) {
         lastCut = cut;
         underText.style.setProperty("--fg-cut", `${cut}px`);
+      }
+    }
+    if (band) {
+      // La fascia verde non sporge mai sopra la base della foresta
+      const bandCut = Math.max(0, Math.ceil(sceneBottom - band.getBoundingClientRect().top));
+      if (bandCut !== lastBandCut) {
+        lastBandCut = bandCut;
+        band.style.setProperty("--fg-band-cut", `${bandCut}px`);
+      }
+      // Quando la prima card è arrivata al suo posto il testo è tutto
+      // coperto: si spegne, così non rispunta ai bordi della pila.
+      if (firstCard) {
+        const covered = firstCard.getBoundingClientRect().top <= rest + 24;
+        if (covered !== lastCovered) {
+          lastCovered = covered;
+          band.classList.toggle("is-covered", covered);
+        }
+      }
+    }
+    if (copy) {
+      // Linea sopra la quale il titolo si vede: viaggia con la foresta,
+      // all'altezza delle chiome. A foresta ferma è sopra il titolo (tutto
+      // nascosto), a pagina ferma è sotto (tutto in vista).
+      const box = copy.getBoundingClientRect();
+      const treeLine = ((art && art.offsetWidth) || 0) * 0.21;
+      const hiddenAtRest = rest - box.top + 8;
+      const clearAtStart = window.innerHeight - box.bottom - COPY_FADE - 8;
+      const lineHeight = Math.max(hiddenAtRest, Math.min(treeLine, clearAtStart));
+      const copyCut = Math.round(
+        Math.min(box.height + COPY_FADE + 8, Math.max(-8, sceneBottom - lineHeight - box.top))
+      );
+      if (copyCut !== lastCopyCut) {
+        lastCopyCut = copyCut;
+        copy.style.setProperty("--copy-cut", `${copyCut}px`);
       }
     }
     root.style.setProperty(
@@ -1058,17 +1110,23 @@ function initHeroForest() {
 
 initHeroForest();
 
-/* Hero fermo sotto la foresta: misura quanto deve durare lo sticky
-   (fino a quando la fascia verde copre tutto) e dove si aggancia. */
+/* Hero fermo dietro la foresta: misura quanto deve durare lo sticky e dove
+   si aggancia. Il video resta fermo per tutta la pila di card, così tra gli
+   alberi si vede sempre lui; si sgancia quando la sezione dopo la pila
+   arriva alla base della foresta. */
 function initHeroHold() {
   const wrap = document.querySelector(".hero-wrap");
   const hero = wrap && wrap.querySelector(".hero");
   const next = wrap && wrap.nextElementSibling;
   if (!wrap || !hero || !next) return;
+  const stage = next.classList.contains("forest-stage") ? next : null;
 
   const measure = () => {
     const wrapTop = wrap.getBoundingClientRect().top;
-    const hold = Math.round(next.getBoundingClientRect().top - wrapTop);
+    const forestRest = window.innerHeight - Math.round(window.innerHeight * 0.72);
+    const hold = stage
+      ? Math.round(stage.getBoundingClientRect().bottom - wrapTop - forestRest)
+      : Math.round(next.getBoundingClientRect().top - wrapTop);
     const stickTop = Math.round(wrapTop + (window.scrollY || 0));
     if (hold > 0) wrap.style.setProperty("--hero-hold", `${hold}px`);
     wrap.style.setProperty("--hero-stick-top", `${Math.max(0, stickTop)}px`);
@@ -1077,7 +1135,11 @@ function initHeroHold() {
   measure();
   window.addEventListener("resize", measure);
   window.addEventListener("load", measure);
-  if ("ResizeObserver" in window) new ResizeObserver(measure).observe(hero);
+  if ("ResizeObserver" in window) {
+    const watch = new ResizeObserver(measure);
+    watch.observe(hero);
+    if (stage) watch.observe(stage);
+  }
 }
 
 initHeroHold();
