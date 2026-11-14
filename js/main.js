@@ -1007,41 +1007,44 @@ function initSoggiornoStack() {
 
 initSoggiornoStack();
 
-/* Foresta hero: parallax a velocità diverse; primo piano sopra la home */
+/* Foresta fissa full-bleed: parallax + crescita dello spazio verde allo scroll */
 function initHeroForest() {
-  const hero = document.querySelector(".hero-visual") || document.querySelector(".hero");
-  const forest = document.querySelector(".hero-forest");
-  if (!hero || !forest) return;
+  const scene = document.querySelector(".forest-dock-scene");
+  const fill = document.querySelector(".forest-dock-fill");
+  if (!scene || !fill) return;
 
   const layers = [
-    { el: forest.querySelector(".layer-1"), speed: 0.2 },
-    { el: forest.querySelector(".layer-2"), speed: 0.4 },
-    { el: forest.querySelector(".layer-3"), speed: 0.55 },
-    { el: forest.querySelector(".hero-bottom"), speed: 0.75 },
-    { el: forest.querySelector(".waterfall-foam"), speed: 0.4 },
+    { el: scene.querySelector(".layer-1"), speed: 0.12 },
+    { el: scene.querySelector(".layer-2"), speed: 0.22 },
+    { el: scene.querySelector(".layer-3"), speed: 0.32 },
+    { el: scene.querySelector(".hero-bottom"), speed: 0.08 },
+    { el: scene.querySelector(".waterfall-foam"), speed: 0.22 },
   ].filter((l) => l.el);
 
   const root = document.documentElement;
-  const setDockClearance = () => {
-    const forestRect = forest.getBoundingClientRect();
-    const forestH = forest.offsetHeight || 0;
-    const visible =
-      forestRect.bottom > 8 &&
-      forestRect.top < window.innerHeight &&
-      hero.getBoundingClientRect().bottom > forestH * 0.15;
-    root.style.setProperty(
-      "--float-dock-clearance",
-      visible ? `${Math.round(forestH * 0.42 + 12)}px` : "16px"
-    );
-  };
+  const maxExtra = () => Math.round(window.innerHeight * 0.62);
 
   const update = () => {
-    setDockClearance();
-    if (reducedMotion) return;
-    const heroTop = hero.getBoundingClientRect().top;
-    const y = Math.max(0, -heroTop);
+    const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    const forestH = scene.offsetHeight || 320;
+    // Scostamento verso l’alto: la fascia verde cresce sotto le silhouette
+    const extra = Math.min(Math.round(y * 0.92), maxExtra());
+    root.style.setProperty("--forest-extra", `${extra}px`);
+    root.style.setProperty("--forest-h-px", `${Math.round(forestH)}px`);
+    root.style.setProperty(
+      "--float-dock-clearance",
+      `${Math.round(forestH * 0.28 + 12)}px`
+    );
+
+    if (reducedMotion) {
+      layers.forEach(({ el }) => {
+        el.style.transform = "";
+      });
+      return;
+    }
+    const py = Math.min(y, forestH);
     layers.forEach(({ el, speed }) => {
-      el.style.transform = `translate3d(0, ${y * speed}px, 0)`;
+      el.style.transform = `translate3d(0, ${py * speed}px, 0)`;
     });
   };
 

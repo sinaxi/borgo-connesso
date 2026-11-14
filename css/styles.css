@@ -17,6 +17,10 @@
   --body: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
   --pitch: "Inter", "Helvetica Neue", "Segoe UI", sans-serif;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --forest-h: clamp(260px, 38svh, 440px);
+  --forest-extra: 0px;
+  --forest-green: #141e16;
+  --waterfall-x: 53%;
   color-scheme: light;
 }
 
@@ -529,45 +533,36 @@ body.is-rail-open .rail-show {
 }
 
 
-/* Foresta: base della foto, scala 100% → cascata e alberi allineati ai lati */
-.hero-forest {
-  position: absolute;
+/* Foresta fissa full-bleed (fuori dal box arrotondato dell’hero) */
+/* Fascia verde che cresce dal basso (dietro al testo) */
+.forest-dock-fill {
+  position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  height: var(--hero-forest-h);
-  overflow: hidden;
+  height: calc(var(--forest-h) + var(--forest-extra));
+  background: var(--forest-green);
   z-index: 8;
   pointer-events: none;
-  border-radius: 0 0 var(--radius) var(--radius);
 }
 
-.hero-forest::before {
-  content: "";
-  position: absolute;
+/* Silhouette sul bordo alto della fascia (sopra al testo, salgono con lo scroll) */
+.forest-dock-scene {
+  position: fixed;
   left: 0;
   right: 0;
-  bottom: 0;
-  height: 48%;
-  background: var(--hero-forest-green);
-  z-index: 0;
-}
-
-.hero-forest__base {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: 20%;
-  background: var(--hero-forest-green);
-  z-index: 1;
+  bottom: var(--forest-extra);
+  height: var(--forest-h);
+  overflow: hidden;
+  background: transparent;
+  z-index: 16;
+  pointer-events: none;
 }
 
 .hero-layer {
   position: absolute;
   inset: 0;
   background-repeat: no-repeat;
-  /* Una sola scala: larghezza piena → alberi ai lati visibili e livelli allineati */
   background-size: 100% auto;
   background-position: center bottom;
   will-change: transform;
@@ -577,12 +572,10 @@ body.is-rail-open .rail-show {
 .hero-layer.layer-1 {
   background-image: url("../assets/forest/layer-1.svg?v=8");
   background-position: center top;
-  /* Soft: lascia leggere la foto dietro le cime lontane */
   opacity: 0.55;
   z-index: 2;
 }
 
-/* Medio + cascata: stessa larghezza del resto */
 .hero-layer.layer-2 {
   background-image: url("../assets/forest/layer-2.svg?v=8");
   background-position: center bottom 8%;
@@ -595,7 +588,6 @@ body.is-rail-open .rail-show {
   z-index: 4;
 }
 
-/* Schiuma centrata sulla cascata del disegno */
 .waterfall-foam {
   --wf-w: clamp(80px, 9%, 130px);
   position: absolute;
@@ -604,7 +596,6 @@ body.is-rail-open .rail-show {
   width: var(--wf-w);
   height: calc(var(--wf-w) * 1.55);
   margin-left: calc(var(--wf-w) / -2);
-  /* Sopra il primo piano: altrimenti la schiuma sparisce dietro gli alberi */
   z-index: 7;
   pointer-events: none;
   will-change: transform;
@@ -731,16 +722,23 @@ body.is-rail-open .rail-show {
   pointer-events: none;
 }
 
-/* Blocco verde con contenuti, continuo dalla base della foresta */
+/* Contenuti nella fascia verde: sopra il fill, sotto le silhouette */
 .forest-green {
   position: relative;
-  z-index: 11;
-  margin: 0 0 12px;
-  padding: clamp(72px, 12vh, 140px) clamp(20px, 4vw, 48px)
-    clamp(56px, 8vh, 96px);
-  border-radius: var(--radius);
-  background: #141e16;
+  z-index: 14;
+  margin: 0;
+  /* Lascia vedere la foresta fissa, poi il testo entra nello spazio verde */
+  padding: calc(var(--forest-h, 38svh) + 56px) clamp(20px, 4vw, 48px)
+    clamp(72px, 12vh, 140px);
+  border-radius: 0;
+  background: transparent;
   color: #e8f0ec;
+}
+
+/* Dopo il bosco le sezioni coprono foresta e fascia verde */
+.forest-green ~ * {
+  position: relative;
+  z-index: 20;
 }
 
 .forest-green__inner {
@@ -776,17 +774,17 @@ body.is-rail-open .rail-show {
   }
 }
 
-/* Desktop largo */
+/* Desktop */
 @media (min-width: 1041px) {
-  .hero-visual {
-    --hero-forest-h: clamp(300px, 40svh, 460px);
+  :root {
+    --forest-h: clamp(300px, 42svh, 480px);
   }
 }
 
 /* Tablet */
 @media (max-width: 1040px) and (min-width: 721px) {
-  .hero-visual {
-    --hero-forest-h: clamp(250px, 36svh, 380px);
+  :root {
+    --forest-h: clamp(250px, 36svh, 400px);
   }
 
   .waterfall-foam {
@@ -797,8 +795,8 @@ body.is-rail-open .rail-show {
 
 /* Mobile */
 @media (max-width: 720px) {
-  .hero-visual {
-    --hero-forest-h: clamp(210px, 32svh, 300px);
+  :root {
+    --forest-h: clamp(210px, 34svh, 320px);
   }
 
   .hero-layer.layer-2 {
@@ -816,8 +814,8 @@ body.is-rail-open .rail-show {
 }
 
 @media (max-width: 480px) {
-  .hero-visual {
-    --hero-forest-h: clamp(190px, 30svh, 260px);
+  :root {
+    --forest-h: clamp(190px, 32svh, 280px);
   }
 
   .waterfall-foam {
@@ -841,12 +839,8 @@ body.is-rail-open .rail-show {
 .hero-visual {
   position: relative;
   min-height: 560px;
-  /* Verde bosco: se i picchi SVG sono trasparenti non torna fuori la crema */
   background: #1e322c;
   color: var(--ivory);
-  --hero-forest-h: clamp(260px, 36svh, 420px);
-  --hero-forest-green: #141e16;
-  --waterfall-x: 53%;
 }
 
 .hero-slides,
@@ -4515,15 +4509,10 @@ body.menu-closing .float-dock {
 
   .hero-visual {
     min-height: 78svh;
-    --hero-forest-h: clamp(230px, 34svh, 340px);
-  }
-
-  .hero-forest {
-    border-radius: 0;
   }
 
   .forest-green {
-    padding-top: clamp(56px, 10vh, 96px);
+    padding-top: calc(var(--forest-h, 34svh) + 40px);
   }
 
   .hero-copy {
