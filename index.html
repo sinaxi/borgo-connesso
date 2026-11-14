@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=228">
+  <link rel="stylesheet" href="css/styles.css?v=229">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -92,66 +92,6 @@
             </article>
           </div>
         </section>
-
-        <div class="hero-side">
-          <section class="pitch">
-            <p>Sul Lago d’Iseo, un borgo storico che unisce <strong>smart working</strong>, <strong>team building</strong> e vacanze in <strong>famiglia</strong> o tra <strong>amici</strong>.</p>
-            <p><strong>Concentrazione</strong> quando serve. <strong>Libertà</strong> quando vuoi: outdoor, benessere e un territorio di eccellenze da gustare.</p>
-            <ul class="chips">
-              <li class="is-lake">Team Building</li>
-              <li class="is-ink">Experiences</li>
-              <li class="is-ink">Wellness</li>
-              <li class="is-ink">Smart Working</li>
-              <li>Bike</li>
-              <li>Famiglie</li>
-              <li>Outdoor</li>
-              <li>Ski</li>
-              <li>Trekking</li>
-            </ul>
-          </section>
-
-          <section class="place" aria-roledescription="carousel" aria-label="Luoghi del soggiorno">
-            <p class="place-status sr" aria-live="polite"></p>
-            <div class="place-slides">
-              <article class="place-slide is-active">
-                <img src="assets/territorio-outdoor.jpg?v=3" width="1800" height="1013" alt="">
-                <div class="place-copy">
-                  <p class="place-word">Lago</p>
-                  <p class="place-caption">Il Sebino all’alba, prima che passino i battelli</p>
-                </div>
-              </article>
-              <article class="place-slide" aria-hidden="true">
-                <img src="assets/alba-borgo.jpg?v=2" width="1800" height="1013" alt="">
-                <div class="place-copy">
-                  <p class="place-word">Montagne</p>
-                  <p class="place-caption">Dalla Corna Trentapassi il lago si vede intero, come una mappa aperta</p>
-                </div>
-              </article>
-              <article class="place-slide" aria-hidden="true">
-                <img src="assets/territorio-hub.jpg?v=3" width="1800" height="1013" alt="">
-                <div class="place-copy">
-                  <p class="place-word">Lungolago</p>
-                  <p class="place-caption">Chioschi connessi: ti siedi, ti colleghi, vai avanti</p>
-                </div>
-              </article>
-              <article class="place-slide" aria-hidden="true">
-                <img src="assets/ricordi-unaltra-vita.jpg?v=3" width="1800" height="1013" alt="">
-                <div class="place-copy">
-                  <p class="place-word">Tavola</p>
-                  <p class="place-caption">Pesce di lago, olio del Sebino, i formaggi della valle</p>
-                </div>
-              </article>
-            </div>
-            <div class="place-nav">
-              <button type="button" data-dir="-1" aria-label="Luogo precedente">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 5 8 12l7.5 7-1.4 1.4L5.2 12l8.9-8.4z"/></svg>
-              </button>
-              <button type="button" data-dir="1" aria-label="Luogo successivo">
-                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8.5 5 7.5 7-7.5 7 1.4 1.4L18.8 12 9.9 3.6z"/></svg>
-              </button>
-            </div>
-          </section>
-        </div>
       </div>
       </div>
 
@@ -237,6 +177,67 @@
         </div>
       </section>
 
+      <!-- Il borgo in breve: testo, tag e luoghi. Stava nell’hero, accanto al video
+           (sotto, su tablet e telefono), dove la foresta fissa lo copriva. -->
+      <div class="lede" id="in-breve">
+        <section class="pitch">
+          <p>Sul Lago d’Iseo, un borgo storico che unisce <strong>smart working</strong>, <strong>team building</strong> e vacanze in <strong>famiglia</strong> o tra <strong>amici</strong>.</p>
+          <p><strong>Concentrazione</strong> quando serve. <strong>Libertà</strong> quando vuoi: outdoor, benessere e un territorio di eccellenze da gustare.</p>
+          <ul class="chips">
+            <li class="is-lake">Team Building</li>
+            <li class="is-ink">Experiences</li>
+            <li class="is-ink">Wellness</li>
+            <li class="is-ink">Smart Working</li>
+            <li>Bike</li>
+            <li>Famiglie</li>
+            <li>Outdoor</li>
+            <li>Ski</li>
+            <li>Trekking</li>
+          </ul>
+        </section>
+
+        <section class="place" aria-roledescription="carousel" aria-label="Luoghi del soggiorno">
+          <p class="place-status sr" aria-live="polite"></p>
+          <div class="place-slides">
+            <article class="place-slide is-active">
+              <img src="assets/territorio-outdoor.jpg?v=3" width="1800" height="1013" alt="">
+              <div class="place-copy">
+                <p class="place-word">Lago</p>
+                <p class="place-caption">Il Sebino all’alba, prima che passino i battelli</p>
+              </div>
+            </article>
+            <article class="place-slide" aria-hidden="true">
+              <img src="assets/alba-borgo.jpg?v=2" width="1800" height="1013" alt="">
+              <div class="place-copy">
+                <p class="place-word">Montagne</p>
+                <p class="place-caption">Dalla Corna Trentapassi il lago si vede intero, come una mappa aperta</p>
+              </div>
+            </article>
+            <article class="place-slide" aria-hidden="true">
+              <img src="assets/territorio-hub.jpg?v=3" width="1800" height="1013" alt="">
+              <div class="place-copy">
+                <p class="place-word">Lungolago</p>
+                <p class="place-caption">Chioschi connessi: ti siedi, ti colleghi, vai avanti</p>
+              </div>
+            </article>
+            <article class="place-slide" aria-hidden="true">
+              <img src="assets/ricordi-unaltra-vita.jpg?v=3" width="1800" height="1013" alt="">
+              <div class="place-copy">
+                <p class="place-word">Tavola</p>
+                <p class="place-caption">Pesce di lago, olio del Sebino, i formaggi della valle</p>
+              </div>
+            </article>
+          </div>
+          <div class="place-nav">
+            <button type="button" data-dir="-1" aria-label="Luogo precedente">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15.5 5 8 12l7.5 7-1.4 1.4L5.2 12l8.9-8.4z"/></svg>
+            </button>
+            <button type="button" data-dir="1" aria-label="Luogo successivo">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m8.5 5 7.5 7-7.5 7 1.4 1.4L18.8 12 9.9 3.6z"/></svg>
+            </button>
+          </div>
+        </section>
+      </div>
 
       <section class="room" id="borgo">
         <div class="borgo-grid">

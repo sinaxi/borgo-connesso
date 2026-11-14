@@ -555,7 +555,7 @@ body.is-rail-open .rail-show {
   position: sticky;
   top: var(--hero-stick-top, 12px);
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-columns: minmax(0, 1fr);
   gap: 12px;
   min-height: calc(100svh - 24px);
   isolation: isolate;
@@ -839,14 +839,17 @@ body.is-rail-open .rail-show {
   color: #fff;
 }
 
-.hero-side {
-  position: relative;
-  z-index: 9;
-  display: flex;
-  flex-direction: column;
+/*
+  Il borgo in breve: testo con i tag e, accanto, i luoghi.
+  Sta prima di «Perché». Da 1041px in su i due riquadri sono affiancati e i
+  tag restano dentro il riquadro del testo; sotto si impilano e i tag
+  scavalcano il bordo verso il riquadro dei luoghi.
+*/
+.lede {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 12px;
   min-width: 0;
-  min-height: 100%;
   overflow: hidden;
   border-radius: var(--radius);
 }
@@ -1152,6 +1155,47 @@ body.is-rail-open .rail-show {
   stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+/* Riquadri affiancati: più aria, testo più grande, tag dentro il riquadro */
+@media (min-width: 1041px) {
+  .pitch {
+    --lede-pad: clamp(28px, 3vw, 44px);
+    padding: var(--lede-pad) var(--lede-pad) calc(156px + var(--lede-pad) * 2);
+  }
+
+  .pitch p {
+    max-width: 32ch;
+    font-size: clamp(1.38rem, 1.7vw, 1.7rem);
+  }
+
+  /* Testo in alto a sinistra, tag in basso a destra: il riquadro si riempie
+     in diagonale invece di lasciare vuota la metà destra */
+  .chips {
+    right: var(--lede-pad);
+    bottom: var(--lede-pad);
+    left: auto;
+    width: min(100% - var(--lede-pad) * 2, 420px);
+  }
+
+  .place {
+    min-height: 440px;
+  }
+
+  .place-copy {
+    left: clamp(28px, 3vw, 44px);
+    right: clamp(28px, 3vw, 44px);
+  }
+
+  .place-caption {
+    max-width: 30ch;
+    font-size: 1rem;
+  }
+
+  .place-nav {
+    right: clamp(20px, 2vw, 28px);
+    bottom: clamp(20px, 2vw, 28px);
+  }
 }
 
 .room {
@@ -4388,7 +4432,7 @@ body.menu-closing .float-dock {
   }
 
   .hero,
-  .hero-side,
+  .lede,
   .room-head,
   .borgo-grid,
   .mosaic,
