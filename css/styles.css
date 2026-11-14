@@ -17,10 +17,15 @@
   --body: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
   --pitch: "Inter", "Helvetica Neue", "Segoe UI", sans-serif;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  /* Abbastanza alto da mostrare la valle (lati alti → centro basso) senza clip */
-  --forest-h: clamp(360px, 56svh, 640px);
+  /*
+    Art-width come Cozy Hollow (200rem @ rem=10px → 2000px).
+    Lift proporzionali: il dirupo resta agganciato alla cascata.
+  */
+  --forest-art-w: 2000px;
+  --forest-h: 570px;
   --forest-extra: 0px;
-  --forest-zoom: 200%;
+  --forest-lift-2: calc(var(--forest-art-w) * 127 / 2000);
+  --forest-lift-3: calc(var(--forest-art-w) * 105 / 2000);
   --forest-green: #141e16;
   color-scheme: light;
 }
@@ -570,35 +575,35 @@ body.is-rail-open .rail-show {
   pointer-events: none;
 }
 
-.hero-layer img {
+/* Stesso width fisso + centro: valle e cascata come Cozy Hollow */
+.hero-layer img,
+.hero-bottom__svg {
   display: block;
   position: absolute;
   left: 50%;
-  bottom: 0;
-  width: var(--forest-zoom, 200%);
+  width: var(--forest-art-w);
   max-width: none;
   height: auto;
   transform: translateX(-50%);
+  pointer-events: none;
 }
 
-/* Montagne lontane */
 .hero-layer.layer-1 {
   z-index: 2;
-  opacity: 0.4;
+  opacity: 0.2;
 }
 
 .hero-layer.layer-1 img {
   bottom: 0;
 }
 
-/* Mid-ground: valle (lati alti → centro basso) + cascata attaccata al dirupo */
+/* level-3 Cozy: dirupo + cascata (un solo disegno, niente overlay) */
 .hero-layer.layer-2 {
   z-index: 3;
 }
 
 .hero-layer.layer-2 img {
-  /* Come Cozy Hollow bottom 12.7rem: solleva il plateau a valle */
-  bottom: clamp(48px, 8vh, 96px);
+  bottom: var(--forest-lift-2);
 }
 
 .hero-layer.layer-3 {
@@ -606,7 +611,7 @@ body.is-rail-open .rail-show {
 }
 
 .hero-layer.layer-3 img {
-  bottom: clamp(36px, 6.5vh, 80px);
+  bottom: var(--forest-lift-3);
 }
 
 .hero-bottom {
@@ -621,15 +626,7 @@ body.is-rail-open .rail-show {
 }
 
 .hero-bottom__svg {
-  display: block;
-  width: var(--forest-zoom, 200%);
-  max-width: none;
-  height: auto;
-  position: absolute;
-  left: 50%;
   bottom: 0;
-  transform: translateX(-50%);
-  pointer-events: none;
 }
 
 /* Contenuti nella fascia verde: sopra il fill, sotto le silhouette */
@@ -679,11 +676,11 @@ body.is-rail-open .rail-show {
   }
 }
 
-/* Desktop */
+/* Desktop: stessa larghezza art di Cozy; solo altezza dock un filo più generosa */
 @media (min-width: 1041px) {
   :root {
-    --forest-h: clamp(420px, 60svh, 720px);
-    --forest-zoom: 180%;
+    --forest-art-w: 2000px;
+    --forest-h: 570px;
   }
 
   .hero-visual {
@@ -691,26 +688,26 @@ body.is-rail-open .rail-show {
   }
 }
 
-/* Tablet */
+/* Tablet: leggero zoom-in, lift restano proporzionali all’art */
 @media (max-width: 1040px) and (min-width: 721px) {
   :root {
-    --forest-h: clamp(360px, 54svh, 580px);
-    --forest-zoom: 200%;
+    --forest-art-w: 2200px;
+    --forest-h: calc(var(--forest-art-w) * 562 / 2000);
   }
 }
 
-/* Mobile */
+/* Mobile: più zoom sul centro (cascata), senza rompere i rapporti */
 @media (max-width: 720px) {
   :root {
-    --forest-h: clamp(320px, 52svh, 460px);
-    --forest-zoom: 220%;
+    --forest-art-w: 2400px;
+    --forest-h: calc(var(--forest-art-w) * 562 / 2000);
   }
 }
 
 @media (max-width: 480px) {
   :root {
-    --forest-h: clamp(300px, 50svh, 400px);
-    --forest-zoom: 240%;
+    --forest-art-w: 2600px;
+    --forest-h: calc(var(--forest-art-w) * 562 / 2000);
   }
 }
 
