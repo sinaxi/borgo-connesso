@@ -18,14 +18,17 @@
   --pitch: "Inter", "Helvetica Neue", "Segoe UI", sans-serif;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
   /*
-    Art-width come Cozy Hollow (200rem @ rem=10px → 2000px).
-    Lift proporzionali: il dirupo resta agganciato alla cascata.
+    Foresta Cozy Hollow: un solo disegno largo 2000 unità, centrato.
+    La larghezza segue il viewport (118vw ≈ inquadratura della reference),
+    così alberi laterali, volpe, dirupo e cascata restano nella stessa scena.
+    Altezza e sollevamenti dei livelli sono in proporzione al disegno.
   */
-  --forest-art-w: 2000px;
-  --forest-h: 570px;
+  --forest-art-w: max(104vw, clamp(900px, 118vw, 2300px));
+  --forest-h: calc(var(--forest-art-w) * 570 / 2000);
   --forest-extra: 0px;
   --forest-lift-2: calc(var(--forest-art-w) * 127 / 2000);
   --forest-lift-3: calc(var(--forest-art-w) * 105 / 2000);
+  --forest-pool: #a5c0ba;
   --forest-green: #141e16;
   color-scheme: light;
 }
@@ -597,6 +600,24 @@ body.is-rail-open .rail-show {
   bottom: 0;
 }
 
+/*
+  Laghetto ai piedi della cascata. In Cozy Hollow è lo sfondo chiaro pieno
+  che si vede sotto il dirupo; qui lo sfondo è la foto, quindi serve una
+  fascia d'acqua. Il bordo alto resta nascosto dietro il dirupo (opaco da
+  172 a 305 unità dal fondo), quindi non si vede nessuna riga.
+*/
+.forest-pool {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  z-index: 2;
+  width: var(--forest-art-w);
+  height: calc(var(--forest-art-w) * 240 / 2000);
+  background: var(--forest-pool);
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
 /* level-3 Cozy: dirupo + cascata (un solo disegno, niente overlay) */
 .hero-layer.layer-2 {
   z-index: 3;
@@ -676,38 +697,9 @@ body.is-rail-open .rail-show {
   }
 }
 
-/* Desktop: stessa larghezza art di Cozy; solo altezza dock un filo più generosa */
 @media (min-width: 1041px) {
-  :root {
-    --forest-art-w: 2000px;
-    --forest-h: 570px;
-  }
-
   .hero-visual {
     min-height: calc(100svh - 24px);
-  }
-}
-
-/* Tablet: leggero zoom-in, lift restano proporzionali all’art */
-@media (max-width: 1040px) and (min-width: 721px) {
-  :root {
-    --forest-art-w: 2200px;
-    --forest-h: calc(var(--forest-art-w) * 562 / 2000);
-  }
-}
-
-/* Mobile: più zoom sul centro (cascata), senza rompere i rapporti */
-@media (max-width: 720px) {
-  :root {
-    --forest-art-w: 2400px;
-    --forest-h: calc(var(--forest-art-w) * 562 / 2000);
-  }
-}
-
-@media (max-width: 480px) {
-  :root {
-    --forest-art-w: 2600px;
-    --forest-h: calc(var(--forest-art-w) * 562 / 2000);
   }
 }
 
