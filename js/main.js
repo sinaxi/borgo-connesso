@@ -1007,42 +1007,54 @@ function initSoggiornoStack() {
 
 initSoggiornoStack();
 
-/* Foresta fissa full-bleed: parallax + crescita dello spazio verde allo scroll */
+/* Foresta fissa: sale allo scroll, tendina verde dietro, spazio sotto */
 function initHeroForest() {
   const scene = document.querySelector(".forest-dock-scene");
   const fill = document.querySelector(".forest-dock-fill");
+  const layer1 = scene && scene.querySelector(".layer-1");
   if (!scene || !fill) return;
 
   const layers = [
-    { el: scene.querySelector(".layer-1"), speed: 0.12 },
-    { el: scene.querySelector(".layer-2"), speed: 0.22 },
-    { el: scene.querySelector(".layer-3"), speed: 0.32 },
-    { el: scene.querySelector(".hero-bottom"), speed: 0.08 },
-    { el: scene.querySelector(".waterfall-foam"), speed: 0.22 },
+    { el: layer1, speed: 0.15 },
+    { el: scene.querySelector(".layer-2"), speed: 0.28 },
+    { el: scene.querySelector(".layer-3"), speed: 0.42 },
+    { el: scene.querySelector(".hero-bottom"), speed: 0.04 },
+    { el: scene.querySelector(".waterfall-foam"), speed: 0.28 },
   ].filter((l) => l.el);
 
   const root = document.documentElement;
-  const maxExtra = () => Math.round(window.innerHeight * 0.62);
+  const maxExtra = () => Math.round(window.innerHeight * 0.72);
 
   const update = () => {
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
     const forestH = scene.offsetHeight || 320;
-    // Scostamento verso l’alto: la fascia verde cresce sotto le silhouette
-    const extra = Math.min(Math.round(y * 0.92), maxExtra());
+    const extra = Math.min(y, maxExtra());
+    // Tendina: il verde sale dietro la scena (foto sparisce sotto la foresta)
+    const curtain = Math.min(
+      Math.round(forestH * 0.72),
+      Math.round(extra * 1.15)
+    );
     root.style.setProperty("--forest-extra", `${extra}px`);
-    root.style.setProperty("--forest-h-px", `${Math.round(forestH)}px`);
+    root.style.setProperty("--forest-curtain", `${curtain}px`);
     root.style.setProperty(
       "--float-dock-clearance",
-      `${Math.round(forestH * 0.28 + 12)}px`
+      `${Math.round(Math.max(16, forestH * 0.22))}px`
     );
+
+    // Montagne lontane emergono quando c’è verde dietro
+    if (layer1) {
+      const t = Math.min(1, curtain / Math.max(1, forestH * 0.5));
+      layer1.style.opacity = String(0.18 + t * 0.5);
+      layer1.style.mixBlendMode = t > 0.35 ? "normal" : "multiply";
+    }
 
     if (reducedMotion) {
       layers.forEach(({ el }) => {
-        el.style.transform = "";
+        if (el !== layer1) el.style.transform = "";
       });
       return;
     }
-    const py = Math.min(y, forestH);
+    const py = Math.min(y * 0.3, forestH * 0.3);
     layers.forEach(({ el, speed }) => {
       el.style.transform = `translate3d(0, ${py * speed}px, 0)`;
     });

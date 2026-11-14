@@ -17,8 +17,9 @@
   --body: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
   --pitch: "Inter", "Helvetica Neue", "Segoe UI", sans-serif;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --forest-h: clamp(260px, 38svh, 440px);
+  --forest-h: clamp(280px, 46svh, 520px);
   --forest-extra: 0px;
+  --forest-curtain: 0px;
   --forest-green: #141e16;
   --waterfall-x: 53%;
   color-scheme: light;
@@ -533,20 +534,19 @@ body.is-rail-open .rail-show {
 }
 
 
-/* Foresta fissa full-bleed (fuori dal box arrotondato dell’hero) */
-/* Fascia verde che cresce dal basso (dietro al testo) */
+/* Foresta fissa full-bleed: cime sulla foto, verde che sale a tendina sotto */
 .forest-dock-fill {
   position: fixed;
   left: 0;
   right: 0;
   bottom: 0;
-  height: calc(var(--forest-h) + var(--forest-extra));
+  /* extra = spazio sotto; curtain = verde dietro la base della scena */
+  height: calc(var(--forest-extra) + var(--forest-curtain, 0px));
   background: var(--forest-green);
   z-index: 8;
   pointer-events: none;
 }
 
-/* Silhouette sul bordo alto della fascia (sopra al testo, salgono con lo scroll) */
 .forest-dock-scene {
   position: fixed;
   left: 0;
@@ -569,22 +569,26 @@ body.is-rail-open .rail-show {
   transform: translate3d(0, 0, 0);
 }
 
+/* Montagne lontane: niente lastra teal sulla foto — solo alone leggero */
 .hero-layer.layer-1 {
-  background-image: url("../assets/forest/layer-1.svg?v=8");
-  background-position: center top;
-  opacity: 0.55;
+  background-image: url("../assets/forest/layer-1.svg?v=9");
+  background-position: center bottom;
+  opacity: 0.22;
+  mix-blend-mode: multiply;
   z-index: 2;
+  -webkit-mask-image: linear-gradient(to top, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to top, #000 55%, transparent 100%);
 }
 
 .hero-layer.layer-2 {
-  background-image: url("../assets/forest/layer-2.svg?v=8");
-  background-position: center bottom 8%;
+  background-image: url("../assets/forest/layer-2.svg?v=9");
+  background-position: center bottom 6%;
   z-index: 3;
 }
 
 .hero-layer.layer-3 {
-  background-image: url("../assets/forest/layer-3.svg?v=8");
-  background-position: center bottom 4%;
+  background-image: url("../assets/forest/layer-3.svg?v=9");
+  background-position: center bottom 3%;
   z-index: 4;
 }
 
@@ -727,11 +731,11 @@ body.is-rail-open .rail-show {
   position: relative;
   z-index: 14;
   margin: 0;
-  /* Lascia vedere la foresta fissa, poi il testo entra nello spazio verde */
-  padding: calc(var(--forest-h, 38svh) + 56px) clamp(20px, 4vw, 48px)
-    clamp(72px, 12vh, 140px);
+  /* Spazio per la foresta a riposo, poi il testo nello spazio verde che sale */
+  padding: calc(var(--forest-h, 46svh) + 32px) clamp(20px, 4vw, 48px)
+    clamp(80px, 14vh, 160px);
   border-radius: 0;
-  background: transparent;
+  background: var(--forest-green);
   color: #e8f0ec;
 }
 
@@ -777,14 +781,18 @@ body.is-rail-open .rail-show {
 /* Desktop */
 @media (min-width: 1041px) {
   :root {
-    --forest-h: clamp(300px, 42svh, 480px);
+    --forest-h: clamp(320px, 48svh, 560px);
+  }
+
+  .hero-visual {
+    min-height: calc(100svh - 24px);
   }
 }
 
 /* Tablet */
 @media (max-width: 1040px) and (min-width: 721px) {
   :root {
-    --forest-h: clamp(250px, 36svh, 400px);
+    --forest-h: clamp(260px, 42svh, 440px);
   }
 
   .waterfall-foam {
@@ -796,15 +804,15 @@ body.is-rail-open .rail-show {
 /* Mobile */
 @media (max-width: 720px) {
   :root {
-    --forest-h: clamp(210px, 34svh, 320px);
+    --forest-h: clamp(220px, 40svh, 360px);
   }
 
   .hero-layer.layer-2 {
-    background-position: center bottom 10%;
+    background-position: center bottom 8%;
   }
 
   .hero-layer.layer-3 {
-    background-position: center bottom 6%;
+    background-position: center bottom 4%;
   }
 
   .waterfall-foam {
@@ -815,7 +823,7 @@ body.is-rail-open .rail-show {
 
 @media (max-width: 480px) {
   :root {
-    --forest-h: clamp(190px, 32svh, 280px);
+    --forest-h: clamp(200px, 38svh, 300px);
   }
 
   .waterfall-foam {
@@ -4508,11 +4516,12 @@ body.menu-closing .float-dock {
   }
 
   .hero-visual {
-    min-height: 78svh;
+    /* Foto a tutta altezza viewport: la foresta fissa si appoggia sopra, senza gap */
+    min-height: calc(100svh - 24px);
   }
 
   .forest-green {
-    padding-top: calc(var(--forest-h, 34svh) + 40px);
+    padding-top: calc(var(--forest-h, 40svh) + 28px);
   }
 
   .hero-copy {
