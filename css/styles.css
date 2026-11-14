@@ -17,8 +17,10 @@
   --body: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
   --pitch: "Inter", "Helvetica Neue", "Segoe UI", sans-serif;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
-  --forest-h: clamp(280px, 46svh, 520px);
+  /* Abbastanza alto da mostrare la valle (lati alti → centro basso) senza clip */
+  --forest-h: clamp(360px, 56svh, 640px);
   --forest-extra: 0px;
+  --forest-zoom: 200%;
   --forest-green: #141e16;
   color-scheme: light;
 }
@@ -551,7 +553,8 @@ body.is-rail-open .rail-show {
   right: 0;
   bottom: var(--forest-extra);
   height: var(--forest-h);
-  overflow: hidden;
+  /* visible: non tagliare i lati alti della valle */
+  overflow: visible;
   background: transparent;
   z-index: 16;
   pointer-events: none;
@@ -559,53 +562,51 @@ body.is-rail-open .rail-show {
 
 .hero-layer {
   position: absolute;
-  inset: 0;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
-  background-position: center bottom;
-  will-change: transform;
-  transform: translate3d(0, 0, 0);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
 }
 
-/* Montagne lontane: alone leggero, senza lastra */
+.hero-layer img {
+  display: block;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: var(--forest-zoom, 200%);
+  max-width: none;
+  height: auto;
+  transform: translateX(-50%);
+}
+
+/* Montagne lontane */
 .hero-layer.layer-1 {
-  background-image: url("../assets/forest/layer-1.svg?v=10");
-  background-position: center bottom;
-  opacity: 0.2;
-  mix-blend-mode: multiply;
   z-index: 2;
-  -webkit-mask-image: linear-gradient(to top, #000 50%, transparent 100%);
-  mask-image: linear-gradient(to top, #000 50%, transparent 100%);
+  opacity: 0.4;
 }
 
+.hero-layer.layer-1 img {
+  bottom: 0;
+}
+
+/* Mid-ground: valle (lati alti → centro basso) + cascata attaccata al dirupo */
 .hero-layer.layer-2 {
-  background-image: url("../assets/forest/layer-2.svg?v=10");
-  /* Alza il mid-ground: la cascata SVG resta sopra la crestadel terreno */
-  background-position: center bottom 12%;
   z-index: 3;
 }
 
+.hero-layer.layer-2 img {
+  /* Come Cozy Hollow bottom 12.7rem: solleva il plateau a valle */
+  bottom: clamp(48px, 8vh, 96px);
+}
+
 .hero-layer.layer-3 {
-  background-image: url("../assets/forest/layer-3.svg?v=10");
-  background-position: center bottom 2%;
   z-index: 4;
 }
 
-/* Cascata originale Cozy Hollow (path da level-3), sopra il terreno */
-.forest-waterfall {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 10%;
-  width: 100%;
-  height: auto;
-  z-index: 7;
-  pointer-events: none;
-  display: block;
-  max-width: none;
-  /* Ingrandisce la cascata al centro senza perdere gli alberi laterali */
-  transform: scale(1.65);
-  transform-origin: 53% bottom;
+.hero-layer.layer-3 img {
+  bottom: clamp(36px, 6.5vh, 80px);
 }
 
 .hero-bottom {
@@ -616,18 +617,18 @@ body.is-rail-open .rail-show {
   height: 100%;
   z-index: 6;
   line-height: 0;
-  overflow: hidden;
-  will-change: transform;
+  overflow: visible;
 }
 
 .hero-bottom__svg {
   display: block;
-  width: 100%;
+  width: var(--forest-zoom, 200%);
   max-width: none;
   height: auto;
   position: absolute;
-  left: 0;
+  left: 50%;
   bottom: 0;
+  transform: translateX(-50%);
   pointer-events: none;
 }
 
@@ -681,7 +682,8 @@ body.is-rail-open .rail-show {
 /* Desktop */
 @media (min-width: 1041px) {
   :root {
-    --forest-h: clamp(320px, 48svh, 560px);
+    --forest-h: clamp(420px, 60svh, 720px);
+    --forest-zoom: 180%;
   }
 
   .hero-visual {
@@ -692,28 +694,23 @@ body.is-rail-open .rail-show {
 /* Tablet */
 @media (max-width: 1040px) and (min-width: 721px) {
   :root {
-    --forest-h: clamp(260px, 42svh, 440px);
+    --forest-h: clamp(360px, 54svh, 580px);
+    --forest-zoom: 200%;
   }
 }
 
 /* Mobile */
 @media (max-width: 720px) {
   :root {
-    --forest-h: clamp(220px, 40svh, 360px);
-  }
-
-  .hero-layer.layer-2 {
-    background-position: center bottom 10%;
-  }
-
-  .hero-layer.layer-3 {
-    background-position: center bottom 4%;
+    --forest-h: clamp(320px, 52svh, 460px);
+    --forest-zoom: 220%;
   }
 }
 
 @media (max-width: 480px) {
   :root {
-    --forest-h: clamp(200px, 38svh, 300px);
+    --forest-h: clamp(300px, 50svh, 400px);
+    --forest-zoom: 240%;
   }
 }
 
