@@ -625,6 +625,13 @@ body.is-rail-open .rail-show {
   will-change: transform;
 }
 
+/* Seconda catena di montagne e fila di alberi lontana: esistono solo nella
+   composizione da telefono (in fondo al file, «Telefono in verticale»). */
+.forest-ridge,
+.forest-trees {
+  display: none;
+}
+
 /*
   Laghetto ai piedi della cascata. In Cozy Hollow è lo sfondo chiaro pieno
   che si vede sotto il dirupo; qui lo sfondo è la foto, quindi serve una
@@ -5434,5 +5441,116 @@ body.menu-closing .float-dock {
 @media (prefers-reduced-motion: reduce) {
   .sog-bars i {
     animation: none;
+  }
+}
+
+/* ==========================================================================
+   Telefono in verticale: video più basso, foresta più alta
+   Il video occupa la parte alta dello schermo; sotto, i livelli verdi
+   riempiono il resto: montagne lontane, seconda catena, dirupo con la
+   cascata, colline, primo piano. Tutte le misure sono in unità del disegno
+   (2000 di larghezza) e il disegno cresce con l'altezza dello schermo, così
+   le proporzioni restano le stesse su telefoni alti e bassi.
+   - Più foresta / meno video: alza 150svh in --forest-art-w.
+   - Montagne più alte: --forest-far-k (scala della catena lontana).
+   ========================================================================== */
+@media (max-width: 720px) and (orientation: portrait) {
+  :root {
+    --forest-art-w: max(104vw, min(150svh, 1300px));
+    --forest-far-k: 1.2;
+    --forest-lag-ridge: 0.3;
+    --forest-lag-trees: 0.23;
+  }
+
+  /* L'hero resta alto un'intera schermata (la fascia verde inizia sotto),
+     ma il video ne occupa solo la parte alta. Il bordo inferiore del video
+     finisce dietro le montagne lontane, dove sono piene. */
+  .hero {
+    min-height: calc(100svh - 24px);
+  }
+
+  .hero-visual {
+    flex: none;
+    min-height: 0;
+    height: max(300px, calc(100svh - 12px - var(--forest-art-w) * 640 / 2000));
+  }
+
+  /* Il titolo parte sotto il pulsante «+», che prima copriva «il» */
+  .hero-copy {
+    padding-top: 58px;
+  }
+
+  .hero-copy p {
+    margin-top: 0.9rem;
+    font-size: 1.2rem;
+  }
+
+  /* Montagne lontane: più grandi, velate in cima e piene alla base */
+  .hero-layer.layer-1 {
+    opacity: 1;
+  }
+
+  .hero-layer.layer-1 img {
+    width: calc(var(--forest-art-w) * var(--forest-far-k));
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, #000 26%);
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.3) 0%, #000 26%);
+  }
+
+  /* Seconda catena: lo stesso profilo delle montagne, specchiato e più scuro */
+  .forest-ridge {
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    z-index: 2;
+    width: var(--forest-art-w);
+    aspect-ratio: 2000 / 829;
+    background: #7e9d96;
+    -webkit-mask: url("../assets/forest/layer-1.svg?v=26") center / 100% 100% no-repeat;
+    mask: url("../assets/forest/layer-1.svg?v=26") center / 100% 100% no-repeat;
+    transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-ridge))) scaleX(-1);
+    will-change: transform;
+    pointer-events: none;
+  }
+
+  /* Fila di alberi lontana: il profilo del dirupo, spostato di lato e più
+     chiaro. La base (290 unità dal fondo) resta nascosta dietro il dirupo vero. */
+  .forest-trees {
+    display: block;
+    position: absolute;
+    left: calc(50% + var(--forest-art-w) * 0.24);
+    bottom: calc(var(--forest-art-w) * 290 / 2000);
+    z-index: 2;
+    width: var(--forest-art-w);
+    aspect-ratio: 2000 / 398;
+    background: #6a8c84;
+    -webkit-mask: url("../assets/forest/layer-2.svg?v=26") center / 100% 100% no-repeat;
+    mask: url("../assets/forest/layer-2.svg?v=26") center / 100% 100% no-repeat;
+    transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-trees)));
+    will-change: transform;
+    pointer-events: none;
+  }
+}
+
+/* Schermi bassi: montagne lontane più piccole, così non coprono il sottotitolo */
+@media (max-width: 720px) and (orientation: portrait) and (max-height: 700px) {
+  :root {
+    --forest-far-k: 1.05;
+  }
+
+  .hero-visual {
+    height: max(300px, calc(100svh - 12px - var(--forest-art-w) * 590 / 2000));
+  }
+}
+
+@media (max-width: 720px) and (orientation: portrait) and (prefers-reduced-motion: reduce) {
+  :root {
+    --forest-lag-ridge: 0;
+    --forest-lag-trees: 0;
+  }
+
+  .forest-ridge,
+  .forest-trees {
+    will-change: auto;
   }
 }
