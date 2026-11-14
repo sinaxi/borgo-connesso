@@ -1045,6 +1045,30 @@ function initHeroForest() {
 
 initHeroForest();
 
+/* Hero fermo sotto la foresta: misura quanto deve durare lo sticky
+   (fino a quando la fascia verde copre tutto) e dove si aggancia. */
+function initHeroHold() {
+  const wrap = document.querySelector(".hero-wrap");
+  const hero = wrap && wrap.querySelector(".hero");
+  const next = wrap && wrap.nextElementSibling;
+  if (!wrap || !hero || !next) return;
+
+  const measure = () => {
+    const wrapTop = wrap.getBoundingClientRect().top;
+    const hold = Math.round(next.getBoundingClientRect().top - wrapTop);
+    const stickTop = Math.round(wrapTop + (window.scrollY || 0));
+    if (hold > 0) wrap.style.setProperty("--hero-hold", `${hold}px`);
+    wrap.style.setProperty("--hero-stick-top", `${Math.max(0, stickTop)}px`);
+  };
+
+  measure();
+  window.addEventListener("resize", measure);
+  window.addEventListener("load", measure);
+  if ("ResizeObserver" in window) new ResizeObserver(measure).observe(hero);
+}
+
+initHeroHold();
+
 /* Float-dock: compare solo quando inizia l’area «Perché» (#borgo) */
 function initFloatDockReveal() {
   const dock = document.querySelector(".float-dock");

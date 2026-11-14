@@ -29,6 +29,13 @@
   --forest-lift-2: calc(var(--forest-art-w) * 127 / 2000);
   --forest-lift-3: calc(var(--forest-art-w) * 105 / 2000);
   --forest-pool: #a5c0ba;
+  /*
+    Parallax allo scroll: quota di salita che ogni livello perde rispetto
+    al primo piano scuro (0 = sale insieme a lui). Più è lontano, più è lento.
+  */
+  --forest-lag-3: 0.08;
+  --forest-lag-2: 0.16;
+  --forest-lag-1: 0.45;
   --forest-green: #141e16;
   color-scheme: light;
 }
@@ -527,12 +534,26 @@ body.is-rail-open .rail-show {
   padding-top: 12px;
 }
 
+/*
+  Video e testo restano fermi mentre la foresta sale. Lo spazio per lo sticky
+  è aggiunto con ::after e tolto con il margine negativo, così tutto ciò che
+  viene dopo resta esattamente dov'era.
+*/
 .hero-wrap {
   position: relative;
+  margin-bottom: calc(-1 * var(--hero-hold, 100svh));
+}
+
+.hero-wrap::after {
+  content: "";
+  display: block;
+  height: var(--hero-hold, 100svh);
+  pointer-events: none;
 }
 
 .hero {
-  position: relative;
+  position: sticky;
+  top: var(--hero-stick-top, 12px);
   display: grid;
   grid-template-columns: minmax(0, 1fr) 300px;
   gap: 12px;
@@ -561,8 +582,10 @@ body.is-rail-open .rail-show {
   right: 0;
   bottom: var(--forest-extra);
   height: var(--forest-h);
-  /* visible: non tagliare i lati alti della valle */
+  /* In alto niente taglio (valle e montagne sporgono); in basso sì, così i
+     livelli più lenti non escono mai sotto il primo piano. */
   overflow: visible;
+  clip-path: inset(-200vh 0 0 0);
   background: transparent;
   z-index: 16;
   pointer-events: none;
@@ -598,6 +621,8 @@ body.is-rail-open .rail-show {
 
 .hero-layer.layer-1 img {
   bottom: 0;
+  transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-1)));
+  will-change: transform;
 }
 
 /*
@@ -614,7 +639,9 @@ body.is-rail-open .rail-show {
   width: var(--forest-art-w);
   height: calc(var(--forest-art-w) * 240 / 2000);
   background: var(--forest-pool);
-  transform: translateX(-50%);
+  /* Si muove con il dirupo: la cascata resta sempre dentro l'acqua */
+  transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-2)));
+  will-change: transform;
   pointer-events: none;
 }
 
@@ -625,6 +652,8 @@ body.is-rail-open .rail-show {
 
 .hero-layer.layer-2 img {
   bottom: var(--forest-lift-2);
+  transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-2)));
+  will-change: transform;
 }
 
 .hero-layer.layer-3 {
@@ -633,6 +662,8 @@ body.is-rail-open .rail-show {
 
 .hero-layer.layer-3 img {
   bottom: var(--forest-lift-3);
+  transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-3)));
+  will-change: transform;
 }
 
 .hero-bottom {
@@ -690,10 +721,21 @@ body.is-rail-open .rail-show {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  :root {
+    --forest-lag-1: 0;
+    --forest-lag-2: 0;
+    --forest-lag-3: 0;
+  }
+
   .hero-layer,
   .hero-bottom {
     will-change: auto;
     transform: none !important;
+  }
+
+  .hero-layer img,
+  .forest-pool {
+    will-change: auto;
   }
 }
 
