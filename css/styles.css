@@ -5532,15 +5532,15 @@ body.menu-closing .float-dock {
 }
 
 /* ==========================================================================
-   Telefono in verticale: stessa inquadratura della foresta del desktop
-   (118vw, alberi ai lati). All’apertura la foresta resta sopra il video e
-   ne copre circa 1/5 in basso.
+   Telefono in verticale: all’apertura le cime delle montagne arrivano a
+   ~38% dall’alto (segno rosso). Layer-1 è alto 829/2000 del disegno, quindi
+   art-w ≈ 0.92 × altezza schermo. Il video resta pieno; la foresta gli
+   sta SOPRA.
    ========================================================================== */
 @media (max-width: 720px) and (orientation: portrait) {
   :root {
-    /* Come desktop (118vw), senza il minimo 900px che su telefono
-       zoomava e tagliava i lati. --forest-fit riduce se non ci sta. */
-    --forest-art-base: 118vw;
+    /* 0.382 × 2000/829 ≈ altezza tip montagne = 38% dello schermo */
+    --forest-art-base: calc(100svh * 0.922);
     --forest-art-w: calc(var(--forest-art-base) * var(--forest-fit));
   }
 
@@ -5548,12 +5548,11 @@ body.menu-closing .float-dock {
     min-height: calc(100svh - 24px);
   }
 
-  /* Video più alto: la foresta fissa in basso gli resta SOPRA e ne copre
-     circa 1/5 (come il footer bloccato all’apertura su desktop). */
+  /* Video a tutta altezza: la foresta fissa copre la parte bassa */
   .hero-visual {
     flex: none;
     min-height: 0;
-    height: max(300px, calc((100svh - 12px - var(--forest-h)) * 1.2));
+    height: max(300px, calc(100svh - 24px));
   }
 
   /* Il titolo parte sotto il pulsante «+», che prima copriva «il» */
