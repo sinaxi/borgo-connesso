@@ -946,9 +946,7 @@ initReteRails();
 
 /* --------------------------------------------------------------------------
    NEL SOGGIORNO · card impilate (sezione id="soggiorno")
-   - Calcola dove si fermano le card (--sog-top): se la barra del menu è
-     sticky in alto si fermano subito sotto, altrimenti vale il CSS
-     (sotto la foresta; su schermi bassi 24px su desktop e 72px su mobile).
+   - Dove si fermano le card: --sog-top nel CSS (sotto la foresta).
    - Mentre scorri, la card coperta dalla successiva si rimpicciolisce (fino
      al 6%), si inclina di 1,5° e si scurisce un poco.
    - Con "riduci movimento" attivo le card si impilano lo stesso, senza effetti.
@@ -957,20 +955,8 @@ function initSoggiornoStack() {
   const room = document.querySelector("[data-sog-stack]");
   if (!room) return;
   const cards = [...room.querySelectorAll(".sog-card")];
-  const bar = document.querySelector(".rail");
-
-  // Se la barra del menu è fissa in alto (sticky), le card si fermano
-  // subito sotto. Altrimenti vale il valore di --sog-top nel CSS.
-  const setTop = () => {
-    const barIsSticky = bar && getComputedStyle(bar).position === "sticky";
-    if (barIsSticky) {
-      room.style.setProperty("--sog-top", `${bar.offsetHeight + 16}px`);
-    } else {
-      room.style.removeProperty("--sog-top");
-    }
-  };
-  setTop();
-  window.addEventListener("resize", setTop);
+  // --sog-top resta quello del CSS (sotto la foresta).
+  room.style.removeProperty("--sog-top");
 
   if (reducedMotion) return;
 
@@ -1014,7 +1000,9 @@ function initHeroForest() {
   if (!scene || !fill) return;
 
   const root = document.documentElement;
-  const maxExtra = () => Math.round(window.innerHeight * 0.72);
+  // La base della foresta (volpe) si ferma a metà schermo circa, come nello
+  // stato «frase tutta in vista, poi le card sopra». Prima era 0.72.
+  const maxExtra = () => Math.round(window.innerHeight * 0.55);
   // Testo nella fascia verde: quando la foresta si ferma le scivola sotto
   // sfumando (maschera in CSS su --fg-cut) e non rispunta tra gli alberi.
   const underText = document.querySelector(".forest-green__inner");
@@ -1037,8 +1025,7 @@ function initHeroForest() {
     const extra = Math.min(y, maxExtra());
     root.style.setProperty("--forest-extra", `${extra}px`);
     // Dove si ferma la base della foresta, misurata dal bordo alto dello
-    // schermo. Su telefono le card impilate si agganciano subito sotto
-    // (--sog-top in css/styles.css, «NEL SOGGIORNO · card impilate»).
+    // schermo. Frase ferma e card si agganciano subito sotto (--sog-top).
     const rest = window.innerHeight - maxExtra();
     if (rest !== lastRest) {
       lastRest = rest;
@@ -1072,13 +1059,12 @@ function initHeroForest() {
     }
     if (copy) {
       // Linea sopra la quale il titolo si vede: viaggia con la foresta,
-      // all'altezza delle chiome. A foresta ferma è sopra il titolo (tutto
-      // nascosto), a pagina ferma è sotto (tutto in vista).
+      // all'altezza delle chiome. A foresta ferma «il Borgo» resta appena
+      // visibile tra gli alberi; a pagina ferma è tutto in vista.
       const box = copy.getBoundingClientRect();
       const treeLine = ((art && art.offsetWidth) || 0) * 0.21;
-      const hiddenAtRest = rest - box.top + 8;
       const clearAtStart = window.innerHeight - box.bottom - COPY_FADE - 8;
-      const lineHeight = Math.max(hiddenAtRest, Math.min(treeLine, clearAtStart));
+      const lineHeight = Math.max(0, Math.min(treeLine, clearAtStart));
       const copyCut = Math.round(
         Math.min(box.height + COPY_FADE + 8, Math.max(-8, sceneBottom - lineHeight - box.top))
       );
@@ -1123,7 +1109,7 @@ function initHeroHold() {
 
   const measure = () => {
     const wrapTop = wrap.getBoundingClientRect().top;
-    const forestRest = window.innerHeight - Math.round(window.innerHeight * 0.72);
+    const forestRest = window.innerHeight - Math.round(window.innerHeight * 0.55);
     const hold = stage
       ? Math.round(stage.getBoundingClientRect().bottom - wrapTop - forestRest)
       : Math.round(next.getBoundingClientRect().top - wrapTop);

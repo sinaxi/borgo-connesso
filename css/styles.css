@@ -721,15 +721,20 @@ body.is-rail-open .rail-show {
   z-index: 20;
 }
 
-/* Schermi larghi e abbastanza alti: la foresta si ferma e il testo resta
-   fermo subito sotto, tutto in vista. Le card salgono e lo coprono.
-   Su telefono il testo è troppo alto per restare fermo: scorre sotto la
-   foresta e le card si fermano al suo posto. */
-@media (min-width: 721px) and (min-height: 560px) {
+/* Desktop e telefono: la foresta si ferma e il testo resta fermo subito
+   sotto, tutto in vista. Poi le card salgono e lo coprono. */
+.forest-green {
+  position: sticky;
+  top: var(--forest-rest-top, 45vh);
+  padding-top: 28px;
+}
+
+/* Schermi molto bassi (telefono in orizzontale): non c'è spazio per tenere
+   ferma la frase sotto la foresta, quindi torna a scorrere. */
+@media (max-height: 480px) {
   .forest-green {
-    position: sticky;
-    top: var(--forest-rest-top, 28vh);
-    padding-top: 28px;
+    position: relative;
+    top: auto;
   }
 }
 
@@ -5295,10 +5300,8 @@ body.menu-closing .float-dock {
    Come funziona:
    - ogni card è position: sticky e si ferma a --sog-top dal bordo alto;
    - la card successiva sale e la copre: si crea la pila;
-   - js/main.js (initSoggiornoStack) rimpicciolisce e inclina la card coperta
-     e aggiorna --sog-top se la barra del menu è fissa in alto;
-   - su schermi abbastanza alti la pila si ferma sotto la foresta (vedi le
-     media query qui sotto).
+   - js/main.js (initSoggiornoStack) rimpicciolisce e inclina la card coperta;
+   - la pila si ferma sotto la foresta e sale sopra la frase.
    Per cambiare i colori basta modificare le variabili qui sotto.
    ========================================================================== */
 .room--soggiorno {
@@ -5311,7 +5314,7 @@ body.menu-closing .float-dock {
   --sog-mint: #a4d4c5;   /* spunte ✓ */
   --sog-ink: #0a0a0a;
   --sog-muted: #6a6a6a;
-  --sog-top: 24px;       /* dove si ferma la card: JS lo alza su mobile */
+  --sog-top: calc(var(--forest-rest-top, 45vh) + 8px);
   /* Allineate all’hero: solo i gutters .frame (12px), niente padding .room. */
   padding: 0;
   background: transparent;
@@ -5328,29 +5331,19 @@ body.menu-closing .float-dock {
   margin: 0;
 }
 
-/* Mobile e tablet: le card si fermano più in basso, per non finire sotto
-   il pulsante "+" fisso in alto a sinistra */
-@media (max-width: 1040px) {
+/* --sog-top: sotto la foresta (vedi .room--soggiorno sopra). */
+
+/* Schermi molto bassi: niente pila sotto la foresta, le card si fermano
+   sotto il pulsante «+» (mobile) o in alto (desktop). */
+@media (max-height: 480px) {
+  .room--soggiorno {
+    --sog-top: 24px;
+  }
+}
+
+@media (max-width: 1040px) and (max-height: 480px) {
   .room--soggiorno {
     --sog-top: 72px;
-  }
-}
-
-/* Schermi abbastanza alti: la pila si forma sotto la foresta, che resta in
-   vista in alto, e non sale a coprire cascata e primo piano.
-   --forest-rest-top arriva da js/main.js (initHeroForest): è il punto in cui
-   si ferma la base della foresta. I px in più sono l'aria tra foresta e card. */
-@media (min-height: 560px) {
-  .room--soggiorno {
-    --sog-top: calc(var(--forest-rest-top, 28vh) + 20px);
-  }
-}
-
-/* Dove il testo della fascia verde resta fermo, la prima card si ferma
-   20px sopra la sua prima riga e lo copre tutto. */
-@media (min-width: 721px) and (min-height: 560px) {
-  .room--soggiorno {
-    --sog-top: calc(var(--forest-rest-top, 28vh) + 8px);
   }
 }
 
@@ -5483,6 +5476,25 @@ body.menu-closing .float-dock {
 @media (prefers-reduced-motion: reduce) {
   .sog-bars i {
     animation: none;
+  }
+}
+
+/* Su telefono la frase resta ferma sotto la foresta: un po' più compatta
+   così entrambe le frasi stanno nella metà bassa dello schermo. */
+@media (max-width: 720px) {
+  .forest-green {
+    padding: 16px 18px 22px;
+  }
+
+  .forest-green h2 {
+    font-size: clamp(1.28rem, 5.4vw, 1.75rem);
+    line-height: 1.28;
+  }
+
+  .fg-sub {
+    margin-top: 14px;
+    font-size: clamp(1.05rem, 4.4vw, 1.35rem);
+    line-height: 1.32;
   }
 }
 
