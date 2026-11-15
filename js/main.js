@@ -1077,9 +1077,9 @@ function initHeroForest() {
       if (phonePortrait) {
         const bandTop = band.getBoundingClientRect().top;
         const textH = (underText && underText.offsetHeight) || Math.round(window.innerHeight * 0.28);
-        const maxPad = Math.max(24, window.innerHeight - rest - textH - 20);
-        const need = Math.ceil(sceneBottom - bandTop + 20);
-        const pad = Math.max(24, Math.min(maxPad, need));
+        const maxPad = Math.max(36, window.innerHeight - rest - textH - 16);
+        const need = Math.ceil(sceneBottom - bandTop + 44);
+        const pad = Math.max(36, Math.min(maxPad, need));
         if (band.dataset.fgPad !== String(pad)) {
           band.dataset.fgPad = String(pad);
           band.style.paddingTop = `${pad}px`;
@@ -1106,7 +1106,7 @@ function initHeroForest() {
     }
     if (underText) {
       // Maschera di sicurezza: niente lettere tagliate a metà sotto la foresta
-      const clear = phonePortrait ? 8 : 0;
+      const clear = phonePortrait ? 12 : 0;
       const fade = phonePortrait ? 0 : 36;
       const cut = Math.max(-40, Math.ceil(sceneBottom + clear - underText.getBoundingClientRect().top));
       if (cut !== lastCut) {
