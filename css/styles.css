@@ -5517,7 +5517,14 @@ body.menu-closing .float-dock {
    così entrambe le frasi stanno nella metà bassa dello schermo. */
 @media (max-width: 720px) {
   .forest-green {
-    padding: 16px 18px 22px;
+    /* Sopra le silhouette: il testo resta intero, non tagliato dagli alberi */
+    z-index: 17;
+    padding: 28px 18px 22px;
+  }
+
+  .forest-green__inner {
+    -webkit-mask-image: none;
+    mask-image: none;
   }
 
   .forest-green h2 {

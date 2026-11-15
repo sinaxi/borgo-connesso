@@ -1072,19 +1072,8 @@ function initHeroForest() {
     const sceneBottom = window.innerHeight - extra;
     const phonePortrait = window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches;
     if (band) {
-      // Su telefono il testo non deve MAI finire sotto gli alberi a metà
-      // riga: lo spingiamo sotto la base della foresta con padding-top.
-      if (phonePortrait) {
-        const bandTop = band.getBoundingClientRect().top;
-        const textH = (underText && underText.offsetHeight) || Math.round(window.innerHeight * 0.28);
-        const maxPad = Math.max(36, window.innerHeight - rest - textH - 16);
-        const need = Math.ceil(sceneBottom - bandTop + 44);
-        const pad = Math.max(36, Math.min(maxPad, need));
-        if (band.dataset.fgPad !== String(pad)) {
-          band.dataset.fgPad = String(pad);
-          band.style.paddingTop = `${pad}px`;
-        }
-      } else if (band.dataset.fgPad) {
+      // Niente padding dinamico: su Safari spingeva/nascondeva il testo.
+      if (band.dataset.fgPad) {
         delete band.dataset.fgPad;
         band.style.paddingTop = "";
       }
@@ -1105,14 +1094,21 @@ function initHeroForest() {
       }
     }
     if (underText) {
-      // Maschera di sicurezza: niente lettere tagliate a metà sotto la foresta
-      const clear = phonePortrait ? 12 : 0;
-      const fade = phonePortrait ? 0 : 36;
-      const cut = Math.max(-40, Math.ceil(sceneBottom + clear - underText.getBoundingClientRect().top));
-      if (cut !== lastCut) {
-        lastCut = cut;
-        underText.style.setProperty("--fg-cut", `${cut}px`);
-        underText.style.setProperty("--fg-fade", `${fade}px`);
+      // Su telefono niente mask: fade:0 con stop coincidenti su Safari
+      // rendeva il testo invisibile. Desktop tiene la sfumatura.
+      if (phonePortrait) {
+        if (lastCut !== "off") {
+          lastCut = "off";
+          underText.style.removeProperty("--fg-cut");
+          underText.style.removeProperty("--fg-fade");
+        }
+      } else {
+        const cut = Math.max(-40, Math.ceil(sceneBottom - underText.getBoundingClientRect().top));
+        if (cut !== lastCut) {
+          lastCut = cut;
+          underText.style.setProperty("--fg-cut", `${cut}px`);
+          underText.style.setProperty("--fg-fade", `36px`);
+        }
       }
     }
     if (copy) {
