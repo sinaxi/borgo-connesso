@@ -767,11 +767,12 @@ html.forest-done .hero {
 */
 .forest-green__inner {
   --fg-cut: -40px;
+  --fg-fade: 36px;
   max-width: 58rem;
   margin: 0 auto;
   text-align: center;
-  -webkit-mask-image: linear-gradient(to bottom, transparent var(--fg-cut), #000 calc(var(--fg-cut) + 36px));
-  mask-image: linear-gradient(to bottom, transparent var(--fg-cut), #000 calc(var(--fg-cut) + 36px));
+  -webkit-mask-image: linear-gradient(to bottom, transparent var(--fg-cut), #000 calc(var(--fg-cut) + var(--fg-fade)));
+  mask-image: linear-gradient(to bottom, transparent var(--fg-cut), #000 calc(var(--fg-cut) + var(--fg-fade)));
 }
 
 /* Testo coperto dalle card (classe messa da js/main.js, initHeroForest) */
