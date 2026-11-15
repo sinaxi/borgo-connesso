@@ -23,7 +23,9 @@
     così alberi laterali, volpe, dirupo e cascata restano nella stessa scena.
     Altezza e sollevamenti dei livelli sono in proporzione al disegno.
   */
-  --forest-art-w: max(104vw, clamp(900px, 118vw, 2300px));
+  --forest-fit: 1; /* JS lo abbassa se alberi+testo non stanno in schermo */
+  --forest-art-base: max(104vw, clamp(900px, 118vw, 2300px));
+  --forest-art-w: calc(var(--forest-art-base) * var(--forest-fit));
   --forest-h: calc(var(--forest-art-w) * 570 / 2000);
   --forest-extra: 0px;
   --forest-lift-2: calc(var(--forest-art-w) * 127 / 2000);
@@ -745,7 +747,7 @@ html.forest-done .hero {
    sotto, tutto in vista. Poi le card salgono e lo coprono. */
 .forest-green {
   position: sticky;
-  top: var(--forest-rest-top, 45vh);
+  top: var(--forest-rest-top, 48vh);
   padding-top: 28px;
 }
 
@@ -5345,7 +5347,7 @@ body.menu-closing .float-dock {
   --sog-mint: #a4d4c5;   /* spunte ✓ */
   --sog-ink: #0a0a0a;
   --sog-muted: #6a6a6a;
-  --sog-top: calc(var(--forest-rest-top, 45vh) + 8px);
+  --sog-top: calc(var(--forest-rest-top, 48vh) + 8px);
   /* Allineate all’hero: solo i gutters .frame (12px), niente padding .room. */
   padding: 0;
   background: transparent;
@@ -5537,8 +5539,9 @@ body.menu-closing .float-dock {
 @media (max-width: 720px) and (orientation: portrait) {
   :root {
     /* Come desktop (118vw), senza il minimo 900px che su telefono
-       zoomava e tagliava i lati. */
-    --forest-art-w: 118vw;
+       zoomava e tagliava i lati. --forest-fit riduce se non ci sta. */
+    --forest-art-base: 118vw;
+    --forest-art-w: calc(var(--forest-art-base) * var(--forest-fit));
   }
 
   .hero {

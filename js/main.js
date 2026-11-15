@@ -1006,16 +1006,43 @@ function initHeroForest() {
   const band = document.querySelector(".forest-green");
   const firstCard = document.querySelector(".sog-card");
   const after = document.querySelector("#borgo");
-  // Quanto sale la foresta: lascia sotto spazio per TUTTO il testo (entrambe
-  // le frasi), poi le card arrivano sopra. Su schermi alti la volpe resta
-  // verso metà; su quelli bassi la foresta sale di meno.
+  // Altezza del disegno (base → cima alberi) dalla larghezza, senza
+  // parallax: così lo stop non salta mentre scorri.
+  // 610/2000 ≈ silhouette fino alle cime dei pini laterali.
+  const artWidthNatural = () => {
+    const img = scene.querySelector(".hero-bottom__svg") || scene.querySelector("img");
+    const w = img ? img.getBoundingClientRect().width : window.innerWidth;
+    const fitNow = parseFloat(root.style.getPropertyValue("--forest-fit") || "1") || 1;
+    return w / fitNow;
+  };
+  // 650/2000: dalle radici alle cime dei pini laterali (con un filo di aria)
+  const forestSpanNatural = () => Math.round(artWidthNatural() * 650 / 2000);
+
+  let lastFit = null;
+
+  // Stop come immagine 1: alberi INTERI + testo TUTTO. Se non ci stanno,
+  // --forest-fit riduce il disegno tenendo la stessa inquadratura.
   const forestRestTop = () => {
     const vh = window.innerHeight;
-    const bandH = (band && band.offsetHeight) || Math.round(vh * 0.4);
-    const need = bandH + 16;
-    const minRest = Math.round(vh * 0.26);
-    const maxRest = Math.round(vh * 0.5);
-    return Math.max(minRest, Math.min(maxRest, vh - need));
+    const bandH = (band && band.offsetHeight) || Math.round(vh * 0.35);
+    const maxRest = Math.max(0, vh - bandH - 12);
+    const budget = Math.max(Math.round(vh * 0.4), maxRest);
+    const span1 = forestSpanNatural();
+    const pad = 16;
+    let fit = 1;
+    if (span1 + pad > budget) fit = Math.max(0.72, budget / (span1 + pad));
+    const fitStr = fit.toFixed(3);
+    if (fitStr !== lastFit) {
+      lastFit = fitStr;
+      root.style.setProperty("--forest-fit", fitStr);
+    }
+    const span = span1 * fit;
+    const minRest = Math.ceil(span) + pad;
+    if (minRest <= maxRest) {
+      const preferred = Math.round(vh * 0.48);
+      return Math.max(minRest, Math.min(maxRest, preferred));
+    }
+    return maxRest;
   };
   const maxExtra = () => Math.max(0, window.innerHeight - forestRestTop());
   // Titolo sul video: sparisce dietro gli alberi mentre la foresta sale
@@ -1130,12 +1157,9 @@ function initHeroHold() {
 
   const measure = () => {
     const wrapTop = wrap.getBoundingClientRect().top;
-    const bandEl = document.querySelector(".forest-green");
-    const bandH = (bandEl && bandEl.offsetHeight) || Math.round(window.innerHeight * 0.4);
-    const forestRest = Math.max(
-      Math.round(window.innerHeight * 0.26),
-      Math.min(Math.round(window.innerHeight * 0.5), window.innerHeight - bandH - 16)
-    );
+    // Allineato a --forest-rest-top calcolato da initHeroForest
+    const raw = getComputedStyle(document.documentElement).getPropertyValue("--forest-rest-top");
+    const forestRest = Math.round(parseFloat(raw) || window.innerHeight * 0.48);
     const hold = stage
       ? Math.round(stage.getBoundingClientRect().bottom - wrapTop - forestRest)
       : Math.round(next.getBoundingClientRect().top - wrapTop);
