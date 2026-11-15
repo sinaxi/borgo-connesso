@@ -5532,15 +5532,13 @@ body.menu-closing .float-dock {
 }
 
 /* ==========================================================================
-   Telefono in verticale: all’apertura le cime delle montagne arrivano a
-   ~38% dall’alto (segno rosso). Layer-1 è alto 829/2000 del disegno, quindi
-   art-w ≈ 0.92 × altezza schermo. Il video resta pieno; la foresta gli
-   sta SOPRA.
+   Telefono in verticale: all’apertura le cime arrivano un filo sopra il
+   segno rosso, con più verde scuro in basso. Layer-1 = 829/2000 del disegno.
    ========================================================================== */
 @media (max-width: 720px) and (orientation: portrait) {
   :root {
-    /* 0.382 × 2000/829 ≈ altezza tip montagne = 38% dello schermo */
-    --forest-art-base: calc(100svh * 0.922);
+    /* ~45% dello schermo di silhouette (cime + più primo piano scuro) */
+    --forest-art-base: calc(100svh * 1.05);
     --forest-art-w: calc(var(--forest-art-base) * var(--forest-fit));
   }
 
