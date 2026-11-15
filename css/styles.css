@@ -32,12 +32,12 @@
   --forest-lift-3: calc(var(--forest-art-w) * 105 / 2000);
   --forest-pool: #a5c0ba;
   /*
-    Parallax allo scroll: quota di salita che ogni livello perde rispetto
-    al primo piano scuro (0 = sale insieme a lui). Più è lontano, più è lento.
+    I livelli salgono insieme allo scroll (niente lag relativo):
+    il parallax tra layer rendeva lo scroll scattoso su mobile.
   */
-  --forest-lag-3: 0.08;
-  --forest-lag-2: 0.16;
-  --forest-lag-1: 0.45;
+  --forest-lag-3: 0;
+  --forest-lag-2: 0;
+  --forest-lag-1: 0;
   --forest-green: #141e16;
   color-scheme: light;
 }
@@ -584,10 +584,12 @@ body.is-rail-open .rail-show {
   position: fixed;
   left: 0;
   right: 0;
-  bottom: var(--forest-extra);
+  bottom: 0;
   height: var(--forest-h);
-  /* In alto niente taglio (valle e montagne sporgono); in basso sì, così i
-     livelli più lenti non escono mai sotto il primo piano. */
+  /* translate3d invece di bottom: resta sul compositor, senza scatti di layout */
+  transform: translate3d(0, calc(var(--forest-extra) * -1), 0);
+  will-change: transform;
+  /* In alto niente taglio (valle e montagne sporgono); in basso sì. */
   overflow: visible;
   clip-path: inset(-200vh 0 0 0);
   background: transparent;
@@ -635,8 +637,7 @@ html.forest-done .hero {
 
 .hero-layer.layer-1 img {
   bottom: 0;
-  transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-1)));
-  will-change: transform;
+  transform: translate3d(-50%, calc(var(--forest-extra) * var(--forest-lag-1)), 0);
 }
 
 /* Seconda catena di montagne e fila di alberi lontana: esistono solo nella
@@ -661,8 +662,7 @@ html.forest-done .hero {
   height: calc(var(--forest-art-w) * 240 / 2000);
   background: var(--forest-pool);
   /* Si muove con il dirupo: la cascata resta sempre dentro l'acqua */
-  transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-2)));
-  will-change: transform;
+  transform: translate3d(-50%, calc(var(--forest-extra) * var(--forest-lag-2)), 0);
   pointer-events: none;
 }
 
@@ -673,8 +673,7 @@ html.forest-done .hero {
 
 .hero-layer.layer-2 img {
   bottom: var(--forest-lift-2);
-  transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-2)));
-  will-change: transform;
+  transform: translate3d(-50%, calc(var(--forest-extra) * var(--forest-lag-2)), 0);
 }
 
 .hero-layer.layer-3 {
@@ -683,8 +682,7 @@ html.forest-done .hero {
 
 .hero-layer.layer-3 img {
   bottom: var(--forest-lift-3);
-  transform: translate(-50%, calc(var(--forest-extra) * var(--forest-lag-3)));
-  will-change: transform;
+  transform: translate3d(-50%, calc(var(--forest-extra) * var(--forest-lag-3)), 0);
 }
 
 .hero-bottom {
@@ -748,7 +746,7 @@ html.forest-done .hero {
 .forest-green {
   position: sticky;
   top: var(--forest-rest-top, 48vh);
-  padding-top: 28px;
+  padding-top: 40px;
 }
 
 /* Schermi molto bassi (telefono in orizzontale): non c'è spazio per tenere
@@ -5519,7 +5517,8 @@ body.menu-closing .float-dock {
   .forest-green {
     /* Sopra le silhouette: il testo resta intero, non tagliato dagli alberi */
     z-index: 17;
-    padding: 28px 18px 22px;
+    /* Più verde sotto la foresta prima di «Sul Lago d'Iseo» */
+    padding: 52px 18px 22px;
   }
 
   .forest-green__inner {

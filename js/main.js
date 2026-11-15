@@ -1044,7 +1044,6 @@ function initHeroForest() {
     }
     return maxRest;
   };
-  const maxExtra = () => Math.max(0, window.innerHeight - forestRestTop());
   // Titolo sul video: sparisce dietro gli alberi mentre la foresta sale
   const copy = document.querySelector(".hero-copy");
   const art = scene.querySelector(".layer-2 img");
@@ -1055,22 +1054,38 @@ function initHeroForest() {
   let lastCopyCut = null;
   let lastCovered = null;
   let lastDone = null;
+  let lastExtra = -1;
+  let cachedRest = 0;
+  let cachedMaxExtra = 0;
+  let phonePortrait = window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches;
+
+  // rest/fit solo al resize: ricalcolarli a ogni scroll faceva scattare i livelli
+  const recomputeLayout = () => {
+    phonePortrait = window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches;
+    lastFit = null;
+    cachedRest = forestRestTop();
+    if (cachedRest !== lastRest) {
+      lastRest = cachedRest;
+      root.style.setProperty("--forest-rest-top", `${cachedRest}px`);
+    }
+    cachedMaxExtra = Math.max(0, window.innerHeight - cachedRest);
+    const forestH = scene.offsetHeight || 320;
+    root.style.setProperty(
+      "--float-dock-clearance",
+      `${Math.round(Math.max(16, forestH * 0.22))}px`
+    );
+  };
 
   const update = () => {
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
-    const forestH = scene.offsetHeight || 320;
     // Solo spazio verde sotto le silhouette — composizione a riposo invariata
-    const extra = Math.min(y, maxExtra());
-    root.style.setProperty("--forest-extra", `${extra}px`);
-    // Dove si ferma la base della foresta, misurata dal bordo alto dello
-    // schermo. Frase ferma e card si agganciano subito sotto (--sog-top).
-    const rest = forestRestTop();
-    if (rest !== lastRest) {
-      lastRest = rest;
-      root.style.setProperty("--forest-rest-top", `${rest}px`);
+    const extra = Math.min(y, cachedMaxExtra);
+    if (extra !== lastExtra) {
+      lastExtra = extra;
+      root.style.setProperty("--forest-extra", `${extra}px`);
     }
     const sceneBottom = window.innerHeight - extra;
-    const phonePortrait = window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches;
+    const rest = cachedRest;
     if (band) {
       // Niente padding dinamico: su Safari spingeva/nascondeva il testo.
       if (band.dataset.fgPad) {
@@ -1127,15 +1142,11 @@ function initHeroForest() {
         copy.style.setProperty("--copy-cut", `${copyCut}px`);
       }
     }
-    root.style.setProperty(
-      "--float-dock-clearance",
-      `${Math.round(Math.max(16, forestH * 0.22))}px`
-    );
 
     // Appena «Perché» entra in schermo, foresta/video/verde spariscono:
     // tra le card e quel blocco torna il grigio della pagina.
     if (after) {
-      const done = y >= maxExtra() && after.getBoundingClientRect().top < window.innerHeight - 4;
+      const done = y >= cachedMaxExtra && after.getBoundingClientRect().top < window.innerHeight - 4;
       if (done !== lastDone) {
         lastDone = done;
         document.documentElement.classList.toggle("forest-done", done);
@@ -1154,7 +1165,11 @@ function initHeroForest() {
   };
 
   window.addEventListener("scroll", onScroll, { passive: true });
-  window.addEventListener("resize", onScroll);
+  window.addEventListener("resize", () => {
+    recomputeLayout();
+    onScroll();
+  });
+  recomputeLayout();
   update();
 }
 
