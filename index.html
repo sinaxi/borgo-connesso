@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=239">
+  <link rel="stylesheet" href="css/styles.css?v=240">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -95,9 +95,9 @@
       </div>
       </div>
 
-      <!-- Fascia verde + card impilate, in un solo blocco (.forest-stage):
-           desktop e telefono: il testo resta fermo sotto la foresta e le
-           card gli salgono sopra; alla fine della pila escono insieme. -->
+      <!-- Fascia verde + pausa + card, in un solo blocco (.forest-stage):
+           testo tutto in vista sotto la foresta, poi le card gli salgono
+           sopra e si impilano; alla fine escono insieme. -->
       <div class="forest-stage">
       <!-- Fascia verde continua dalla base della foresta -->
       <section class="forest-green" id="bosco" aria-labelledby="forest-green-title">
@@ -119,6 +119,9 @@
            - --tone su ogni <li>; --i scala le card di 12px in pila.
            - Animazione: initSoggiornoStack() in js/main.js.
            =================================================================== -->
+      <!-- Pausa di scroll: testo tutto in vista sotto la foresta, poi le card -->
+      <div class="forest-pin-runway" aria-hidden="true"></div>
+
       <section class="room room--soggiorno" id="soggiorno" aria-labelledby="soggiorno-title" data-sog-stack>
         <h2 id="soggiorno-title" class="sr">Nel soggiorno — sei cose già pronte quando arrivi</h2>
         <div class="sog-grid">
@@ -1317,6 +1320,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=61"></script>
+  <script src="js/main.js?v=62"></script>
 </body>
 </html>

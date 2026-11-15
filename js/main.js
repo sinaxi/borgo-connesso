@@ -1000,15 +1000,24 @@ function initHeroForest() {
   if (!scene || !fill) return;
 
   const root = document.documentElement;
-  // La base della foresta (volpe) si ferma a metà schermo circa, come nello
-  // stato «frase tutta in vista, poi le card sopra». Prima era 0.72.
-  const maxExtra = () => Math.round(window.innerHeight * 0.55);
   // Testo nella fascia verde: quando la foresta si ferma le scivola sotto
   // sfumando (maschera in CSS su --fg-cut) e non rispunta tra gli alberi.
   const underText = document.querySelector(".forest-green__inner");
   const band = document.querySelector(".forest-green");
   const firstCard = document.querySelector(".sog-card");
   const after = document.querySelector("#borgo");
+  // Quanto sale la foresta: lascia sotto spazio per TUTTO il testo (entrambe
+  // le frasi), poi le card arrivano sopra. Su schermi alti la volpe resta
+  // verso metà; su quelli bassi la foresta sale di meno.
+  const forestRestTop = () => {
+    const vh = window.innerHeight;
+    const bandH = (band && band.offsetHeight) || Math.round(vh * 0.4);
+    const need = bandH + 16;
+    const minRest = Math.round(vh * 0.26);
+    const maxRest = Math.round(vh * 0.5);
+    return Math.max(minRest, Math.min(maxRest, vh - need));
+  };
+  const maxExtra = () => Math.max(0, window.innerHeight - forestRestTop());
   // Titolo sul video: sparisce dietro gli alberi mentre la foresta sale
   const copy = document.querySelector(".hero-copy");
   const art = scene.querySelector(".layer-2 img");
@@ -1028,7 +1037,7 @@ function initHeroForest() {
     root.style.setProperty("--forest-extra", `${extra}px`);
     // Dove si ferma la base della foresta, misurata dal bordo alto dello
     // schermo. Frase ferma e card si agganciano subito sotto (--sog-top).
-    const rest = window.innerHeight - maxExtra();
+    const rest = forestRestTop();
     if (rest !== lastRest) {
       lastRest = rest;
       root.style.setProperty("--forest-rest-top", `${rest}px`);
@@ -1121,7 +1130,12 @@ function initHeroHold() {
 
   const measure = () => {
     const wrapTop = wrap.getBoundingClientRect().top;
-    const forestRest = window.innerHeight - Math.round(window.innerHeight * 0.55);
+    const bandEl = document.querySelector(".forest-green");
+    const bandH = (bandEl && bandEl.offsetHeight) || Math.round(window.innerHeight * 0.4);
+    const forestRest = Math.max(
+      Math.round(window.innerHeight * 0.26),
+      Math.min(Math.round(window.innerHeight * 0.5), window.innerHeight - bandH - 16)
+    );
     const hold = stage
       ? Math.round(stage.getBoundingClientRect().bottom - wrapTop - forestRest)
       : Math.round(next.getBoundingClientRect().top - wrapTop);

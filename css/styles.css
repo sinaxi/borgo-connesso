@@ -717,13 +717,21 @@ html.forest-done .hero {
   clip-path: inset(var(--fg-band-cut, 0px) 0 0 0);
 }
 
-/* Fascia verde + card impilate: un solo blocco. Quando la fascia resta
-   ferma sotto la foresta (vedi sotto), si sgancia insieme alla pila. */
+/* Fascia verde + pausa + card: un solo blocco. La fascia resta ferma
+   sotto la foresta; la pausa tiene il testo tutto in vista; poi le card
+   salgono sopra e si sganciano insieme. */
 .forest-stage {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 0;
   min-width: 0;
+}
+
+/* Tratto di scroll con foresta e testo fermi, prima che arrivino le card */
+.forest-pin-runway {
+  height: clamp(28vh, 42vh, 52vh);
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 /* Dopo il bosco le sezioni coprono foresta e fascia verde */
@@ -784,13 +792,14 @@ html.forest-done .forest-green {
   white-space: nowrap;
 }
 
-/* Frase grande: peso leggero, le parole che contano in bianco pieno */
+/* Frase grande: peso leggero, le parole che contano in bianco pieno.
+   clamp un po' più basso così su schermi bassi stanno entrambe le frasi. */
 .forest-green h2 {
   margin: 0;
   color: inherit;
-  font-size: clamp(1.7rem, 3.4vw, 3.05rem);
+  font-size: clamp(1.45rem, 2.8vw, 2.55rem);
   font-weight: 300;
-  line-height: 1.3;
+  line-height: 1.28;
   letter-spacing: -0.03em;
   text-wrap: balance;
 }
@@ -851,11 +860,11 @@ html.forest-done .forest-green {
 
 /* Seconda frase: stesso trattamento, un gradino sotto la prima */
 .fg-sub {
-  margin: clamp(18px, 2.6vw, 34px) auto 0;
+  margin: clamp(14px, 2vw, 28px) auto 0;
   max-width: 46rem;
-  font-size: clamp(1.3rem, 2.45vw, 2.15rem);
+  font-size: clamp(1.15rem, 2.1vw, 1.85rem);
   font-weight: 300;
-  line-height: 1.38;
+  line-height: 1.35;
   letter-spacing: -0.025em;
   text-wrap: balance;
 }
