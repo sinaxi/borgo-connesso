@@ -1008,7 +1008,7 @@ function initHeroForest() {
   const underText = document.querySelector(".forest-green__inner");
   const band = document.querySelector(".forest-green");
   const firstCard = document.querySelector(".sog-card");
-  const after = document.querySelector("#in-breve");
+  const after = document.querySelector("#borgo");
   // Titolo sul video: sparisce dietro gli alberi mentre la foresta sale
   const copy = document.querySelector(".hero-copy");
   const art = scene.querySelector(".layer-2 img");
@@ -1080,8 +1080,8 @@ function initHeroForest() {
       `${Math.round(Math.max(16, forestH * 0.22))}px`
     );
 
-    // Appena il blocco dopo la pila entra in schermo, foresta/video/verde
-    // spariscono: tra le card e quel blocco torna il grigio della pagina.
+    // Appena «Perché» entra in schermo, foresta/video/verde spariscono:
+    // tra le card e quel blocco torna il grigio della pagina.
     if (after) {
       const done = y >= maxExtra() && after.getBoundingClientRect().top < window.innerHeight - 4;
       if (done !== lastDone) {
