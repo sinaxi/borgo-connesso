@@ -5530,10 +5530,9 @@ body.menu-closing .float-dock {
 }
 
 /* ==========================================================================
-   Telefono in verticale: stessa inquadratura della foresta del desktop.
-   Prima il disegno era larghissimo (150svh) e sul telefono si vedeva solo
-   il centro (cascata/volpe), senza gli alberi ai lati. Ora vale 118vw come
-   sul desktop: fascia circa metà alta, alberi laterali in vista.
+   Telefono in verticale: stessa inquadratura della foresta del desktop
+   (118vw, alberi ai lati). All’apertura la foresta resta sopra il video e
+   ne copre circa 1/5 in basso.
    ========================================================================== */
 @media (max-width: 720px) and (orientation: portrait) {
   :root {
@@ -5546,11 +5545,12 @@ body.menu-closing .float-dock {
     min-height: calc(100svh - 24px);
   }
 
-  /* Video alto; sotto resta solo la fascia foresta (altezza --forest-h). */
+  /* Video più alto: la foresta fissa in basso gli resta SOPRA e ne copre
+     circa 1/5 (come il footer bloccato all’apertura su desktop). */
   .hero-visual {
     flex: none;
     min-height: 0;
-    height: max(300px, calc(100svh - 12px - var(--forest-h)));
+    height: max(300px, calc((100svh - 12px - var(--forest-h)) * 1.2));
   }
 
   /* Il titolo parte sotto il pulsante «+», che prima copriva «il» */
