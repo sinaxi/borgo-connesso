@@ -560,6 +560,7 @@ body.is-rail-open .rail-show {
   min-height: calc(100svh - 24px);
   isolation: isolate;
   z-index: 1;
+  transition: opacity 0.35s var(--ease);
 }
 
 
@@ -574,6 +575,7 @@ body.is-rail-open .rail-show {
   background: var(--forest-green);
   z-index: 8;
   pointer-events: none;
+  transition: opacity 0.35s var(--ease);
 }
 
 .forest-dock-scene {
@@ -588,6 +590,16 @@ body.is-rail-open .rail-show {
   clip-path: inset(-200vh 0 0 0);
   background: transparent;
   z-index: 16;
+  pointer-events: none;
+  transition: opacity 0.35s var(--ease);
+}
+
+/* Fine della pila: foresta, verde e video spariscono → torna il grigio
+   della pagina (--paper). Classe messa da js/main.js (initHeroForest). */
+html.forest-done .forest-dock-scene,
+html.forest-done .forest-dock-fill,
+html.forest-done .hero {
+  opacity: 0;
   pointer-events: none;
 }
 
@@ -755,6 +767,16 @@ body.is-rail-open .rail-show {
 /* Testo coperto dalle card (classe messa da js/main.js, initHeroForest) */
 .forest-green.is-covered .forest-green__inner {
   visibility: hidden;
+}
+
+/* A pila finita la fascia verde non deve restare sotto: torna il grigio */
+.forest-green {
+  transition: opacity 0.35s var(--ease);
+}
+
+html.forest-done .forest-green {
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Tiene insieme una parola e la sua punteggiatura, o una coppia di parole */

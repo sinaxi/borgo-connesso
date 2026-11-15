@@ -1008,6 +1008,7 @@ function initHeroForest() {
   const underText = document.querySelector(".forest-green__inner");
   const band = document.querySelector(".forest-green");
   const firstCard = document.querySelector(".sog-card");
+  const after = document.querySelector("#in-breve");
   // Titolo sul video: sparisce dietro gli alberi mentre la foresta sale
   const copy = document.querySelector(".hero-copy");
   const art = scene.querySelector(".layer-2 img");
@@ -1017,6 +1018,7 @@ function initHeroForest() {
   let lastBandCut = null;
   let lastCopyCut = null;
   let lastCovered = null;
+  let lastDone = null;
 
   const update = () => {
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
@@ -1077,6 +1079,16 @@ function initHeroForest() {
       "--float-dock-clearance",
       `${Math.round(Math.max(16, forestH * 0.22))}px`
     );
+
+    // Appena il blocco dopo la pila entra in schermo, foresta/video/verde
+    // spariscono: tra le card e quel blocco torna il grigio della pagina.
+    if (after) {
+      const done = y >= maxExtra() && after.getBoundingClientRect().top < window.innerHeight - 4;
+      if (done !== lastDone) {
+        lastDone = done;
+        document.documentElement.classList.toggle("forest-done", done);
+      }
+    }
   };
 
   let ticking = false;
