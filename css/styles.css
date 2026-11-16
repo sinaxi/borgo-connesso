@@ -640,8 +640,8 @@ html.forest-done .hero {
   dall'alto un profilo di montagne al contrario: è colorato il cielo, sopra
   la cresta; sotto la cresta resta la pagina con le card.
   - Colore: --sky qui sotto.
-  - La cresta è lo stesso tracciato di assets/forest/layer-1.svg, stessa
-    larghezza e stesso centro delle montagne sul video.
+  - Cresta ispirata a layer-1.svg, ma a sinistra resta bassa: sotto il «+»
+    c'è solo cielo su ogni layout. Stessa larghezza/centro del video.
   - .sky-dock sale con la pila quando si sgancia, poi si blocca con la
     cresta in cima allo schermo e ci resta: il resto della pagina le scorre
     sotto (transform da js/main.js, initHeroForest).
@@ -649,9 +649,8 @@ html.forest-done .hero {
 */
 .sky-dock {
   --sky: var(--forest-pool);
-  /* Uccelli e nuvole: appena più chiari del cielo, quasi impercettibili */
+  /* Uccelli: appena più chiari del cielo */
   --sky-near: #bcd0cb;
-  --sky-cloud: #b4cac5;
   --sky-art-w: max(104vw, var(--forest-art-w));
   --sky-ridge-h: calc(var(--sky-art-w) * 216 / 2000);
   position: fixed;
@@ -705,10 +704,6 @@ html.forest-done .sky-dock__sheet {
   fill: var(--sky);
 }
 
-.sky-dock__clouds {
-  fill: var(--sky-cloud);
-}
-
 .sky-dock__birds {
   fill: none;
   stroke: var(--sky-near);
@@ -739,6 +734,8 @@ body {
 .meadow-dock {
   --meadow: #aecca4;
   --meadow-back: #c2d7bb;
+  /* Ciuffi d'erba: un tono più scuro del prato, così si leggono */
+  --meadow-tuft: #6d9466;
   --meadow-art-w: max(104vw, var(--forest-art-w));
   --meadow-hills-h: calc(var(--meadow-art-w) * 120 / 2000);
   position: fixed;
@@ -793,6 +790,10 @@ html.forest-done .meadow-dock__sheet {
 
 .meadow-dock__front {
   fill: var(--meadow);
+}
+
+.meadow-dock__tufts {
+  fill: var(--meadow-tuft);
 }
 
 /* I link del menu (#percorsi, #contatti…) si fermano sotto il cielo
@@ -4454,6 +4455,53 @@ body.menu-closing {
 /* Con il prato in vista la barra sta davanti alle colline, più in basso. */
 html.forest-done {
   --float-dock-clearance: clamp(22px, calc(var(--meadow-h) * 0.28), 38px);
+}
+
+/* Telefono: barra tutta dentro il verde, un filo più bassa e compatta */
+@media (max-width: 720px) and (orientation: portrait) {
+  :root {
+    --meadow-h: clamp(108px, 15.5vh, 148px);
+  }
+
+  html.forest-done {
+    --float-dock-clearance: max(10px, env(safe-area-inset-bottom, 0px));
+  }
+
+  .float-dock {
+    bottom: max(
+      10px,
+      env(safe-area-inset-bottom, 0px),
+      var(--float-dock-clearance, 10px)
+    );
+  }
+
+  .float-dock__circle,
+  .float-dock__menu {
+    width: 46px;
+    height: 46px;
+  }
+
+  .float-dock__wa {
+    width: 22px;
+    height: 22px;
+  }
+
+  .float-dock__cta {
+    gap: 2px;
+    padding: 2px;
+  }
+
+  .float-dock__btn {
+    min-width: 0;
+    height: 40px;
+    padding: 0 12px;
+    font-size: 0.78rem;
+  }
+
+  .float-dock__burger {
+    width: 18px;
+    gap: 4px;
+  }
 }
 
 .float-dock {

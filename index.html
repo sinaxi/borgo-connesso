@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=255">
+  <link rel="stylesheet" href="css/styles.css?v=256">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -1295,40 +1295,21 @@
     </div>
   </div>
 
-  <!-- Cielo: a pila chiusa scende dall'alto. Stessa cresta di
-       assets/forest/layer-1.svg, ma è colorata la parte sopra (il cielo);
-       sotto la cresta si vede la pagina. Colori: --sky e --sky-cloud
-       in css/styles.css.
-       Solo uccelli e nuvole abbozzate, quasi dello stesso colore del cielo. -->
+  <!-- Cielo: a pila chiusa scende dall'alto. Stessa idea di
+       assets/forest/layer-1.svg, ma a sinistra la cresta resta bassa:
+       sotto il «+» c'è solo cielo su ogni layout. Colore: --sky.
+       Solo due uccelli, appena più chiari del cielo. -->
   <div class="sky-dock" aria-hidden="true">
     <div class="sky-dock__sheet">
       <svg class="sky-dock__ridge" viewBox="0 -4 2000 216" preserveAspectRatio="none" focusable="false">
         <defs>
-          <path id="sky-shape" d="M2000 -4V60C2000 60 1720.2 83.2641 1716.4 79.3641L1643.1 6.0641C1635.7 -1.3359 1624 -2.0359 1615.8 4.3641L1438.7 142.664C1434.5 145.964 1429.2 147.464 1423.9 146.964L1333.5 137.664C1328.9 137.164 1324.2 138.264 1320.3 140.764L1098.4 208.064C1091.8 212.264 1083.4 212.364 1076.7 208.364L763.1 93.5641C757.4 90.1641 750.4 89.6641 744.3 92.2641L672.7 122.964C664.6 126.464 655.1 124.364 649.2 117.764L560.4 18.3641C552.3 9.2641 538 9.1641 529.8 18.1641L440.9 115.464C435.1 121.864 426 123.864 418 120.664L375.5 103.664C368.1 100.764 359.7 102.264 353.9 107.664L284.7 171.164L0 60V-4H2000Z"/>
+          <path id="sky-shape" d="M2000 -4V60C2000 60 1720.2 83.2641 1716.4 79.3641L1643.1 6.0641C1635.7 -1.3359 1624 -2.0359 1615.8 4.3641L1438.7 142.664C1434.5 145.964 1429.2 147.464 1423.9 146.964L1333.5 137.664C1328.9 137.164 1324.2 138.264 1320.3 140.764L1098.4 208.064C1091.8 212.264 1083.4 212.364 1076.7 208.364L920 150C860 130 820 145 780 155C700 165 600 158 480 152C360 146 240 150 0 148V-4H2000Z"/>
         </defs>
         <use href="#sky-shape" class="sky-dock__sky"/>
-        <!-- Nuvole stilizzate: tre ovali accostati, tono su tono col cielo -->
-        <g class="sky-dock__clouds">
-          <g transform="translate(280 48)">
-            <ellipse cx="0" cy="6" rx="42" ry="14"/>
-            <ellipse cx="28" cy="0" rx="30" ry="16"/>
-            <ellipse cx="54" cy="8" rx="24" ry="12"/>
-          </g>
-          <g transform="translate(980 28)">
-            <ellipse cx="0" cy="4" rx="36" ry="12"/>
-            <ellipse cx="26" cy="-2" rx="28" ry="14"/>
-            <ellipse cx="50" cy="6" rx="20" ry="10"/>
-          </g>
-          <g transform="translate(1580 52)">
-            <ellipse cx="0" cy="5" rx="38" ry="13"/>
-            <ellipse cx="30" cy="-1" rx="26" ry="14"/>
-            <ellipse cx="52" cy="7" rx="18" ry="10"/>
-          </g>
-        </g>
         <!-- Due uccelli sopra la valle -->
         <g class="sky-dock__birds">
-          <path d="M1138 96q6.5 -8 13 0q6.5 -8 13 0"/>
-          <path d="M1176 116q5 -6 10 0q5 -6 10 0"/>
+          <path d="M1180 88q6.5 -8 13 0q6.5 -8 13 0"/>
+          <path d="M1220 108q5 -6 10 0q5 -6 10 0"/>
         </g>
       </svg>
     </div>
@@ -1348,14 +1329,17 @@
         <path class="meadow-dock__back" d="M0 120V34C162 34 198 10 360 10C603 10 657 62 900 62C1134 62 1186 6 1420 6C1627 6 1673 54 1880 54C1934 54 1946 46 2000 46V120Z"/>
         <g class="meadow-dock__front">
           <path d="M0 120V58C90 58 110 66 200 66C425 66 475 34 700 34C916 34 964 84 1180 84C1414 84 1466 42 1700 42C1835 42 1865 70 2000 70V120Z"/>
-          <use href="#meadow-tuft" transform="translate(250 69.4) scale(0.8 0.8)"/>
-          <use href="#meadow-tuft" transform="translate(610 39.9) scale(-0.9 0.9)"/>
-          <use href="#meadow-tuft" transform="translate(665 38.3) scale(0.55 0.55)"/>
-          <use href="#meadow-tuft" transform="translate(1085 84.3) scale(0.75 0.75)"/>
-          <use href="#meadow-tuft" transform="translate(1320 82.1) scale(-0.6 0.6)"/>
-          <use href="#meadow-tuft" transform="translate(1395 73.5) scale(0.85 0.85)"/>
-          <use href="#meadow-tuft" transform="translate(1560 51.9) scale(-0.7 0.7)"/>
-          <use href="#meadow-tuft" transform="translate(1880 64.9) scale(0.8 0.8)"/>
+        </g>
+        <!-- Ciuffi sopra la collina, verde più scuro del prato -->
+        <g class="meadow-dock__tufts">
+          <use href="#meadow-tuft" transform="translate(250 62) scale(1.15 1.15)"/>
+          <use href="#meadow-tuft" transform="translate(610 32) scale(-1.25 1.25)"/>
+          <use href="#meadow-tuft" transform="translate(680 30) scale(0.85 0.85)"/>
+          <use href="#meadow-tuft" transform="translate(1085 76) scale(1.1 1.1)"/>
+          <use href="#meadow-tuft" transform="translate(1320 74) scale(-0.95 0.95)"/>
+          <use href="#meadow-tuft" transform="translate(1410 64) scale(1.2 1.2)"/>
+          <use href="#meadow-tuft" transform="translate(1560 44) scale(-1.05 1.05)"/>
+          <use href="#meadow-tuft" transform="translate(1880 56) scale(1.15 1.15)"/>
         </g>
       </svg>
     </div>
