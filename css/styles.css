@@ -4508,10 +4508,15 @@ html.forest-done .float-dock {
     --float-dock-clearance: 6px;
   }
 
-  /* Mobile: metà spazio per cielo e cresta (desktop resta invariato) */
+  /* Mobile: metà fascia, cresta a tutta altezza (niente giunto/riga a metà cielo) */
   .sky-dock {
-    --sky-ridge-h: calc(var(--sky-art-w) * 108 / 2000);
+    --sky-ridge-h: 100%;
     height: calc((var(--forest-rest-top, 48vh) - 16px) * 0.5);
+  }
+
+  .sky-dock__sheet::before {
+    bottom: auto;
+    height: 60px;
   }
 
   /* Cresta ancorata a sinistra: sotto il «+» c'è il tratto basso
