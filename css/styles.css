@@ -1194,6 +1194,7 @@ html.forest-done .forest-green {
   padding: 48px 40px 0;
   max-width: none;
   animation: rise 0.8s var(--ease) both;
+  transition: opacity 0.35s var(--ease), visibility 0.35s var(--ease);
   /* Quando la foresta sale, titolo e sottotitolo spariscono dietro gli
      alberi dal basso verso l'alto, invece di restare a pezzi tra un tronco
      e l'altro. --copy-cut arriva da js/main.js (initHeroForest). */
@@ -1220,10 +1221,11 @@ html.forest-done .forest-green {
   color: #fff;
 }
 
-/* Desktop: titolo/sottotitolo spariscono solo a pila chiusa
-   (montagne bloccate, card in vista) — non all'apertura. */
+/* Desktop: «il Borgo connesso» sparisce quando la foresta è ferma
+   e compare il testo «Sul Lago d'Iseo…» (html.forest-at-rest). */
 @media (min-width: 721px) {
-  html.forest-done .hero-copy {
+  html.forest-at-rest .hero-copy {
+    opacity: 0;
     visibility: hidden;
   }
 }

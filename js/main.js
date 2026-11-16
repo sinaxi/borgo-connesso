@@ -1054,6 +1054,7 @@ function initHeroForest() {
   let lastCopyCut = null;
   let lastCovered = null;
   let lastDone = null;
+  let lastAtRest = null;
   let lastExtra = -1;
   let cachedRest = 0;
   let cachedMaxExtra = 0;
@@ -1124,6 +1125,13 @@ function initHeroForest() {
     if (extra !== lastExtra) {
       lastExtra = extra;
       root.style.setProperty("--forest-extra", `${extra}px`);
+    }
+    // Foresta ferma in cima: compare il testo «Sul Lago d'Iseo…»
+    // → su desktop sparisce «il Borgo connesso».
+    const atRest = extra >= cachedMaxExtra && cachedMaxExtra > 0;
+    if (atRest !== lastAtRest) {
+      lastAtRest = atRest;
+      root.classList.toggle("forest-at-rest", atRest);
     }
     const sceneBottom = window.innerHeight - extra;
     const rest = cachedRest;
