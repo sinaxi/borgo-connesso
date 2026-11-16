@@ -640,8 +640,8 @@ html.forest-done .hero {
   dall'alto un profilo di montagne al contrario: è colorato il cielo, sopra
   la cresta; sotto la cresta resta la pagina con le card.
   - Colore: --sky qui sotto.
-  - Cresta ispirata a layer-1.svg, ma a sinistra resta bassa: sotto il «+»
-    c'è solo cielo su ogni layout. Stessa larghezza/centro del video.
+  - Cresta = layer-1.svg; a sinistra inizia un filo dopo (sotto il «+»
+    resta cielo). Stessa larghezza/centro del video.
   - .sky-dock sale con la pila quando si sgancia, poi si blocca con la
     cresta in cima allo schermo e ci resta: il resto della pagina le scorre
     sotto (transform da js/main.js, initHeroForest).
@@ -734,8 +734,8 @@ body {
 .meadow-dock {
   --meadow: #aecca4;
   --meadow-back: #c2d7bb;
-  /* Ciuffi d'erba: un tono più scuro del prato, così si leggono */
-  --meadow-tuft: #6d9466;
+  /* Ciuffi: poco più scuri del prato (prima erano troppo evidenti) */
+  --meadow-tuft: #a4c59c;
   --meadow-art-w: max(104vw, var(--forest-art-w));
   --meadow-hills-h: calc(var(--meadow-art-w) * 120 / 2000);
   position: fixed;
@@ -4452,55 +4452,19 @@ body.menu-closing {
   }
 }
 
-/* Con il prato in vista la barra sta davanti alle colline, più in basso. */
+/* Con il prato in vista la barra sta dentro il verde, sotto la cresta
+   delle colline (non a cavallo col bianco). */
 html.forest-done {
-  --float-dock-clearance: clamp(22px, calc(var(--meadow-h) * 0.28), 38px);
+  --float-dock-clearance: clamp(10px, calc(var(--meadow-h) * 0.1), 16px);
 }
 
-/* Telefono: barra tutta dentro il verde, un filo più bassa e compatta */
 @media (max-width: 720px) and (orientation: portrait) {
   :root {
-    --meadow-h: clamp(108px, 15.5vh, 148px);
+    --meadow-h: calc(clamp(120px, 16vh, 150px) + env(safe-area-inset-bottom, 0px));
   }
 
   html.forest-done {
-    --float-dock-clearance: max(10px, env(safe-area-inset-bottom, 0px));
-  }
-
-  .float-dock {
-    bottom: max(
-      10px,
-      env(safe-area-inset-bottom, 0px),
-      var(--float-dock-clearance, 10px)
-    );
-  }
-
-  .float-dock__circle,
-  .float-dock__menu {
-    width: 46px;
-    height: 46px;
-  }
-
-  .float-dock__wa {
-    width: 22px;
-    height: 22px;
-  }
-
-  .float-dock__cta {
-    gap: 2px;
-    padding: 2px;
-  }
-
-  .float-dock__btn {
-    min-width: 0;
-    height: 40px;
-    padding: 0 12px;
-    font-size: 0.78rem;
-  }
-
-  .float-dock__burger {
-    width: 18px;
-    gap: 4px;
+    --float-dock-clearance: 8px;
   }
 }
 
@@ -4688,6 +4652,66 @@ body.menu-closing .float-dock {
   .float-dock__cta {
     gap: 3px;
     padding: 3px;
+  }
+}
+
+/* Telefono: barra tutta dentro il verde. Specificità alta così
+   non vince il bottom: max(16px, …) di .float-dock.
+   Safe-area: padding sotto, non alza la barra sul bianco. */
+@media (max-width: 720px) and (orientation: portrait) {
+  html.forest-done .float-dock {
+    bottom: 8px;
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+
+  .float-dock__circle,
+  .float-dock__menu {
+    width: 44px;
+    height: 44px;
+  }
+
+  .float-dock__wa {
+    width: 20px;
+    height: 20px;
+  }
+
+  .float-dock__cta {
+    gap: 2px;
+    padding: 2px;
+  }
+
+  .float-dock__btn {
+    min-width: 0;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 0.75rem;
+  }
+
+  .float-dock__burger {
+    width: 17px;
+    gap: 4px;
+  }
+
+  .rail-show {
+    width: 36px;
+    height: 36px;
+    top: 14px;
+    left: 14px;
+  }
+
+  .rail-show-plus {
+    width: 14px;
+    height: 14px;
+  }
+
+  .rail-show-plus::before {
+    top: 6px;
+    width: 14px;
+  }
+
+  .rail-show-plus::after {
+    left: 6px;
+    height: 14px;
   }
 }
 
