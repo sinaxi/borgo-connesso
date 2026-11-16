@@ -1220,6 +1220,13 @@ html.forest-done .forest-green {
   color: #fff;
 }
 
+/* Desktop: titolo e sottotitolo hero non si vedono (restano su mobile) */
+@media (min-width: 721px) {
+  .hero-copy {
+    visibility: hidden;
+  }
+}
+
 /*
   Il borgo in breve: testo con i tag e, accanto, i luoghi.
   Sta prima di «Perché». Da 1041px in su i due riquadri sono affiancati e i
