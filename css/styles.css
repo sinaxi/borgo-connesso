@@ -4455,16 +4455,16 @@ body.menu-closing {
 /* Con il prato in vista la barra sta dentro il verde, sotto la cresta
    delle colline (non a cavallo col bianco). */
 html.forest-done {
-  --float-dock-clearance: clamp(10px, calc(var(--meadow-h) * 0.1), 16px);
+  --float-dock-clearance: clamp(6px, calc(var(--meadow-h) * 0.08), 12px);
 }
 
 @media (max-width: 720px) and (orientation: portrait) {
   :root {
-    --meadow-h: calc(clamp(120px, 16vh, 150px) + env(safe-area-inset-bottom, 0px));
+    --meadow-h: calc(clamp(128px, 17vh, 158px) + env(safe-area-inset-bottom, 0px));
   }
 
   html.forest-done {
-    --float-dock-clearance: 8px;
+    --float-dock-clearance: 2px;
   }
 }
 
@@ -4660,7 +4660,7 @@ body.menu-closing .float-dock {
    Safe-area: padding sotto, non alza la barra sul bianco. */
 @media (max-width: 720px) and (orientation: portrait) {
   html.forest-done .float-dock {
-    bottom: 8px;
+    bottom: 2px;
     padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
