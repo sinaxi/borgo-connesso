@@ -1220,9 +1220,10 @@ html.forest-done .forest-green {
   color: #fff;
 }
 
-/* Desktop: titolo e sottotitolo hero non si vedono (restano su mobile) */
+/* Desktop: titolo/sottotitolo spariscono solo a pila chiusa
+   (montagne bloccate, card in vista) — non all'apertura. */
 @media (min-width: 721px) {
-  .hero-copy {
+  html.forest-done .hero-copy {
     visibility: hidden;
   }
 }
