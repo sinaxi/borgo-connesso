@@ -1268,6 +1268,7 @@ initHeroHold();
 /* Float-dock: compare solo quando inizia l’area «Perché» (#borgo) */
 function initFloatDockReveal() {
   const dock = document.querySelector(".float-dock");
+  const plus = document.querySelector(".rail-show");
   const trigger = document.querySelector("#borgo");
   if (!dock || !trigger) return;
 
@@ -1275,6 +1276,12 @@ function initFloatDockReveal() {
     dock.classList.toggle("is-on", show);
     dock.toggleAttribute("inert", !show);
     dock.setAttribute("aria-hidden", show ? "false" : "true");
+    // Il «+» in alto compare insieme alla barra in fondo
+    if (plus) {
+      plus.classList.toggle("is-on", show);
+      plus.toggleAttribute("inert", !show);
+      plus.setAttribute("aria-hidden", show ? "false" : "true");
+    }
   };
 
   const update = () => {

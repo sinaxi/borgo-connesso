@@ -175,6 +175,8 @@ body.is-rail-open .rail {
   transform: translateX(0);
 }
 
+/* Come .float-dock: nascosto finché non compare la barra in fondo
+   (classe .is-on da js/main.js, initFloatDockReveal). */
 .rail-show {
   position: fixed;
   top: 18px;
@@ -191,6 +193,21 @@ body.is-rail-open .rail {
   color: #111;
   cursor: pointer;
   box-shadow: 0 10px 28px rgba(17, 17, 17, 0.16);
+  opacity: 0;
+  visibility: hidden;
+  transform: translate3d(0, -8px, 0);
+  pointer-events: none;
+  transition:
+    opacity 0.4s var(--ease),
+    transform 0.4s var(--ease),
+    visibility 0.4s;
+}
+
+.rail-show.is-on {
+  opacity: 1;
+  visibility: visible;
+  transform: translate3d(0, 0, 0);
+  pointer-events: auto;
 }
 
 .rail-show:hover {
@@ -225,9 +242,20 @@ body.is-rail-open .rail {
   height: 16px;
 }
 
-body.is-rail-open .rail-show {
+body.is-rail-open .rail-show,
+body.menu-open .rail-show,
+body.menu-opening .rail-show,
+body.menu-closing .rail-show {
   visibility: hidden;
+  opacity: 0;
   pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rail-show {
+    transition: opacity 0.01ms linear, visibility 0.01ms linear;
+    transform: none;
+  }
 }
 
 .rail :focus-visible,
