@@ -1065,7 +1065,17 @@ function initHeroForest() {
   const skyRidge = sky && sky.querySelector(".sky-dock__ridge");
   const stackCards = document.querySelectorAll(".sog-card");
   const lastCard = stackCards[stackCards.length - 1];
-  const SKY_LOCK_TOP = 8; // px di cielo pieno sopra le cime, a cielo bloccato
+  // Cielo pieno sopra le cime: almeno sotto il bordo basso del «+»,
+  // così il cerchio resta nell'azzurro su ogni layout/device.
+  const skyLockTop = () => {
+    const plus = document.querySelector(".rail-show");
+    if (plus) {
+      const r = plus.getBoundingClientRect();
+      // Aria di cielo pieno sotto il «+», sopra qualsiasi cima
+      return Math.ceil(r.bottom + 20);
+    }
+    return 56;
+  };
   let lastCardStuckTop = 0;
   let skyMaxRise = 0;
   let lastSkyFollow = null;
@@ -1092,7 +1102,7 @@ function initHeroForest() {
       // Di quanto può salire il cielo prima di bloccarsi: resta in vista
       // la cresta, con un filo di cielo sopra le cime.
       const ridgeH = skyRidge.getBoundingClientRect().height;
-      skyMaxRise = Math.max(0, sky.offsetHeight - ridgeH - SKY_LOCK_TOP);
+      skyMaxRise = Math.max(0, sky.offsetHeight - ridgeH - skyLockTop());
     }
     // Con il prato in vista il clearance lo dà il CSS (html.forest-done).
     // Prima, mentre c'è ancora la foresta, basta un filo sopra il bordo.
@@ -1194,12 +1204,14 @@ function initHeroForest() {
     }
 
     // Il cielo resta sopra la pila: quando le card si sganciano e salgono,
-    // sale con loro finché la cresta arriva in cima allo schermo. Lì si
-    // blocca e il contenuto continua a scorrere sotto.
+    // sale con loro finché sotto il «+» resta solo cielo. Lì si blocca.
     if (sky && lastCard) {
-      const follow = Math.max(
-        -skyMaxRise,
-        Math.min(0, lastCard.getBoundingClientRect().top - lastCardStuckTop)
+      if (skyRidge) {
+        const ridgeH = skyRidge.offsetHeight || skyRidge.getBoundingClientRect().height;
+        skyMaxRise = Math.max(0, sky.offsetHeight - ridgeH - skyLockTop());
+      }
+      const follow = Math.round(
+        Math.max(-skyMaxRise, Math.min(0, lastCard.getBoundingClientRect().top - lastCardStuckTop))
       );
       if (follow !== lastSkyFollow) {
         lastSkyFollow = follow;
