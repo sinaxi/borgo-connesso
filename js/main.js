@@ -1057,13 +1057,17 @@ function initHeroForest() {
   let lastExtra = -1;
   let cachedRest = 0;
   let cachedMaxExtra = 0;
-  // Cielo a pila chiusa: scende con html.forest-done (CSS) e poi sale via
-  // insieme alle card. L'ultima card non viene mai inclinata né scalata,
-  // quindi la sua posizione dice di quanto la pila si è sganciata.
+  // Cielo a pila chiusa: scende con html.forest-done (CSS), sale insieme
+  // alle card e si blocca con la cresta in cima allo schermo. L'ultima card
+  // non viene mai inclinata né scalata, quindi la sua posizione dice di
+  // quanto la pila si è sganciata.
   const sky = document.querySelector(".sky-dock");
+  const skyRidge = sky && sky.querySelector(".sky-dock__ridge");
   const stackCards = document.querySelectorAll(".sog-card");
   const lastCard = stackCards[stackCards.length - 1];
+  const SKY_LOCK_TOP = 8; // px di cielo pieno sopra le cime, a cielo bloccato
   let lastCardStuckTop = 0;
+  let skyMaxRise = 0;
   let lastSkyFollow = null;
   let phonePortrait = window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches;
 
@@ -1083,6 +1087,12 @@ function initHeroForest() {
       lastCardStuckTop = Number.isFinite(stuck)
         ? stuck
         : cachedRest + 8 + (stackCards.length - 1) * 12;
+    }
+    if (sky && skyRidge) {
+      // Di quanto può salire il cielo prima di bloccarsi: resta in vista
+      // la cresta, con un filo di cielo sopra le cime.
+      const ridgeH = skyRidge.getBoundingClientRect().height;
+      skyMaxRise = Math.max(0, sky.offsetHeight - ridgeH - SKY_LOCK_TOP);
     }
     const forestH = scene.offsetHeight || 320;
     root.style.setProperty(
@@ -1169,9 +1179,13 @@ function initHeroForest() {
     }
 
     // Il cielo resta sopra la pila: quando le card si sganciano e salgono,
-    // sale con loro della stessa quantità ed esce dall'alto.
+    // sale con loro finché la cresta arriva in cima allo schermo. Lì si
+    // blocca e il contenuto continua a scorrere sotto.
     if (sky && lastCard) {
-      const follow = Math.min(0, lastCard.getBoundingClientRect().top - lastCardStuckTop);
+      const follow = Math.max(
+        -skyMaxRise,
+        Math.min(0, lastCard.getBoundingClientRect().top - lastCardStuckTop)
+      );
       if (follow !== lastSkyFollow) {
         lastSkyFollow = follow;
         sky.style.transform = follow ? `translate3d(0, ${follow}px, 0)` : "";
