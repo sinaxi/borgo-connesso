@@ -1057,6 +1057,14 @@ function initHeroForest() {
   let lastExtra = -1;
   let cachedRest = 0;
   let cachedMaxExtra = 0;
+  // Cielo a pila chiusa: scende con html.forest-done (CSS) e poi sale via
+  // insieme alle card. L'ultima card non viene mai inclinata né scalata,
+  // quindi la sua posizione dice di quanto la pila si è sganciata.
+  const sky = document.querySelector(".sky-dock");
+  const stackCards = document.querySelectorAll(".sog-card");
+  const lastCard = stackCards[stackCards.length - 1];
+  let lastCardStuckTop = 0;
+  let lastSkyFollow = null;
   let phonePortrait = window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches;
 
   // rest/fit solo al resize: ricalcolarli a ogni scroll faceva scattare i livelli
@@ -1069,6 +1077,13 @@ function initHeroForest() {
       root.style.setProperty("--forest-rest-top", `${cachedRest}px`);
     }
     cachedMaxExtra = Math.max(0, window.innerHeight - cachedRest);
+    if (lastCard) {
+      // Dove si ferma l'ultima card (il suo top sticky, in px)
+      const stuck = parseFloat(getComputedStyle(lastCard).top);
+      lastCardStuckTop = Number.isFinite(stuck)
+        ? stuck
+        : cachedRest + 8 + (stackCards.length - 1) * 12;
+    }
     const forestH = scene.offsetHeight || 320;
     root.style.setProperty(
       "--float-dock-clearance",
@@ -1150,6 +1165,16 @@ function initHeroForest() {
       if (done !== lastDone) {
         lastDone = done;
         document.documentElement.classList.toggle("forest-done", done);
+      }
+    }
+
+    // Il cielo resta sopra la pila: quando le card si sganciano e salgono,
+    // sale con loro della stessa quantità ed esce dall'alto.
+    if (sky && lastCard) {
+      const follow = Math.min(0, lastCard.getBoundingClientRect().top - lastCardStuckTop);
+      if (follow !== lastSkyFollow) {
+        lastSkyFollow = follow;
+        sky.style.transform = follow ? `translate3d(0, ${follow}px, 0)` : "";
       }
     }
   };

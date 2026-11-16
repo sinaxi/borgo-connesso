@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=248">
+  <link rel="stylesheet" href="css/styles.css?v=249">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -1295,6 +1295,17 @@
     </div>
   </div>
 
+  <!-- Cielo: a pila chiusa scende dall'alto. Stessa cresta di
+       assets/forest/layer-1.svg, ma è colorata la parte sopra (il cielo);
+       sotto la cresta si vede la pagina. Colore: --sky in css/styles.css. -->
+  <div class="sky-dock" aria-hidden="true">
+    <div class="sky-dock__sheet">
+      <svg class="sky-dock__ridge" viewBox="0 -4 2000 216" preserveAspectRatio="none" focusable="false">
+        <path d="M2000 -4V60C2000 60 1720.2 83.2641 1716.4 79.3641L1643.1 6.0641C1635.7 -1.3359 1624 -2.0359 1615.8 4.3641L1438.7 142.664C1434.5 145.964 1429.2 147.464 1423.9 146.964L1333.5 137.664C1328.9 137.164 1324.2 138.264 1320.3 140.764L1098.4 208.064C1091.8 212.264 1083.4 212.364 1076.7 208.364L763.1 93.5641C757.4 90.1641 750.4 89.6641 744.3 92.2641L672.7 122.964C664.6 126.464 655.1 124.364 649.2 117.764L560.4 18.3641C552.3 9.2641 538 9.1641 529.8 18.1641L440.9 115.464C435.1 121.864 426 123.864 418 120.664L375.5 103.664C368.1 100.764 359.7 102.264 353.9 107.664L284.7 171.164L0 60V-4H2000Z"/>
+      </svg>
+    </div>
+  </div>
+
   <div class="float-dock" aria-label="Azioni rapide">
     <div class="float-dock__row">
       <a
@@ -1320,6 +1331,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=70"></script>
+  <script src="js/main.js?v=71"></script>
 </body>
 </html>
