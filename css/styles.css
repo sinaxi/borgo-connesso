@@ -4453,10 +4453,13 @@ body.menu-closing {
   }
 }
 
-/* Con il prato in vista la barra sta dentro il verde, sotto la cresta
-   delle colline (non a cavallo col bianco). */
+/* Con il prato in vista la barra sta dentro il verde, verso il bordo basso. */
 html.forest-done {
-  --float-dock-clearance: clamp(6px, calc(var(--meadow-h) * 0.08), 12px);
+  --float-dock-clearance: 8px;
+}
+
+html.forest-done .float-dock {
+  bottom: 8px;
 }
 
 @media (max-width: 720px) and (orientation: portrait) {
