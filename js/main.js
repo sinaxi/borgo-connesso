@@ -1094,11 +1094,17 @@ function initHeroForest() {
       const ridgeH = skyRidge.getBoundingClientRect().height;
       skyMaxRise = Math.max(0, sky.offsetHeight - ridgeH - SKY_LOCK_TOP);
     }
-    const forestH = scene.offsetHeight || 320;
-    root.style.setProperty(
-      "--float-dock-clearance",
-      `${Math.round(Math.max(16, forestH * 0.22))}px`
-    );
+    // Con il prato in vista il clearance lo dà il CSS (html.forest-done).
+    // Prima, mentre c'è ancora la foresta, basta un filo sopra il bordo.
+    if (!document.documentElement.classList.contains("forest-done")) {
+      const forestH = scene.offsetHeight || 320;
+      root.style.setProperty(
+        "--float-dock-clearance",
+        `${Math.round(Math.max(16, forestH * 0.22))}px`
+      );
+    } else {
+      root.style.removeProperty("--float-dock-clearance");
+    }
   };
 
   const update = () => {
@@ -1175,6 +1181,15 @@ function initHeroForest() {
       if (done !== lastDone) {
         lastDone = done;
         document.documentElement.classList.toggle("forest-done", done);
+        // La barra passa sopra il prato (CSS) o torna al clearance foresta
+        if (done) root.style.removeProperty("--float-dock-clearance");
+        else {
+          const forestH = scene.offsetHeight || 320;
+          root.style.setProperty(
+            "--float-dock-clearance",
+            `${Math.round(Math.max(16, forestH * 0.22))}px`
+          );
+        }
       }
     }
 

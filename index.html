@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=252">
+  <link rel="stylesheet" href="css/styles.css?v=253">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -1299,48 +1299,22 @@
        assets/forest/layer-1.svg, ma è colorata la parte sopra (il cielo);
        sotto la cresta si vede la pagina. Colori: --sky, --sky-near e
        --sky-far in css/styles.css.
-       Sulla cresta: pini piccoli (lo stesso pino di assets/forest/layer-2.svg),
-       qualche villaggio abbozzato e due uccelli, tutti appena più chiari
-       del cielo: si notano solo guardando. Tutto è tagliato
-       sulla cresta (clip-path), quindi niente sporge sopra la pagina.
-       Per spostare un pino: translate(x y) = piede del tronco sulla cresta,
-       scale = misura. -->
+       Sulla cresta: qualche villaggio abbozzato e due uccelli, appena
+       più chiari del cielo. Tutto è tagliato sulla cresta (clip-path). -->
   <div class="sky-dock" aria-hidden="true">
     <div class="sky-dock__sheet">
       <svg class="sky-dock__ridge" viewBox="0 -4 2000 216" preserveAspectRatio="none" focusable="false">
         <defs>
           <path id="sky-shape" d="M2000 -4V60C2000 60 1720.2 83.2641 1716.4 79.3641L1643.1 6.0641C1635.7 -1.3359 1624 -2.0359 1615.8 4.3641L1438.7 142.664C1434.5 145.964 1429.2 147.464 1423.9 146.964L1333.5 137.664C1328.9 137.164 1324.2 138.264 1320.3 140.764L1098.4 208.064C1091.8 212.264 1083.4 212.364 1076.7 208.364L763.1 93.5641C757.4 90.1641 750.4 89.6641 744.3 92.2641L672.7 122.964C664.6 126.464 655.1 124.364 649.2 117.764L560.4 18.3641C552.3 9.2641 538 9.1641 529.8 18.1641L440.9 115.464C435.1 121.864 426 123.864 418 120.664L375.5 103.664C368.1 100.764 359.7 102.264 353.9 107.664L284.7 171.164L0 60V-4H2000Z"/>
-          <clipPath id="sky-clip"><use href="#sky-shape"/></clipPath>
-          <g id="sky-pine" transform="translate(-146.5 -86)"><path d="M143.467 71.5659C143.672 71.5659 143.827 71.771 143.827 71.976V77H149.122V71.976C149.122 71.771 149.276 71.5659 149.482 71.5659C154.983 71.5147 166.448 70.1818 171.897 62.3895C172.051 62.1844 172 61.8256 171.743 61.723C165.933 59.0573 163.877 57.3142 160.381 53.1618C160.124 52.9055 160.33 52.3928 160.69 52.4441C163.414 52.9055 166.242 51.3675 167.527 49.6245C167.733 49.3682 167.579 48.9581 167.27 48.9581C163.671 48.5479 160.227 45.6771 157.913 41.1658C157.759 40.8582 157.965 40.4993 158.273 40.5506C160.844 41.012 162.592 39.3715 163.311 38.5C163.466 38.2949 163.414 37.9361 163.209 37.8336C160.175 36.2443 157.451 33.8862 156.011 32.5533C155.754 32.2969 155.908 31.7843 156.268 31.8356C157.245 31.9381 158.736 31.8868 160.69 31.0153C160.947 30.9128 160.998 30.4514 160.741 30.2976C157.913 28.2983 155.034 24.4534 153.8 22.6591C153.595 22.3515 153.8 21.9414 154.109 21.9927C154.726 22.0952 155.703 22.0952 157.039 21.7364C157.348 21.6851 157.399 21.2237 157.194 21.0186C150.921 15.1232 147.785 4.25499 146.808 0.30759C146.706 -0.10253 146.243 -0.10253 146.14 0.30759C145.163 4.25499 141.976 15.1232 135.755 21.0186C135.498 21.2237 135.601 21.6851 135.909 21.7364C137.246 22.0952 138.223 22.0952 138.84 21.9927C139.148 21.9414 139.354 22.3515 139.148 22.6591C137.863 24.4534 135.035 28.2983 132.208 30.2976C131.951 30.4514 132.002 30.9128 132.259 31.0153C134.161 31.8868 135.652 31.9381 136.68 31.8356C137.04 31.7843 137.195 32.2969 136.938 32.5533C135.498 33.9374 132.825 36.2956 129.74 37.8336C129.534 37.9361 129.483 38.2949 129.637 38.5C130.357 39.3202 132.105 41.012 134.675 40.5506C134.984 40.4993 135.19 40.8582 135.035 41.1658C132.67 45.6771 129.277 48.5479 125.678 48.9581C125.37 49.0093 125.267 49.3682 125.421 49.6245C126.707 51.3675 129.534 52.9055 132.259 52.4441C132.619 52.3928 132.773 52.8542 132.568 53.1618C129.072 57.3142 127.015 59.0573 121.206 61.723C121 61.8256 120.897 62.1332 121.051 62.3895C126.501 70.1818 137.966 71.5659 143.467 71.5659Z"/><rect x="143.83" y="75" width="5.29" height="11"/></g>
         </defs>
         <use href="#sky-shape" class="sky-dock__sky"/>
-        <g clip-path="url(#sky-clip)" class="sky-dock__near">
-          <!-- Pini più lontani, un tono più vicino al cielo -->
-          <use href="#sky-pine" class="sky-dock__far" transform="translate(368 105.5) scale(0.46 0.46)"/>
-          <use href="#sky-pine" class="sky-dock__far" transform="translate(735 97.5) scale(-0.483 0.483)"/>
-          <use href="#sky-pine" class="sky-dock__far" transform="translate(1338 139.5) scale(0.517 0.517)"/>
-          <use href="#sky-pine" class="sky-dock__far" transform="translate(1252 163.5) scale(0.345 0.345)"/>
-          <use href="#sky-pine" class="sky-dock__far" transform="translate(1778 76.5) scale(-0.402 0.402)"/>
-          <!-- Villaggi appena abbozzati: casette e un campanile.
-               Da sinistra: pianoro a sinistra, spalla, pianoro centrale, destra. -->
-          <g class="sky-dock__borgo">
-            <path d="M380 125V94L386.5 87L393 94V125ZM395 125V100L402 92L409 100V125Z"/>
-            <path d="M742 112V82L749 75L756 82V112ZM758 112V82L766 73L774 82V112ZM777 112V92L782.5 86L788 92V112Z"/>
-            <path fill-rule="evenodd" d="M1352 152V128L1360 120L1368 128V152ZM1370 152V108L1374 97L1378 108V152ZM1372.6 117V113.4A1.4 1.4 0 0 1 1375.4 113.4V117ZM1378 152V127L1388 118L1398 127V152ZM1402 152V134L1408 128L1414 134V152Z"/>
-            <path d="M1796 82V62L1803 55L1810 62V82ZM1812 82V44L1815.5 34L1819 44V82ZM1819 82V60L1827.5 52L1836 60V82Z"/>
-          </g>
-          <!-- Pini in primo piano -->
-          <use href="#sky-pine" transform="translate(414 120.5) scale(-0.402 0.402)"/>
-          <use href="#sky-pine" transform="translate(796 107.5) scale(0.575 0.575)"/>
-          <use href="#sky-pine" transform="translate(810 111.5) scale(-0.391 0.391)"/>
-          <use href="#sky-pine" transform="translate(905 147.5) scale(0.414 0.414)"/>
-          <use href="#sky-pine" transform="translate(928 155.5) scale(-0.575 0.575)"/>
-          <use href="#sky-pine" transform="translate(1225 171.5) scale(0.483 0.483)"/>
-          <use href="#sky-pine" transform="translate(1240 167) scale(-0.345 0.345)"/>
-          <use href="#sky-pine" transform="translate(1426 148.5) scale(-0.437 0.437)"/>
-          <use href="#sky-pine" transform="translate(1752 78.5) scale(0.517 0.517)"/>
-          <use href="#sky-pine" transform="translate(1848 72) scale(-0.46 0.46)"/>
-          <use href="#sky-pine" transform="translate(1900 68.5) scale(0.368 0.368)"/>
+        <!-- Villaggi appena abbozzati: casette e un campanile.
+             Da sinistra: pianoro a sinistra, spalla, pianoro centrale, destra. -->
+        <g class="sky-dock__near sky-dock__borgo">
+          <path d="M380 125V94L386.5 87L393 94V125ZM395 125V100L402 92L409 100V125Z"/>
+          <path d="M742 112V82L749 75L756 82V112ZM758 112V82L766 73L774 82V112ZM777 112V92L782.5 86L788 92V112Z"/>
+          <path fill-rule="evenodd" d="M1352 152V128L1360 120L1368 128V152ZM1370 152V108L1374 97L1378 108V152ZM1372.6 117V113.4A1.4 1.4 0 0 1 1375.4 113.4V117ZM1378 152V127L1388 118L1398 127V152ZM1402 152V134L1408 128L1414 134V152Z"/>
+          <path d="M1796 82V62L1803 55L1810 62V82ZM1812 82V44L1815.5 34L1819 44V82ZM1819 82V60L1827.5 52L1836 60V82Z"/>
         </g>
         <!-- Due uccelli sopra la valle -->
         <g class="sky-dock__birds">
@@ -1352,7 +1326,7 @@
   </div>
 
   <!-- Prato: sale dal basso insieme al cielo (html.forest-done) e resta
-       fermo in fondo allo schermo, sotto la barra dei pulsanti.
+       fermo in fondo allo schermo. La barra dei pulsanti (.float-dock) sta sopra.
        Due colline senza alberi, stile del terreno della foresta ma in
        verde chiaro, con qualche ciuffo d'erba. Colori: --meadow e
        --meadow-back in css/styles.css. -->
@@ -1403,6 +1377,6 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=72"></script>
+  <script src="js/main.js?v=73"></script>
 </body>
 </html>
