@@ -941,7 +941,7 @@ function initReteRail(rail, start) {
   requestAnimationFrame(tick);
 }
 
-initReteRails();
+if (document.querySelector("[data-rete-rail]")) initReteRails();
 
 
 /* --------------------------------------------------------------------------

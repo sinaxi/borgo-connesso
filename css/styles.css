@@ -1608,6 +1608,86 @@ html.forest-done .forest-green {
   padding: clamp(28px, 4vw, 52px);
 }
 
+/* Gruppo sotto Outdoor/Hub: titolo, sottotitolo, tag/icone (stesso linguaggio della pila) */
+.kit {
+  --sog-pink: #ff4d8b;
+  --sog-teal: #1a3a3a;
+  --sog-lav: #b8a4ed;
+  --sog-peach: #ffb084;
+  --sog-ochre: #e8b94a;
+  --sog-cream: #d9cba0;
+  --sog-mint: #a4d4c5;
+  --sog-ink: #0a0a0a;
+  --sog-muted: #6a6a6a;
+  min-width: 0;
+  max-width: 100%;
+  margin-block: clamp(28px, 4vw, 52px);
+}
+
+.kit-title {
+  margin: 0 0 clamp(18px, 3vw, 28px);
+  font-size: clamp(1.6rem, 3.2vw, 2.1rem);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.kit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(14px, 2vw, 22px);
+}
+
+.kit-card {
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  min-height: 100%;
+  padding: clamp(22px, 3vw, 32px);
+  border-radius: 24px;
+  background: var(--tone);
+  color: var(--sog-ink);
+}
+
+.kit-card.is-dark {
+  color: #ffffff;
+}
+
+.kit-card h3 {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  color: inherit;
+}
+
+.kit-card > p {
+  margin: 0;
+  max-width: 34ch;
+  font-size: 0.98rem;
+  line-height: 1.45;
+  opacity: 0.92;
+}
+
+.kit-card .sog-ui {
+  margin-top: 4px;
+  max-width: none;
+}
+
+@media (max-width: 1040px) {
+  .kit-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .kit-list {
+    grid-template-columns: 1fr;
+  }
+}
+
 .rete-embed {
   min-width: 0;
   max-width: 100%;
