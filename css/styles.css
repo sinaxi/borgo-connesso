@@ -24,8 +24,10 @@
     Altezza e sollevamenti dei livelli sono in proporzione al disegno.
   */
   --forest-fit: 1; /* JS lo abbassa se alberi+testo non stanno in schermo */
-  --forest-art-base: max(104vw, clamp(900px, 118vw, 2300px));
-  --forest-art-w: calc(var(--forest-art-base) * var(--forest-fit));
+  --forest-art-base: max(104vw, clamp(900px, 118vw, 3600px));
+  /* Mai sotto 104vw: su schermi larghi il fit verticale non deve lasciare
+     bande di foto ai lati di alberi/montagne/colline */
+  --forest-art-w: max(104vw, calc(var(--forest-art-base) * var(--forest-fit)));
   --forest-h: calc(var(--forest-art-w) * 570 / 2000);
   --forest-extra: 0px;
   --forest-lift-2: calc(var(--forest-art-w) * 127 / 2000);
@@ -5893,7 +5895,7 @@ body.menu-closing .float-dock {
   :root {
     /* ~45% dello schermo di silhouette (cime + più primo piano scuro) */
     --forest-art-base: calc(100svh * 1.05);
-    --forest-art-w: calc(var(--forest-art-base) * var(--forest-fit));
+    --forest-art-w: max(104vw, calc(var(--forest-art-base) * var(--forest-fit)));
   }
 
   .hero {
