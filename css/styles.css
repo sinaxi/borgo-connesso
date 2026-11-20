@@ -3607,31 +3607,31 @@ html.forest-done .forest-green {
   max-width: 12ch;
   color: #fff;
   font-size: clamp(3rem, 6.6vw, 5.85rem);
-  font-weight: 500;
+  font-weight: 800;
   letter-spacing: -0.055em;
   line-height: 0.92;
 }
 
 .ricordi-lede h2 strong {
   color: inherit;
-  font-weight: 800;
+  font-weight: inherit;
 }
 
 .ricordi-body {
   margin: 0;
   max-width: none;
   width: 100%;
-  color: rgba(255, 255, 255, 0.72);
-  font-size: clamp(1.02rem, 1.35vw, 1.18rem);
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(1.18rem, 1.7vw, 1.42rem);
   font-weight: 300;
   letter-spacing: 0.01em;
-  line-height: 1.55;
+  line-height: 1.5;
   justify-self: stretch;
   align-self: start;
 }
 
 .ricordi-body strong {
-  color: inherit;
+  color: #fff;
   font-weight: 700;
 }
 
