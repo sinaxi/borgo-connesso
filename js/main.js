@@ -342,15 +342,19 @@ document.querySelectorAll("[data-accordion]").forEach((root) => {
 });
 
 document.querySelectorAll("[data-block-fold]").forEach((root) => {
-  const button = root.querySelector(".block-fold-trigger");
+  const openBtn = root.querySelector(".block-fold-trigger");
+  const closeBtn = root.querySelector(".block-fold-close");
   const panel = root.querySelector(".block-fold-panel");
-  if (!button || !panel) return;
-  button.addEventListener("click", () => {
-    const willOpen = !root.classList.contains("is-open");
+  if (!openBtn || !panel) return;
+
+  const setOpen = (willOpen) => {
     root.classList.toggle("is-open", willOpen);
-    button.setAttribute("aria-expanded", String(willOpen));
+    openBtn.setAttribute("aria-expanded", String(willOpen));
     panel.hidden = !willOpen;
-  });
+  };
+
+  openBtn.addEventListener("click", () => setOpen(!root.classList.contains("is-open")));
+  closeBtn?.addEventListener("click", () => setOpen(false));
 });
 
 const place = document.querySelector(".place");

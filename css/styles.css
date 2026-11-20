@@ -1945,13 +1945,14 @@ html.forest-done .forest-green {
   background: color-mix(in srgb, var(--lake) 26%, #ffffff);
 }
 
-/* Blocco intero chiudibile (Valori): trigger fotografico + pannello full grid */
+/* Blocco intero chiudibile (Valori): foto full-bleed nel room, X sull’immagine aperta */
 .room--block-fold {
   display: grid;
-  gap: clamp(14px, 2vw, 22px);
+  gap: 0;
 }
 
-#valori {
+#valori.room {
+  padding: 0;
   scroll-margin-top: clamp(72px, 12vw, 120px);
 }
 
@@ -1962,25 +1963,22 @@ html.forest-done .forest-green {
   align-items: end;
   gap: 16px;
   width: 100%;
-  min-height: clamp(120px, 18vw, 168px);
+  min-height: clamp(160px, 24vw, 240px);
   margin: 0;
-  padding: clamp(22px, 3vw, 34px) clamp(18px, 2.8vw, 32px);
+  padding: clamp(22px, 3vw, 34px) clamp(20px, 3vw, 36px);
   border: 0;
-  border-radius: 20px;
+  border-radius: 0;
   overflow: hidden;
   isolation: isolate;
   background: #111;
   color: #fff;
   text-align: left;
   cursor: pointer;
-  transition:
-    color 0.28s var(--ease),
-    background 0.28s var(--ease);
 }
 
 .block-fold-trigger:focus-visible {
   outline: 2px solid var(--lake);
-  outline-offset: 4px;
+  outline-offset: -4px;
 }
 
 .block-fold-trigger-shot {
@@ -1996,7 +1994,7 @@ html.forest-done .forest-green {
   object-position: 70% center;
   display: block;
   transform: scale(1.04);
-  transition: transform 0.7s var(--ease), opacity 0.35s var(--ease);
+  transition: transform 0.7s var(--ease);
 }
 
 .block-fold-trigger::after {
@@ -2005,24 +2003,23 @@ html.forest-done .forest-green {
   inset: 0;
   z-index: 1;
   background: linear-gradient(
-    90deg,
-    rgba(17, 17, 17, 0.72) 0%,
-    rgba(17, 17, 17, 0.28) 55%,
-    rgba(17, 17, 17, 0.45) 100%
+    105deg,
+    rgba(17, 17, 17, 0.62) 0%,
+    rgba(17, 17, 17, 0.18) 48%,
+    rgba(17, 17, 17, 0.4) 100%
   );
   pointer-events: none;
-  transition: opacity 0.35s var(--ease);
 }
 
 .block-fold-trigger-label,
-.block-fold-mark {
+.block-fold-trigger > .block-fold-mark {
   position: relative;
   z-index: 2;
 }
 
 .block-fold-trigger-label {
   font-family: var(--display);
-  font-size: clamp(2.4rem, 6vw, 4.2rem);
+  font-size: clamp(2.6rem, 6.5vw, 4.6rem);
   font-weight: 800;
   letter-spacing: -0.065em;
   line-height: 0.9;
@@ -2030,6 +2027,7 @@ html.forest-done .forest-green {
 
 .block-fold-mark {
   position: relative;
+  display: block;
   width: clamp(2.2rem, 3.2vw, 2.7rem);
   height: clamp(2.2rem, 3.2vw, 2.7rem);
   border-radius: 50%;
@@ -2057,33 +2055,46 @@ html.forest-done .forest-green {
   height: 42%;
 }
 
-.room--block-fold.is-open .block-fold-trigger {
-  min-height: 0;
-  padding: 14px 18px;
+.block-fold-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  z-index: 3;
+  display: grid;
+  place-items: center;
+  width: clamp(2.4rem, 3.4vw, 2.9rem);
+  height: clamp(2.4rem, 3.4vw, 2.9rem);
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
   background: transparent;
-  color: #111;
+  cursor: pointer;
 }
 
-.room--block-fold.is-open .block-fold-trigger-shot,
-.room--block-fold.is-open .block-fold-trigger::after {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.room--block-fold.is-open .block-fold-trigger-label {
-  font-size: clamp(1.15rem, 2vw, 1.35rem);
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-
-.room--block-fold.is-open .block-fold-mark {
+.block-fold-close .block-fold-mark {
   background: var(--lake);
   transform: rotate(45deg);
+  width: 100%;
+  height: 100%;
 }
 
-.room--block-fold.is-open .block-fold-mark::before,
-.room--block-fold.is-open .block-fold-mark::after {
+.block-fold-close .block-fold-mark::before,
+.block-fold-close .block-fold-mark::after {
   background: #fff;
+}
+
+.block-fold-close:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.room--block-fold.is-open .block-fold-trigger {
+  display: none;
+}
+
+.block-fold-panel {
+  padding: clamp(28px, 4vw, 52px);
 }
 
 .block-fold-panel[hidden] {
@@ -2106,7 +2117,6 @@ html.forest-done .forest-green {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .block-fold-trigger,
   .block-fold-trigger-shot img,
   .block-fold-mark {
     transition: none;
@@ -2122,17 +2132,17 @@ html.forest-done .forest-green {
     transform: scale(1.08);
   }
 
-  .block-fold-trigger:hover .block-fold-mark {
+  .block-fold-trigger:hover > .block-fold-mark {
     background: var(--lake);
   }
 
-  .block-fold-trigger:hover .block-fold-mark::before,
-  .block-fold-trigger:hover .block-fold-mark::after {
+  .block-fold-trigger:hover > .block-fold-mark::before,
+  .block-fold-trigger:hover > .block-fold-mark::after {
     background: #fff;
   }
 
-  .room--block-fold.is-open .block-fold-trigger:hover .block-fold-trigger-label {
-    color: var(--lake);
+  .block-fold-close:hover .block-fold-mark {
+    background: #111;
   }
 }
 
