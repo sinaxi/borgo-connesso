@@ -5793,7 +5793,7 @@ body.menu-closing .float-dock {
   line-height: 1.3;
 }
 
-.sog-row > span:last-child {
+.sog-row > span + span {
   color: var(--sog-muted);
   font-size: 0.85rem;
   text-align: right;
