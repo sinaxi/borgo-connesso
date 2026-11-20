@@ -1099,11 +1099,11 @@ html.forest-done .forest-green {
   transform: rotate(1.5deg);
 }
 
-/* Seconda frase: un filo più grande, ma ancora sotto la prima */
+/* Seconda frase: più vicina alla prima, ma ancora un gradino sotto */
 .fg-sub {
   margin: clamp(14px, 2vw, 28px) auto 0;
   max-width: 46rem;
-  font-size: clamp(1.28rem, 2.45vw, 2.15rem);
+  font-size: clamp(1.36rem, 2.65vw, 2.35rem);
   font-weight: 300;
   line-height: 1.35;
   letter-spacing: -0.025em;
@@ -5882,7 +5882,7 @@ body.menu-closing .float-dock {
 
   .fg-sub {
     margin-top: 14px;
-    font-size: clamp(1.14rem, 4.8vw, 1.52rem);
+    font-size: clamp(1.2rem, 5.1vw, 1.62rem);
     line-height: 1.32;
   }
 }
