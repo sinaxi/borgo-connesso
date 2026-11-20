@@ -1886,6 +1886,7 @@ html.forest-done .forest-green {
 
 #borgo .parts article,
 #valori .parts article,
+#valori .parts .acc-item,
 #borgo .parts p,
 #valori .parts p {
   width: 100%;
@@ -1926,6 +1927,149 @@ html.forest-done .forest-green {
   transform: skewX(7deg) rotate(0.95deg);
   border-radius: 18px 255px 14px 220px / 220px 14px 255px 18px;
   background: color-mix(in srgb, var(--lake) 26%, #ffffff);
+}
+
+/* Valori: accordion chiuso di default, titoli grandi, un solo pannello aperto */
+.parts--fold {
+  align-content: start;
+  gap: 0;
+}
+
+.parts--fold .acc-item {
+  border-top: 1px solid var(--line);
+  padding: 0;
+}
+
+.parts--fold .acc-item:first-child {
+  border-top: none;
+}
+
+.parts--fold .acc-item:last-child {
+  border-bottom: none;
+}
+
+.parts--fold h3 {
+  margin: 0;
+}
+
+.parts--fold .acc-button {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: clamp(18px, 2.4vw, 26px) 0;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-family: var(--display);
+  font-size: clamp(1.7rem, 3.2vw, 2.35rem);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.05;
+  color: #111;
+  cursor: pointer;
+  transition: color 0.28s var(--ease);
+}
+
+.parts--fold .acc-button:focus-visible {
+  outline: 2px solid var(--lake);
+  outline-offset: 4px;
+}
+
+.parts--fold .acc-mark {
+  position: relative;
+  width: 1.05em;
+  height: 1.05em;
+  min-width: 1.05em;
+  flex: none;
+  border-radius: 50%;
+  background: #111;
+  font-variant-numeric: normal;
+  transition:
+    background 0.28s var(--ease),
+    transform 0.35s var(--ease);
+}
+
+.parts--fold .acc-mark::before,
+.parts--fold .acc-mark::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.42em;
+  height: 2px;
+  background: #fff;
+  transform: translate(-50%, -50%);
+}
+
+.parts--fold .acc-mark::after {
+  width: 2px;
+  height: 0.42em;
+}
+
+.parts--fold .acc-item.is-open .acc-button {
+  color: var(--lake);
+}
+
+.parts--fold .acc-item.is-open .acc-mark {
+  background: var(--lake);
+  transform: rotate(45deg);
+}
+
+.parts--fold .acc-item.is-open,
+.parts--fold .acc-item.is-open:last-child {
+  border-bottom-color: var(--line);
+}
+
+.parts--fold .acc-panel {
+  padding: 0 0 clamp(18px, 2.2vw, 26px);
+  max-width: none;
+  /* override indent FAQ (.acc-panel) */
+  padding-left: 0;
+}
+
+.parts--fold .acc-panel[hidden] {
+  display: none;
+}
+
+.parts--fold .acc-panel p {
+  margin: 0;
+  max-width: none;
+  width: 100%;
+  color: var(--sage);
+  animation: valori-panel-in 0.38s var(--ease) both;
+}
+
+@keyframes valori-panel-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .parts--fold .acc-panel p {
+    animation: none;
+  }
+
+  .parts--fold .acc-mark {
+    transition: none;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .parts--fold .acc-button:hover {
+    color: var(--lake);
+  }
+
+  .parts--fold .acc-button:hover .acc-mark {
+    background: var(--lake);
+  }
 }
 
 .mosaic {
