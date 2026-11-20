@@ -1877,6 +1877,43 @@ html.forest-done .forest-green {
   color: var(--sage);
 }
 
+/* KW nei blocchi Perché: rosso come team building, o evidenziatore irregolare */
+.parts .kw-hot {
+  color: var(--lake);
+  font-weight: 700;
+}
+
+.parts .kw-mark {
+  position: relative;
+  z-index: 0;
+  padding: 0 0.08em;
+  color: #171717;
+  font-weight: 600;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+.parts .kw-mark::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 0.1em -0.12em 0.02em;
+  background: color-mix(in srgb, var(--lake) 32%, #fff6f5);
+  transform: skewX(-8deg) rotate(-1.05deg);
+  border-radius: 255px 20px 220px 14px / 14px 220px 20px 255px;
+}
+
+.parts .kw-mark--alt::before {
+  transform: skewX(7deg) rotate(0.95deg);
+  border-radius: 18px 255px 14px 220px / 220px 14px 255px 18px;
+  background: color-mix(in srgb, var(--lake) 26%, #ffffff);
+}
+
+.parts .kw-mark--tilt::before {
+  transform: skewX(-4deg) rotate(1.4deg);
+  inset: 0.14em -0.16em -0.02em;
+}
+
 .mosaic {
   display: grid;
   grid-template-columns: 1fr 1fr;
