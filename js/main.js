@@ -341,6 +341,18 @@ document.querySelectorAll("[data-accordion]").forEach((root) => {
   });
 });
 
+document.querySelectorAll("[data-block-fold]").forEach((root) => {
+  const button = root.querySelector(".block-fold-trigger");
+  const panel = root.querySelector(".block-fold-panel");
+  if (!button || !panel) return;
+  button.addEventListener("click", () => {
+    const willOpen = !root.classList.contains("is-open");
+    root.classList.toggle("is-open", willOpen);
+    button.setAttribute("aria-expanded", String(willOpen));
+    panel.hidden = !willOpen;
+  });
+});
+
 const place = document.querySelector(".place");
 if (place) {
   const track = place.querySelector(".place-slides");
