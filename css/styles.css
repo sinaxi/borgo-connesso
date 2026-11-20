@@ -1773,7 +1773,7 @@ html.forest-done .forest-green {
 
 .borgo-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1.28fr);
   gap: clamp(20px, 3vw, 40px);
   align-items: stretch;
 }
@@ -1877,8 +1877,18 @@ html.forest-done .forest-green {
   color: var(--sage);
 }
 
-/* Perché: i tre paragrafi usano tutta la colonna di testo */
-#borgo .parts p {
+/* Perché / Valori: testo a tutta la colonna di destra */
+#borgo .parts,
+#valori .parts {
+  width: 100%;
+  min-width: 0;
+}
+
+#borgo .parts article,
+#valori .parts article,
+#borgo .parts p,
+#valori .parts p {
+  width: 100%;
   max-width: none;
 }
 
