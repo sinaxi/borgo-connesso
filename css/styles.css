@@ -1892,6 +1892,23 @@ html.forest-done .forest-green {
   max-width: none;
 }
 
+/* Valori aperto: più colonna al testo, niente misura corta */
+#valori .block-fold-panel .borgo-grid {
+  grid-template-columns: minmax(0, 0.58fr) minmax(0, 1.42fr);
+  width: 100%;
+}
+
+#valori .parts {
+  align-content: start;
+  justify-self: stretch;
+}
+
+#valori .parts article,
+#valori .parts p {
+  max-width: none;
+  width: 100%;
+}
+
 /* KW nei blocchi Perché: grassetto nel colore del testo; evidenziatore irregolare (pochi) */
 .parts h3 {
   color: #111;
