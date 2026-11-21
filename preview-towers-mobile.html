@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Anteprima · Hub & Outdoor a swipe (blocco intero)</title>
+  <title>Anteprima · F + 5 varianti (blocco Hub / Outdoor)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -94,7 +94,6 @@
       line-height: 1.4;
     }
 
-    /* —— Tower blocco (layout reale) —— */
     .tower {
       display: flex;
       flex-direction: column;
@@ -194,7 +193,6 @@
       opacity: 0.5;
     }
 
-    /* —— Track comuni —— */
     .track {
       display: flex;
       gap: 12px;
@@ -202,127 +200,58 @@
       -webkit-overflow-scrolling: touch;
       scroll-snap-type: x mandatory;
       scrollbar-width: none;
-      padding: 12px 0 8px;
+      padding: 12px 0 10px;
     }
     .track::-webkit-scrollbar { display: none; }
     .track .tower {
       scroll-snap-align: start;
-    }
-
-    .dots {
-      display: flex;
-      gap: 7px;
-      justify-content: center;
-      padding: 4px 0 14px;
-    }
-    .dots i {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
-      background: rgba(17,17,17,.16);
-    }
-    .dots i.is-on { background: var(--main-color); }
-
-    /* A · Peek */
-    .track--peek {
-      padding-left: 12px;
-      padding-right: 48px;
-    }
-    .track--peek .tower {
-      width: calc(100% - 36px);
-      flex-basis: calc(100% - 36px);
-    }
-
-    /* B · Snap full + auto */
-    .track--snap .tower {
       width: calc(100% - 24px);
       flex-basis: calc(100% - 24px);
       margin-left: 12px;
     }
-    .track--snap .tower:last-child { margin-right: 12px; }
+    .track .tower:last-child { margin-right: 12px; }
 
-    /* C · Chevron */
-    .stage { position: relative; }
-    .chev {
-      position: absolute;
-      right: 10px;
-      top: 28%;
-      z-index: 5;
-      width: 40px;
-      height: 40px;
-      border: 0;
-      border-radius: 50%;
-      background: #111;
-      color: #fff;
-      display: grid;
-      place-items: center;
-      cursor: pointer;
-      box-shadow: 0 8px 22px rgba(0,0,0,.28);
-      animation: chev 1.35s var(--ease-out) infinite;
-    }
-    .chev svg { width: 15px; height: 15px; }
-    .stage.is-swiped .chev { display: none; }
-    @keyframes chev {
-      0%, 100% { transform: translateX(0); }
-      50% { transform: translateX(6px); }
-    }
-    .edge-fade::after {
-      content: "";
-      position: absolute;
-      top: 0; right: 0; bottom: 40px;
-      width: 40px;
-      pointer-events: none;
-      z-index: 3;
-      background: linear-gradient(90deg, transparent, var(--paper));
-    }
-
-    /* D · Coverflow */
-    .track--flow {
-      padding: 16px 40px 12px 16px;
-      perspective: 900px;
-    }
-    .track--flow .tower {
-      width: 78%;
-      flex-basis: 78%;
-      transform: scale(0.92);
-      opacity: 0.55;
-      transition: transform 0.35s var(--ease-out), opacity 0.35s var(--ease-out);
-      scroll-snap-align: center;
-    }
-    .track--flow .tower.is-focus {
-      transform: scale(1);
-      opacity: 1;
-    }
-
-    /* E · One-shot breathe — same as snap track, driven by JS */
-
-    /* F · Segment + progress */
+    /* F · Segment pills */
     .seg {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 0;
-      margin: 0 12px 8px;
+      margin: 10px 12px 8px;
       padding: 4px;
       border-radius: 999px;
       background: rgba(17,17,17,.06);
+      position: relative;
+      z-index: 6;
     }
     .seg button {
       appearance: none;
       border: 0;
       border-radius: 999px;
-      padding: 9px 10px;
+      padding: 11px 10px;
       background: transparent;
-      font: 650 0.82rem/1 Outfit, system-ui, sans-serif;
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 650;
+      font-weight: 600;
+      font-size: 0.84rem;
+      line-height: 1;
       color: var(--sage);
       cursor: pointer;
+      position: relative;
+      z-index: 1;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
     }
     .seg button.is-on {
       background: #111;
       color: #fff;
     }
+    .seg button:focus-visible {
+      outline: 2px solid var(--main-color);
+      outline-offset: 2px;
+    }
     .prog {
       height: 3px;
-      margin: 0 16px 6px;
+      margin: 0 16px 4px;
       border-radius: 3px;
       background: rgba(17,17,17,.1);
       overflow: hidden;
@@ -334,7 +263,155 @@
       background: var(--main-color);
       border-radius: 3px;
       transition: transform 0.35s var(--ease-out);
-      transform-origin: left center;
+      transform: translateX(0);
+    }
+
+    /* G · Underline tabs */
+    .tabs-line {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      margin: 8px 16px 0;
+      border-bottom: 1px solid rgba(17,17,17,.12);
+      position: relative;
+      z-index: 6;
+    }
+    .tabs-line button {
+      appearance: none;
+      border: 0;
+      background: transparent;
+      padding: 12px 4px 14px;
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: var(--sage);
+      cursor: pointer;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .tabs-line button.is-on { color: #111; }
+    .tabs-line button.is-on::after {
+      content: "";
+      position: absolute;
+      left: 12%;
+      right: 12%;
+      bottom: -1px;
+      height: 2px;
+      background: var(--main-color);
+      border-radius: 2px;
+    }
+
+    /* H · Split header */
+    .split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin: 10px 12px 8px;
+      position: relative;
+      z-index: 6;
+    }
+    .split button {
+      appearance: none;
+      border: 0;
+      border-radius: 18px;
+      padding: 14px 12px;
+      text-align: left;
+      cursor: pointer;
+      background: #fff;
+      box-shadow: inset 0 0 0 1px rgba(17,17,17,.08);
+      font-family: Outfit, system-ui, sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .split button strong {
+      display: block;
+      font-size: 0.95rem;
+      letter-spacing: -0.03em;
+      color: #111;
+      margin-bottom: 4px;
+    }
+    .split button span {
+      display: block;
+      font-size: 0.72rem;
+      color: var(--sage);
+      line-height: 1.3;
+    }
+    .split button.is-on {
+      background: #111;
+      box-shadow: none;
+    }
+    .split button.is-on strong,
+    .split button.is-on span { color: #fff; }
+    .split button.is-on span { color: rgba(255,255,255,.65); }
+
+    /* I · Chips on photo */
+    .media-tabs-wrap { position: relative; }
+    .media-tabs-wrap .track { padding-top: 0; }
+    .chips-on-media {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      top: 18px;
+      z-index: 8;
+      display: flex;
+      gap: 8px;
+    }
+    .chips-on-media button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 14px;
+      background: rgba(255,255,255,.88);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-family: Outfit, system-ui, sans-serif;
+      font-weight: 700;
+      font-size: 0.78rem;
+      color: #111;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,.18);
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+    }
+    .chips-on-media button.is-on {
+      background: var(--main-color);
+      color: #fff;
+    }
+
+    /* J · Segment + peek nudge */
+    .track--peek {
+      padding-right: 0;
+    }
+    .track--peek .tower {
+      width: calc(100% - 40px);
+      flex-basis: calc(100% - 40px);
+    }
+
+    /* K · Segment + side chevron */
+    .stage { position: relative; }
+    .chev {
+      position: absolute;
+      right: 10px;
+      top: 26%;
+      z-index: 7;
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 50%;
+      background: #111;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(0,0,0,.28);
+      animation: chev 1.35s var(--ease-out) infinite;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .chev svg { width: 15px; height: 15px; }
+    .stage.is-end .chev { transform: scaleX(-1); animation: none; }
+    @keyframes chev {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(6px); }
     }
 
     .pick {
@@ -355,20 +432,21 @@
 
     @media (prefers-reduced-motion: reduce) {
       .chev { animation: none !important; }
+      .prog > i { transition: none; }
     }
   </style>
 </head>
 <body>
   <div class="page-head">
-    <h1>6 alternative · blocco intero</h1>
-    <p class="lede">Non i soli bullet: scorrono <strong style="color:#fff">foto + titolo + testo + lista</strong> di Hub &amp; CoWo e Outdoor. Dimmi la lettera.</p>
+    <h1>F tenuto · + 5 varianti</h1>
+    <p class="lede">Blocco intero (foto + titolo + testo + bullets). I tab si cliccano. Dimmi la lettera.</p>
   </div>
   <div class="toolbar">
-    <button type="button" id="replay">Ripeti animazioni</button>
+    <button type="button" id="replay">Ripeti nudge (J)</button>
   </div>
 
   <template id="tpl-hub">
-    <article class="tower" data-panel="hub">
+    <article class="tower" data-panel="0">
       <div class="tower-shot">
         <img src="assets/territorio-hub.jpg?v=3" width="960" height="1200" alt="">
       </div>
@@ -386,7 +464,7 @@
   </template>
 
   <template id="tpl-outdoor">
-    <article class="tower" data-panel="outdoor">
+    <article class="tower" data-panel="1">
       <div class="tower-shot">
         <img src="assets/territorio-outdoor.jpg?v=3" width="960" height="1200" alt="">
       </div>
@@ -403,132 +481,197 @@
     </article>
   </template>
 
-  <!-- A -->
-  <section class="demo" data-demo="A">
-    <div class="demo-meta">
-      <span class="tag">A · Peek + nudge</span>
-      <h2>Hub pieno, Outdoor sporge</h2>
-      <p>Due scatti automatici all’ingresso, poi swipe. Il pezzo tagliato dice «c’è un secondo blocco».</p>
-    </div>
-    <div class="track track--peek" data-nudge></div>
-    <div class="dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
-  </section>
-
-  <!-- B -->
-  <section class="demo" data-demo="B">
-    <div class="demo-meta">
-      <span class="tag">B · Snap + auto</span>
-      <h2>Un blocco alla volta</h2>
-      <p>Snap-x. Alterna Hub ↔ Outdoor ogni ~4s; lo swipe interrompe.</p>
-    </div>
-    <div class="track track--snap" data-auto></div>
-    <div class="dots" data-dots aria-hidden="true"><i class="is-on"></i><i></i></div>
-  </section>
-
-  <!-- C -->
-  <section class="demo" data-demo="C">
-    <div class="demo-meta">
-      <span class="tag">C · Freccia viva</span>
-      <h2>Scroll manuale + chevron</h2>
-      <p>Niente auto-scroll del contenuto. Freccia che pulsa (e si tappabile) finché non swipi.</p>
-    </div>
-    <div class="stage edge-fade" data-chev>
-      <div class="track track--snap" data-manual></div>
-      <button type="button" class="chev" aria-label="Vai a Outdoor">
-        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-    </div>
-    <div class="dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
-  </section>
-
-  <!-- D -->
-  <section class="demo" data-demo="D">
-    <div class="demo-meta">
-      <span class="tag">D · Coverflow</span>
-      <h2>Blocco a fuoco + vicino ridotto</h2>
-      <p>Il secondo card resta visibile in scala. Lo swipe cambia il focus.</p>
-    </div>
-    <div class="track track--flow" data-flow></div>
-    <div class="dots" data-flow-dots aria-hidden="true"><i class="is-on"></i><i></i></div>
-  </section>
-
-  <!-- E -->
-  <section class="demo" data-demo="E">
-    <div class="demo-meta">
-      <span class="tag">E · Andata e ritorno</span>
-      <h2>Mostra Outdoor una volta</h2>
-      <p>All’ingresso: Hub → Outdoor → Hub, poi resta fermo. Solo gesture dopo.</p>
-    </div>
-    <div class="track track--snap" data-breathe></div>
-    <div class="dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
-  </section>
-
   <!-- F -->
   <section class="demo" data-demo="F">
     <div class="demo-meta">
-      <span class="tag">F · Segment + swipe</span>
-      <h2>Hub | Outdoor in testa</h2>
-      <p>Toggle + barra Main Color. Swipe e tap restano sincronizzati.</p>
+      <span class="tag">F · Segment (tenuto)</span>
+      <h2>Pill Hub | Outdoor + barra</h2>
+      <p>Tap sui tab o swipe. La barra Main Color segue la scelta.</p>
     </div>
-    <div class="seg" data-seg>
+    <div class="seg" data-tabs>
       <button type="button" class="is-on" data-go="0">Hub &amp; CoWo</button>
       <button type="button" data-go="1">Outdoor</button>
     </div>
     <div class="prog"><i data-prog></i></div>
-    <div class="track track--snap" data-seg-track></div>
+    <div class="track" data-track></div>
   </section>
 
-  <p class="pick">Dimmi la lettera <strong>A–F</strong>. Anteprima: <strong>http://127.0.0.1:8765/preview-towers-mobile.html</strong></p>
+  <!-- G -->
+  <section class="demo" data-demo="G">
+    <div class="demo-meta">
+      <span class="tag">G · Underline</span>
+      <h2>Tab editoriali</h2>
+      <p>Solo testo + underline Main Color. Tap o swipe, stesso risultato.</p>
+    </div>
+    <div class="tabs-line" data-tabs>
+      <button type="button" class="is-on" data-go="0">Hub &amp; CoWo</button>
+      <button type="button" data-go="1">Outdoor</button>
+    </div>
+    <div class="track" data-track></div>
+  </section>
+
+  <!-- H -->
+  <section class="demo" data-demo="H">
+    <div class="demo-meta">
+      <span class="tag">H · Split card</span>
+      <h2>Due anteprime tappabili</h2>
+      <p>Ogni metà racconta il blocco in una riga; tap apre il pannello pieno sotto.</p>
+    </div>
+    <div class="split" data-tabs>
+      <button type="button" class="is-on" data-go="0">
+        <strong>Hub &amp; CoWo</strong>
+        <span>Lavoro, chioschi, vista lago</span>
+      </button>
+      <button type="button" data-go="1">
+        <strong>Outdoor</strong>
+        <span>Kayak, Valeriana, sci</span>
+      </button>
+    </div>
+    <div class="track" data-track></div>
+  </section>
+
+  <!-- I -->
+  <section class="demo" data-demo="I">
+    <div class="demo-meta">
+      <span class="tag">I · Chip sulla foto</span>
+      <h2>Controlli sopra l’immagine</h2>
+      <p>I tab flottano sul bordo alto della foto. Sempre a portata di pollice.</p>
+    </div>
+    <div class="media-tabs-wrap">
+      <div class="chips-on-media" data-tabs>
+        <button type="button" class="is-on" data-go="0">Hub &amp; CoWo</button>
+        <button type="button" data-go="1">Outdoor</button>
+      </div>
+      <div class="track" data-track></div>
+    </div>
+  </section>
+
+  <!-- J -->
+  <section class="demo" data-demo="J">
+    <div class="demo-meta">
+      <span class="tag">J · Segment + peek</span>
+      <h2>Tab + pezzo del secondo blocco</h2>
+      <p>Come F, ma Outdoor sporge. All’ingresso un nudge automatico; i tab restano cliccabili.</p>
+    </div>
+    <div class="seg" data-tabs>
+      <button type="button" class="is-on" data-go="0">Hub &amp; CoWo</button>
+      <button type="button" data-go="1">Outdoor</button>
+    </div>
+    <div class="prog"><i data-prog></i></div>
+    <div class="track track--peek" data-track data-nudge></div>
+  </section>
+
+  <!-- K -->
+  <section class="demo" data-demo="K">
+    <div class="demo-meta">
+      <span class="tag">K · Segment + freccia</span>
+      <h2>Tab, swipe e freccia</h2>
+      <p>Tre modi per passare: tap sul tab, swipe, o freccia nera. La freccia si inverte su Outdoor.</p>
+    </div>
+    <div class="seg" data-tabs>
+      <button type="button" class="is-on" data-go="0">Hub &amp; CoWo</button>
+      <button type="button" data-go="1">Outdoor</button>
+    </div>
+    <div class="prog"><i data-prog></i></div>
+    <div class="stage" data-stage>
+      <div class="track" data-track></div>
+      <button type="button" class="chev" aria-label="Cambia blocco">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <p class="pick">Dimmi la lettera: <strong>F</strong> (tenuto) oppure <strong>G / H / I / J / K</strong>. Anteprima: <strong>http://127.0.0.1:8765/preview-towers-mobile.html</strong></p>
 
   <script>
     const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
     const hubTpl = document.getElementById("tpl-hub");
     const outTpl = document.getElementById("tpl-outdoor");
 
-    function fill(track) {
+    document.querySelectorAll("[data-track]").forEach((track) => {
       track.append(hubTpl.content.cloneNode(true), outTpl.content.cloneNode(true));
-    }
-    document.querySelectorAll(".track").forEach(fill);
+    });
 
     function panels(track) {
       return [...track.querySelectorAll(".tower")];
     }
+
     function goTo(track, index, smooth = true) {
       const items = panels(track);
       const el = items[index];
       if (!el) return;
-      el.scrollIntoView({
+      const left = el.offsetLeft - (parseFloat(getComputedStyle(track).paddingLeft) || 0);
+      track.scrollTo({
+        left: Math.max(0, left),
         behavior: reduced || !smooth ? "auto" : "smooth",
-        inline: "start",
-        block: "nearest",
       });
     }
+
     function indexOf(track) {
       const items = panels(track);
-      const left = track.scrollLeft;
+      const mid = track.scrollLeft + track.clientWidth * 0.35;
       let best = 0;
       let dist = Infinity;
       items.forEach((el, i) => {
-        const d = Math.abs(el.offsetLeft - left);
+        const d = Math.abs(el.offsetLeft - mid);
         if (d < dist) { dist = d; best = i; }
       });
       return best;
     }
-    function paintDots(root, i) {
-      const dots = root.querySelector(".dots");
-      if (!dots) return;
-      [...dots.children].forEach((d, idx) => d.classList.toggle("is-on", idx === i));
+
+    function syncDemo(demo, i) {
+      demo.querySelectorAll("[data-tabs] button").forEach((b) => {
+        b.classList.toggle("is-on", Number(b.dataset.go) === i);
+      });
+      demo.querySelectorAll("[data-prog]").forEach((bar) => {
+        bar.style.transform = `translateX(${i * 100}%)`;
+      });
+      const stage = demo.querySelector("[data-stage]");
+      if (stage) stage.classList.toggle("is-end", i === 1);
     }
 
-    // A nudge
-    function runNudge(track) {
-      if (reduced) return;
-      track.scrollTo({ left: 0, behavior: "auto" });
-      const peek = Math.min(72, track.clientWidth * 0.16);
-      setTimeout(() => track.scrollTo({ left: peek, behavior: "smooth" }), 450);
-      setTimeout(() => track.scrollTo({ left: peek * 2.1, behavior: "smooth" }), 1050);
-      setTimeout(() => track.scrollTo({ left: 0, behavior: "smooth" }), 1850);
+    function wireDemo(demo) {
+      const track = demo.querySelector("[data-track]");
+      if (!track) return;
+
+      demo.querySelectorAll("[data-tabs] button").forEach((btn) => {
+        btn.addEventListener("click", (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          const i = Number(btn.dataset.go);
+          goTo(track, i);
+          syncDemo(demo, i);
+        });
+      });
+
+      track.addEventListener("scroll", () => {
+        syncDemo(demo, indexOf(track));
+      }, { passive: true });
+
+      const chev = demo.querySelector(".chev");
+      if (chev) {
+        chev.addEventListener("click", (e) => {
+          e.preventDefault();
+          const next = indexOf(track) === 0 ? 1 : 0;
+          goTo(track, next);
+          syncDemo(demo, next);
+        });
+      }
+
+      syncDemo(demo, 0);
     }
+
+    document.querySelectorAll(".demo").forEach(wireDemo);
+
+    function runNudge(track) {
+      if (reduced || !track) return;
+      track.scrollTo({ left: 0, behavior: "auto" });
+      const peek = Math.min(64, track.clientWidth * 0.14);
+      setTimeout(() => track.scrollTo({ left: peek, behavior: "smooth" }), 400);
+      setTimeout(() => track.scrollTo({ left: peek * 2, behavior: "smooth" }), 1000);
+      setTimeout(() => track.scrollTo({ left: 0, behavior: "smooth" }), 1750);
+    }
+
     document.querySelectorAll("[data-nudge]").forEach((track) => {
       const demo = track.closest(".demo");
       const io = new IntersectionObserver((entries) => {
@@ -538,112 +681,14 @@
         }
       }, { threshold: 0.35 });
       io.observe(demo);
-      track.addEventListener("scroll", () => paintDots(demo, indexOf(track)), { passive: true });
-    });
-
-    // B auto
-    document.querySelectorAll("[data-auto]").forEach((track) => {
-      const demo = track.closest(".demo");
-      let i = 0;
-      let timer = 0;
-      let hold = false;
-      const tick = () => {
-        if (hold || reduced) return;
-        i = (i + 1) % 2;
-        goTo(track, i);
-        paintDots(demo, i);
-      };
-      const start = () => {
-        clearInterval(timer);
-        if (!reduced) timer = setInterval(tick, 4000);
-      };
-      track.addEventListener("pointerdown", () => { hold = true; clearInterval(timer); });
-      track.addEventListener("pointerup", () => { hold = false; i = indexOf(track); paintDots(demo, i); start(); });
-      track.addEventListener("scroll", () => paintDots(demo, indexOf(track)), { passive: true });
-      const io = new IntersectionObserver((entries) => {
-        if (entries.some((e) => e.isIntersecting)) start();
-        else clearInterval(timer);
-      }, { threshold: 0.35 });
-      io.observe(demo);
-    });
-
-    // C chevron
-    document.querySelectorAll("[data-chev]").forEach((stage) => {
-      const track = stage.querySelector("[data-manual]");
-      const btn = stage.querySelector(".chev");
-      const demo = stage.closest(".demo");
-      const mark = () => stage.classList.add("is-swiped");
-      track.addEventListener("scroll", () => {
-        paintDots(demo, indexOf(track));
-        if (track.scrollLeft > 24) mark();
-      }, { passive: true });
-      btn.addEventListener("click", () => {
-        goTo(track, 1);
-        paintDots(demo, 1);
-        mark();
-      });
-    });
-
-    // D coverflow
-    document.querySelectorAll("[data-flow]").forEach((track) => {
-      const demo = track.closest(".demo");
-      const sync = () => {
-        const i = indexOf(track);
-        panels(track).forEach((el, idx) => el.classList.toggle("is-focus", idx === i));
-        paintDots(demo, i);
-      };
-      track.addEventListener("scroll", sync, { passive: true });
-      sync();
-    });
-
-    // E breathe once
-    function runBreathe(track) {
-      if (reduced) return;
-      goTo(track, 0, false);
-      setTimeout(() => goTo(track, 1), 700);
-      setTimeout(() => goTo(track, 0), 2800);
-    }
-    document.querySelectorAll("[data-breathe]").forEach((track) => {
-      const demo = track.closest(".demo");
-      const io = new IntersectionObserver((entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          runBreathe(track);
-          io.disconnect();
-        }
-      }, { threshold: 0.35 });
-      io.observe(demo);
-      track.addEventListener("scroll", () => paintDots(demo, indexOf(track)), { passive: true });
-    });
-
-    // F segment
-    document.querySelectorAll("[data-seg-track]").forEach((track) => {
-      const demo = track.closest(".demo");
-      const seg = demo.querySelector("[data-seg]");
-      const prog = demo.querySelector("[data-prog]");
-      const buttons = [...seg.querySelectorAll("button")];
-      const sync = () => {
-        const i = indexOf(track);
-        buttons.forEach((b, idx) => b.classList.toggle("is-on", idx === i));
-        if (prog) prog.style.transform = `translateX(${i * 100}%)`;
-      };
-      buttons.forEach((b) => {
-        b.addEventListener("click", () => {
-          goTo(track, Number(b.dataset.go));
-          sync();
-        });
-      });
-      track.addEventListener("scroll", sync, { passive: true });
-      sync();
     });
 
     document.getElementById("replay").addEventListener("click", () => {
       document.querySelectorAll("[data-nudge]").forEach(runNudge);
-      document.querySelectorAll("[data-breathe]").forEach(runBreathe);
-      document.querySelectorAll("[data-chev]").forEach((s) => s.classList.remove("is-swiped"));
-      document.querySelectorAll(".track").forEach((t) => { t.scrollLeft = 0; });
-      document.querySelectorAll("[data-flow]").forEach((t) => {
-        panels(t).forEach((el, i) => el.classList.toggle("is-focus", i === 0));
+      document.querySelectorAll("[data-track]").forEach((t) => {
+        if (!t.hasAttribute("data-nudge")) t.scrollTo({ left: 0, behavior: "auto" });
       });
+      document.querySelectorAll(".demo").forEach((d) => syncDemo(d, 0));
     });
   </script>
 </body>
