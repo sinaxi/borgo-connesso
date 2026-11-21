@@ -2253,13 +2253,17 @@ html.forest-done .forest-green {
   padding: 0 6px 0 clamp(16px, 2vw, 24px);
   display: grid;
   gap: 12px;
+  container-type: inline-size;
+  container-name: tower-copy;
 }
 
 .tower-copy h3 {
   margin: 0;
   color: #111;
   -webkit-text-fill-color: #111;
-  font-size: clamp(4rem, 8.8vw, 7.6rem);
+  /* Stesso carattere di Outdoor; scala sul contenitore così «Hub & CoWo» resta su una riga */
+  white-space: nowrap;
+  font-size: clamp(2.6rem, 18cqi, 7.6rem);
   font-weight: 800;
   letter-spacing: -0.065em;
   line-height: 0.84;
@@ -2267,6 +2271,12 @@ html.forest-done .forest-green {
   filter: none;
   -webkit-text-stroke: 10px var(--ivory);
   paint-order: stroke fill;
+}
+
+@supports not (font-size: 1cqi) {
+  .tower-copy h3 {
+    font-size: clamp(2.6rem, 9.2vw, 7.6rem);
+  }
 }
 
 .tower-copy p {
@@ -5527,10 +5537,16 @@ body.menu-closing .float-dock {
   }
 
   .tower-copy h3 {
-    font-size: clamp(3.04rem, 14.4vw, 4.8rem);
+    font-size: clamp(2.2rem, 16.5cqi, 4.8rem);
     -webkit-text-stroke: 8px var(--ivory);
     color: #111;
     -webkit-text-fill-color: #111;
+  }
+
+  @supports not (font-size: 1cqi) {
+    .tower-copy h3 {
+      font-size: clamp(2.2rem, 11.5vw, 4.8rem);
+    }
   }
 
   .tower-copy {
