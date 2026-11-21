@@ -17,6 +17,9 @@
   --body: "Outfit", "Avenir Next", "Segoe UI", sans-serif;
   --pitch: "Inter", "Helvetica Neue", "Segoe UI", sans-serif;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  /* Padding interno dei room arrotondati: uguale su desktop, più stretto e uniforme su mobile */
+  --room-pad-x: clamp(28px, 4vw, 52px);
+  --room-pad-y: clamp(28px, 4vw, 52px);
   /*
     Foresta Cozy Hollow: un solo disegno largo 2000 unità, centrato.
     La larghezza segue il viewport (118vw ≈ inquadratura della reference),
@@ -1605,7 +1608,7 @@ html.forest-done .forest-green {
 
 .room {
   background: var(--ivory);
-  padding: clamp(28px, 4vw, 52px);
+  padding: var(--room-pad-y) var(--room-pad-x);
 }
 
 .rete-embed {
@@ -2094,7 +2097,7 @@ html.forest-done .forest-green {
 }
 
 .block-fold-panel {
-  padding: clamp(28px, 4vw, 52px);
+  padding: var(--room-pad-y) var(--room-pad-x);
 }
 
 .block-fold-panel[hidden] {
@@ -3765,7 +3768,7 @@ html.forest-done .forest-green {
 .room--cast {
   background: #f3f3f3;
   color: #111;
-  padding: clamp(36px, 5vw, 64px) clamp(24px, 3.5vw, 48px);
+  padding: clamp(36px, 5vw, 64px) var(--room-pad-x);
   border: 1px solid #d4d4d4;
 }
 
@@ -3931,7 +3934,7 @@ html.forest-done .forest-green {
 .room--ricordi {
   background: #111;
   color: #fff;
-  padding: clamp(36px, 5vw, 64px) clamp(28px, 4vw, 52px);
+  padding: clamp(36px, 5vw, 64px) var(--room-pad-x);
   overflow: hidden;
 }
 
@@ -4324,7 +4327,7 @@ html.forest-done .forest-green {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding-right: clamp(24px, 3.5vw, 48px);
+  padding-right: var(--room-pad-x);
 }
 
 .news-meta {
@@ -5674,6 +5677,42 @@ body.menu-closing .float-dock {
 }
 
 @media (max-width: 720px) {
+  :root {
+    --room-pad-x: 16px;
+    --room-pad-y: 24px;
+  }
+
+  .tower-copy {
+    padding-left: 10px;
+    padding-right: 6px;
+  }
+
+  .path-copy {
+    padding: 20px 16px 18px;
+  }
+
+  .bivio {
+    padding: 18px 16px;
+  }
+
+  .bivio-card + .bivio-card {
+    padding-left: 0;
+  }
+
+  .news-feature {
+    padding-right: 0;
+  }
+
+  .faq-question {
+    padding: 16px;
+  }
+
+  .faq-answer {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 16px;
+  }
+
   .rail {
     padding: 22px 18px 20px;
     gap: 18px;
@@ -5837,8 +5876,12 @@ body.menu-closing .float-dock {
     max-width: none;
   }
 
-  .room--cast {
-    padding: 28px 16px;
+  .room--cast,
+  .room--ricordi {
+    padding-top: var(--room-pad-y);
+    padding-bottom: var(--room-pad-y);
+    padding-left: var(--room-pad-x);
+    padding-right: var(--room-pad-x);
   }
 
   .ricordi-day {
@@ -5847,10 +5890,6 @@ body.menu-closing .float-dock {
 
   .ricordi-slot {
     min-height: 280px;
-  }
-
-  .room--ricordi {
-    padding: 28px 20px;
   }
 
   .tile-band {
