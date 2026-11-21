@@ -2271,11 +2271,11 @@ html.forest-done .forest-green {
 
 .tower-copy p {
   margin: 1.1rem 0 0;
-  max-width: 34ch;
+  max-width: 36ch;
   color: var(--sage);
-  font-size: 1.02rem;
+  font-size: clamp(1.06rem, 0.4vw + 1rem, 1.12rem);
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.52;
 }
 
 .tower-copy ul {
@@ -2305,7 +2305,7 @@ html.forest-done .forest-green {
   background: var(--lake);
 }
 
-/* Faro · alone Main Color dietro ogni voce (Outdoor + Hub) */
+/* Faro · alone Main Color + bullet Main Color (Outdoor + Hub) */
 .tower-list--faro {
   gap: 10px;
   max-width: 36rem;
@@ -2314,7 +2314,7 @@ html.forest-done .forest-green {
 .tower-list--faro li {
   isolation: isolate;
   margin: 0;
-  padding: 11px 14px;
+  padding: 11px 14px 11px 28px;
   border-radius: 16px;
   overflow: hidden;
   color: #111;
@@ -2324,11 +2324,20 @@ html.forest-done .forest-green {
 }
 
 .tower-list--faro li::before {
-  left: auto;
-  top: auto;
-  width: auto;
-  height: auto;
-  border-radius: 0;
+  left: 14px;
+  top: calc(11px + 0.55em);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--main-color);
+  z-index: 1;
+  opacity: 1;
+  transform: none;
+}
+
+.tower-list--faro li::after {
+  content: "";
+  position: absolute;
   inset: -42% -18%;
   z-index: -1;
   background: radial-gradient(
@@ -2350,14 +2359,14 @@ html.forest-done .forest-green {
 .tower-list--faro.is-in li:nth-child(3) { animation-delay: 0.36s; }
 .tower-list--faro.is-in li:nth-child(4) { animation-delay: 0.5s; }
 
-.tower-list--faro.is-in li::before {
+.tower-list--faro.is-in li::after {
   animation: tower-faro-bloom 1s var(--ease) both;
 }
 
-.tower-list--faro.is-in li:nth-child(1)::before { animation-delay: 0.16s; }
-.tower-list--faro.is-in li:nth-child(2)::before { animation-delay: 0.3s; }
-.tower-list--faro.is-in li:nth-child(3)::before { animation-delay: 0.44s; }
-.tower-list--faro.is-in li:nth-child(4)::before { animation-delay: 0.58s; }
+.tower-list--faro.is-in li:nth-child(1)::after { animation-delay: 0.16s; }
+.tower-list--faro.is-in li:nth-child(2)::after { animation-delay: 0.3s; }
+.tower-list--faro.is-in li:nth-child(3)::after { animation-delay: 0.44s; }
+.tower-list--faro.is-in li:nth-child(4)::after { animation-delay: 0.58s; }
 
 @keyframes tower-faro-in {
   to {
@@ -2382,7 +2391,7 @@ html.forest-done .forest-green {
 }
 
 @media (hover: hover) and (pointer: fine) {
-  .tower-list--faro.is-in li:hover::before {
+  .tower-list--faro.is-in li:hover::after {
     opacity: 0.85;
     transition: opacity 0.25s var(--ease);
   }
@@ -2391,13 +2400,13 @@ html.forest-done .forest-green {
 @media (prefers-reduced-motion: reduce) {
   .tower-list--faro li,
   .tower-list--faro.is-in li,
-  .tower-list--faro.is-in li::before {
+  .tower-list--faro.is-in li::after {
     animation: none !important;
     opacity: 1;
     transform: none;
   }
 
-  .tower-list--faro li::before {
+  .tower-list--faro li::after {
     opacity: 0.4;
     transform: none;
   }
