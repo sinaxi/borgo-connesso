@@ -646,6 +646,23 @@ if (offerList) {
   }
 }
 
+document.querySelectorAll(".tower-list--faro").forEach((list) => {
+  if (reducedMotion) {
+    list.classList.add("is-in");
+    return;
+  }
+  const faroObserver = new IntersectionObserver(
+    (entries) => {
+      if (entries.some((entry) => entry.isIntersecting)) {
+        list.classList.add("is-in");
+        faroObserver.disconnect();
+      }
+    },
+    { threshold: 0.25 },
+  );
+  faroObserver.observe(list);
+});
+
 const tileBand = document.querySelector(".tile-band");
 if (tileBand) {
   if (reducedMotion) {

@@ -2305,6 +2305,104 @@ html.forest-done .forest-green {
   background: var(--lake);
 }
 
+/* Faro · alone Main Color dietro ogni voce (Outdoor + Hub) */
+.tower-list--faro {
+  gap: 10px;
+  max-width: 36rem;
+}
+
+.tower-list--faro li {
+  isolation: isolate;
+  margin: 0;
+  padding: 11px 14px;
+  border-radius: 16px;
+  overflow: hidden;
+  color: #111;
+  font-weight: 500;
+  opacity: 0;
+  transform: translate3d(0, 14px, 0) scale(0.97);
+}
+
+.tower-list--faro li::before {
+  left: auto;
+  top: auto;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  inset: -42% -18%;
+  z-index: -1;
+  background: radial-gradient(
+    closest-side,
+    rgba(var(--main-color-rgb), 0.28),
+    transparent 72%
+  );
+  opacity: 0;
+  transform: scale(0.4);
+  pointer-events: none;
+}
+
+.tower-list--faro.is-in li {
+  animation: tower-faro-in 0.7s var(--ease) both;
+}
+
+.tower-list--faro.is-in li:nth-child(1) { animation-delay: 0.08s; }
+.tower-list--faro.is-in li:nth-child(2) { animation-delay: 0.22s; }
+.tower-list--faro.is-in li:nth-child(3) { animation-delay: 0.36s; }
+.tower-list--faro.is-in li:nth-child(4) { animation-delay: 0.5s; }
+
+.tower-list--faro.is-in li::before {
+  animation: tower-faro-bloom 1s var(--ease) both;
+}
+
+.tower-list--faro.is-in li:nth-child(1)::before { animation-delay: 0.16s; }
+.tower-list--faro.is-in li:nth-child(2)::before { animation-delay: 0.3s; }
+.tower-list--faro.is-in li:nth-child(3)::before { animation-delay: 0.44s; }
+.tower-list--faro.is-in li:nth-child(4)::before { animation-delay: 0.58s; }
+
+@keyframes tower-faro-in {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes tower-faro-bloom {
+  0% {
+    opacity: 0;
+    transform: scale(0.4);
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tower-list--faro.is-in li:hover::before {
+    opacity: 0.85;
+    transition: opacity 0.25s var(--ease);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tower-list--faro li,
+  .tower-list--faro.is-in li,
+  .tower-list--faro.is-in li::before {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+  }
+
+  .tower-list--faro li::before {
+    opacity: 0.4;
+    transform: none;
+  }
+}
+
 .tile img,
 .season-lead img,
 .path img {
