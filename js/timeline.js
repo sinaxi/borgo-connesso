@@ -61,16 +61,18 @@
 
     /* Posizione orizzontale di testi e tappe (la tappa sta nel punto più piatto del tratto). */
     const left = [], px = [];
+    const laneL = 8;
     steps.forEach((_, i) => {
       if (narrow) {
-        // Mobile: scheda e cerchio nella stessa corsia, cerchio sul bordo verso la curva.
-        // Ultimo passo: entrambi a sinistra, sotto Pisogne (fine percorso = XL).
+        // Mobile: scheda e cerchio nella stessa corsia.
+        // Ultimo passo: scheda a sinistra come le altre; cerchio 04 PRIMA di Pisogne
+        // (non sul punto finale, altrimenti copre l’etichetta).
         if (i === last) {
-          left[i] = 8;
-          px[i] = Math.min(XL + 42, left[i] + TW - 40);
+          left[i] = laneL;
+          px[i] = left[i] + TW - 44;
           return;
         }
-        const lane = goesRight(i) ? 8 : W - 8 - TW;
+        const lane = goesRight(i) ? laneL : W - 8 - TW;
         left[i] = lane;
         px[i] = goesRight(i) ? lane + TW - 44 : lane + 44;
         return;
@@ -130,12 +132,18 @@
     const { sg, pinY, textTop, bottom } = plan;
     const E = sg[last].p[3], B0 = sg[0].p[0];
     const endX = E.x, endY = E.y;
-    /* Mobile: quarta scheda proprio sotto etichetta Pisogne + borgo. */
+
+    /* Mobile: Pisogne + borgo allineati a sinistra con la scheda 04; scheda sotto il borgo. */
     if (narrow) {
-      const villageBlock = Math.max(capB.offsetHeight || 0, 118);
-      textTop[last] = endY + 22 + villageBlock + 14;
+      capB.style.left = left[last] + 'px';
+      capB.style.top = endY + 'px';
+      /* forza layout per misurare l’altezza reale del blocco Pisogne+borgo */
+      void capB.offsetHeight;
+      const villageBlock = Math.max(capB.offsetHeight || 0, 120);
+      textTop[last] = endY + 32 + villageBlock + 10;
       bottom[last] = textTop[last] + hs[last];
     }
+
     const H = Math.max(endY + (narrow ? 280 : 205), bottom[last] + 50);
     root.style.height = H + 'px';
     svg.setAttribute('width', W); svg.setAttribute('height', H);
@@ -164,7 +172,6 @@
       return total * best / N;
     });
     /* Ancore scroll → lunghezza: la rotta avanza in modo proporzionale tra una tappa e la successiva. */
-    // Mobile: Pisogne si completa mentre fine percorso + borgo sono ancora in vista (non a scroll finito).
     aY = [Y0 - 150, ...pinY.map(v => v + 30), narrow ? endY + 24 : Math.max(endY + 80, pinY[last] + 60)];
     aL = [0, ...nodeLen, total];
 
@@ -172,8 +179,11 @@
     dotA.setAttribute('cx', startX); dotA.setAttribute('cy', startY);
     dotB.setAttribute('cx', endX);   dotB.setAttribute('cy', endY);
     capA.style.left = startX + 'px'; capA.style.top = startY + 'px';
-    capB.style.left = endX + 'px';   capB.style.top = endY + 'px';
-    capM.style.left = startX + 'px'; capM.style.top = startY + 'px';   // busta sotto il pallino di partenza
+    if (!narrow) {
+      capB.style.left = endX + 'px';
+      capB.style.top = endY + 'px';
+    }
+    capM.style.left = startX + 'px'; capM.style.top = startY + 'px';
     steps.forEach((s, i) => s.style.setProperty('--pd', (nodeLen[i] / total * CONFIG.pulseMs / 1000).toFixed(2) + 's'));
   }
 

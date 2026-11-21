@@ -156,11 +156,25 @@
 .tl-step__text{font-size:.95rem;line-height:1.5;margin-top:.7rem}
 .tl-cap__name{font-size:1.2rem}
 .tl-cap--start{--up:64px}
-.tl-cap--end{transform:translate(-8px,14px);gap:.45rem}
+/* Pisogne + borgo: sotto il punto finale, allineati a sinistra con la scheda (niente overlap sul 04) */
+.tl-cap--end{
+  transform:translate(0,28px);
+  gap:.4rem;
+  align-items:flex-start;
+  z-index:3;
+}
 .tl-mail{width:52px}
-.tl-village{width:132px}
+.tl-village{width:132px;margin:0;align-self:flex-start}
 .tl-node .tl-ring-base,.tl-node .tl-ring-fill{r:28.5}
 .tl-node b{font-size:1.2rem}
+}
+@media (max-width:400px){
+.tl-village{width:118px}
+.tl-cap--end{transform:translate(0,26px)}
+}
+@media (max-width:340px){
+.tl-village{width:104px}
+.tl-cap__name{font-size:1.05rem}
 }
 .tl:not(.tl-js) .tl-track::before{content:"";position:absolute;left:30px;top:0;bottom:0;width:3px;background:var(--sun);border-radius:2px}
 .tl:not(.tl-js) .tl-step{padding:1rem 0 1rem 84px;min-height:140px}
