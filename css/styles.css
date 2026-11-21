@@ -3510,7 +3510,11 @@ html.forest-done .forest-green {
 @media (max-width: 860px) {
   .faq-heading {
     max-width: none;
+    margin-bottom: clamp(36px, 7vw, 52px);
     text-align: left;
+    white-space: nowrap;
+    font-size: clamp(1.85rem, 8.2vw, 2.6rem);
+    letter-spacing: -0.04em;
   }
 
   .faq-list {
