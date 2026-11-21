@@ -3514,13 +3514,15 @@ html.forest-done .forest-green {
   .faq-heading {
     width: 100%;
     max-width: 100%;
-    margin-bottom: clamp(40px, 8vw, 56px);
+    box-sizing: border-box;
+    margin-bottom: clamp(52px, 11vw, 72px);
     padding-right: 0;
     text-align: left;
     white-space: nowrap;
-    overflow: hidden;
-    font-size: clamp(1.55rem, 7vw, 2.15rem);
-    letter-spacing: -0.035em;
+    overflow: visible;
+    /* Una riga intera senza uscire dal bordo del room */
+    font-size: clamp(1.28rem, 5.6vw, 1.75rem);
+    letter-spacing: -0.03em;
   }
 
   .faq-list {
