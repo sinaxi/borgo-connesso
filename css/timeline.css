@@ -1,0 +1,163 @@
+/* ==========================================================================
+   Timeline animata "Il soggiorno in 4 passi" (versione A: percorso a S + borgo).
+   Tutto è prefissato con "tl-" per non toccare gli stili del sito.
+   COME SI PERSONALIZZA (variabili qui sotto, sul contenitore .tl):
+   --ground   sfondo della sezione (deve coincidere con .room--process: #f8f8f8)
+   --sun      colore del percorso e dei passi raggiunti (qui = rosso del sito, --lake)
+   --mist     testo principale · --mist-2 testo secondario
+   La forma del percorso e le misure (larghezza schede, curvatura) si cambiano in js/timeline.js, funzione build().
+   ========================================================================== */
+.tl{
+  --ground:#f8f8f8;
+  --sun:var(--lake,#ff3b30);
+  --sun-soft:#ff9a92;
+  --mist:#111111;
+  --mist-2:#5a5a5a;
+  --line-ghost:rgba(17,17,17,.28);
+  --font-display:"Outfit","Avenir Next",system-ui,sans-serif;
+  --font-body:"Outfit","Avenir Next",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --ease-out:cubic-bezier(.16,1,.3,1);
+  --row-h:300px;
+  --node:76px;
+  position:relative;
+  color:var(--mist);
+  font-family:var(--font-body);
+  line-height:1.6;
+}
+.tl *,.tl *::before,.tl *::after{box-sizing:border-box}
+.tl-sr-only{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.tl-track{
+  position:relative;
+  max-width:70rem;
+  margin:0 auto;
+}
+.tl-js .tl-track{padding:0}
+.tl:not(.tl-js) .tl-track{padding:2rem 0}
+.tl-track__svg{position:absolute;left:0;top:0;overflow:visible;pointer-events:none;z-index:1}
+.tl-track__ghost{fill:none;stroke:var(--line-ghost);stroke-width:2;stroke-linecap:round;stroke-dasharray:1 10}
+.tl-track__line{fill:none;stroke:var(--sun);stroke-width:3.5;stroke-linecap:round}
+.tl-track__pulse{fill:none;stroke:var(--sun-soft);stroke-width:4;stroke-linecap:round;opacity:0}
+.tl-track__pulse--glow{stroke:var(--sun-soft);stroke-width:16;opacity:0}
+.tl-track__marker .tl-halo{fill:var(--sun);opacity:.22}
+.tl-track__marker .tl-core{fill:var(--sun);stroke:var(--ground);stroke-width:2.5}
+.tl-track__start,.tl-track__end{fill:var(--ground);stroke:var(--mist-2);stroke-width:2;transition:fill .5s,stroke .5s}
+.tl-is-end .tl-track__end{fill:var(--sun);stroke:var(--sun)}
+.tl-cap{
+  position:absolute;z-index:2;
+  font:600 .875rem/1 var(--font-body);letter-spacing:.01em;
+  color:var(--mist-2);
+  transform:translate(-8px,-64px);   
+  white-space:nowrap;
+  transition:color .5s;
+}
+.tl-cap--end{transform:translate(-8px,20px);display:flex;flex-direction:column;align-items:flex-start;gap:.7rem}
+.tl-cap--start{--up:46px;transform:translate(-8px,calc(-100% - var(--up)));display:flex;flex-direction:column;align-items:flex-start;gap:.6rem}
+.tl-cap__name{font:700 1.55rem/1 var(--font-display);letter-spacing:-.02em;color:var(--mist-2);transition:color .5s}
+.tl-is-started .tl-cap--start .tl-cap__name,.tl-is-end .tl-cap--end .tl-cap__name{color:var(--sun)}
+.tl-is-started .tl-track__start{fill:var(--sun);stroke:var(--sun)}
+.tl-cap--mail{transform:translate(-6px,16px);transition:opacity .4s}
+.tl-is-started .tl-cap--mail{opacity:0}
+.tl-mail{display:block;width:70px;height:auto;overflow:visible;fill:#fff;stroke:var(--mist);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.tl-mail .tl-flap{stroke:var(--sun)}
+.tl-mail .tl-env{animation:tl-mail-bob 3.2s ease-in-out infinite}
+@keyframes tl-mail-bob{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-4px) rotate(1.5deg)}}
+.tl-is-static .tl-mail .tl-env{animation:none}
+.tl-track__plane{opacity:0;transition:opacity .25s}
+.tl-track__plane path{fill:#fff;stroke:var(--mist);stroke-width:2.2;stroke-linejoin:round;stroke-linecap:round}
+.tl-track__plane .tl-fold{fill:none;stroke:var(--sun)}
+.tl-is-flying .tl-track__plane{opacity:1}
+.tl-track__marker{transition:opacity .2s}
+.tl-is-flying .tl-track__marker{opacity:0}
+.tl-village{display:block;width:230px;height:auto;overflow:visible;fill:none;stroke:var(--mist);stroke-width:2.1;stroke-linejoin:round;stroke-linecap:round;filter:url(#tl-hand)}
+.tl-village .tl-rf{fill:var(--ground);stroke:none}
+.tl-village .tl-roof{fill:var(--ground);transition:fill .5s .6s}
+.tl-village .tl-win{fill:var(--mist);stroke:none;transition:fill .5s .6s}
+.tl-village .tl-thin{stroke-width:1.4}
+.tl-village .tl-mtn path{stroke:#8C8C8C;stroke-width:1.9}
+.tl-village .tl-lake{stroke:#3FA9E8;stroke-width:2.4}
+.tl-village .tl-lake2{stroke:#8CCBF0;stroke-width:1.6}
+.tl-village .tl-b{transform-box:fill-box;transform-origin:50% 100%}
+.tl-js .tl-village .tl-b{transform:scaleY(0);opacity:0}
+.tl-js .tl-is-end .tl-village .tl-b{transform:none;opacity:1;transition:transform .7s var(--ease-out) var(--d,0s),opacity .3s var(--d,0s)}
+.tl-js .tl-village .tl-lake,.tl-js .tl-village .tl-lake2{stroke-dasharray:1;stroke-dashoffset:1}
+.tl-js .tl-is-end .tl-village .tl-lake,.tl-js .tl-is-end .tl-village .tl-lake2{stroke-dashoffset:0;transition:stroke-dashoffset 1.2s var(--ease-out) .5s}
+.tl-is-end .tl-village .tl-roof{fill:var(--sun)}
+.tl-is-end .tl-village .tl-win{fill:var(--sun)}
+.tl-steps{list-style:none;margin:0;padding:0;position:relative}
+.tl-step{position:relative}
+.tl-js .tl-steps{position:absolute;inset:0}
+.tl-js .tl-step{position:absolute}
+.tl-step__body{
+  background:#fff;
+  border:1px solid rgba(17,17,17,.07);
+  border-radius:22px;
+  padding:1.35rem 1.6rem 1.5rem;
+  box-shadow:0 1px 2px rgba(17,17,17,.05),0 16px 36px -16px rgba(17,17,17,.24);
+}
+.tl-step__title{
+  display:block;width:fit-content;max-width:100%;
+  margin:0;
+  font:700 clamp(1.25rem,1.9vw,1.55rem)/1.2 var(--font-display);
+  letter-spacing:-.015em;
+  text-wrap:balance;
+  
+  text-decoration:underline;text-decoration-color:var(--sun);text-decoration-thickness:2px;
+  text-underline-offset:.3em;text-decoration-skip-ink:none;
+}
+.tl-step__text{margin:.9rem 0 0;font-size:1rem;line-height:1.6;color:var(--mist-2);max-width:42ch}
+.tl-node{
+  position:absolute;z-index:2;
+  top:0;left:0;                
+  width:var(--node);height:var(--node);
+  margin:calc(var(--node) / -2) 0 0 calc(var(--node) / -2);
+  border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--ground);
+  transition:background-color .45s .35s ease;
+}
+.tl-node svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.tl-node .tl-ring-base{fill:none;stroke:rgba(17,17,17,.30);stroke-width:2}
+.tl-node .tl-ring-fill{fill:none;stroke:var(--sun);stroke-width:3.5;stroke-linecap:round;stroke-dasharray:232.5;stroke-dashoffset:232.5;transition:stroke-dashoffset 1s var(--ease-out)}
+.tl-node b{
+  position:relative;
+  font:700 1.5rem/1 var(--font-display);
+  font-variant-numeric:tabular-nums;
+  letter-spacing:-.02em;
+  color:var(--mist-2);
+  transition:color .4s .35s;
+}
+.tl-step.tl-is-reached .tl-node{background:var(--sun)}
+.tl-step.tl-is-reached .tl-node .tl-ring-fill{stroke-dashoffset:0}
+.tl-step.tl-is-reached .tl-node b{color:var(--ground)}
+@keyframes tl-node-ripple{
+  0%  {box-shadow:0 0 0 0 rgba(255,59,48,.55)}
+  100%{box-shadow:0 0 0 26px rgba(255,59,48,0)}
+}
+.tl-is-complete .tl-step .tl-node{animation:tl-node-ripple 1.1s var(--ease-out) var(--pd,0s) 1 both}
+.tl-js .tl-step__body{
+  opacity:0;
+  transform:translateX(var(--from,-22px));
+  filter:blur(7px);
+  transition:opacity .8s var(--ease-out),transform 1s var(--ease-out),filter .8s var(--ease-out);
+}
+.tl-js .tl-step:nth-child(even){--from:22px}
+.tl-js .tl-step.tl-is-seen .tl-step__body{opacity:1;transform:none;filter:none}
+@media (max-width:760px){
+.tl-step__body{border-radius:18px;padding:1rem 1.05rem 1.1rem}
+.tl-step__title{font-size:1.15rem}
+.tl-step__text{font-size:.95rem;line-height:1.5;margin-top:.7rem}
+.tl-cap__name{font-size:1.2rem}
+.tl-cap--start{--up:64px}
+.tl-mail{width:52px}
+.tl-village{width:98px}
+.tl-node .tl-ring-base,.tl-node .tl-ring-fill{r:28.5}
+.tl-node b{font-size:1.2rem}
+}
+.tl:not(.tl-js) .tl-track::before{content:"";position:absolute;left:30px;top:0;bottom:0;width:3px;background:var(--sun);border-radius:2px}
+.tl:not(.tl-js) .tl-step{padding:1rem 0 1rem 84px;min-height:140px}
+.tl:not(.tl-js) .tl-node{left:30px;top:50%}
+.tl:not(.tl-js) .tl-step.tl-is-reached .tl-node,.tl:not(.tl-js) .tl-node{background:var(--sun)}
+.tl:not(.tl-js) .tl-node b{color:var(--ground)}
+.tl:not(.tl-js) .tl-cap{display:none}
+.tl-is-static *,.tl-is-static *::before,.tl-is-static *::after{transition:none!important;animation:none!important}
+.tl-is-static .tl-track__marker{display:none}

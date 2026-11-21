@@ -16,6 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css?v=311">
+  <link rel="stylesheet" href="css/timeline.css?v=1">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -680,6 +681,164 @@
         </div>
       </section>
 
+      <!-- ======================================================================
+           VERSIONE ANIMATA di "Il soggiorno in 4 passi" (da confrontare con quella qui sotto).
+           Stesso titolo, sottotitolo e bottone; al posto dei 4 box c'è il percorso a S che si disegna
+           mentre scorri (aeroplanino -> 01 -> 02 -> 03 -> 04 -> Pisogne).
+           Stili: css/timeline.css (colori e variabili in cima) · Script: js/timeline.js (forma del percorso in build()).
+           Per tenere solo questa, cancella la <section id="processo"> successiva (e viceversa).
+           ====================================================================== -->
+      <section class="room room--process" id="processo-animato" aria-labelledby="processo-animato-title">
+        <div class="room-head">
+          <h2 id="processo-animato-title">Il soggiorno in 4 passi</h2>
+          <p>Dalla prima mail al rientro, senza sportelli in mezzo. La proposta è gratuita.</p>
+        </div>
+        <div class="tl" data-tl>
+          <!-- Filtro "mano libera": fa tremare leggermente le linee del villaggio (tienilo nella pagina, è invisibile) -->
+        <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+          <filter id="tl-hand" x="-5%" y="-5%" width="110%" height="110%">
+            <feTurbulence type="fractalNoise" baseFrequency=".045" numOctaves="2" seed="7" result="n"/>
+            <feDisplacementMap in="SourceGraphic" in2="n" scale="2.6"/>
+          </filter>
+        </svg>
+          <div class="tl-track" data-tl-track>
+          
+              <!-- Il percorso (generato da JS): ghost = strada intera, line = parte già fatta,
+                   pulse = impulso finale, marker = segnalino -->
+              <svg class="tl-track__svg" aria-hidden="true" focusable="false">
+                <path class="tl-track__ghost"/>
+                <path class="tl-track__line"/>
+                <path class="tl-track__pulse tl-track__pulse--glow"/>
+                <path class="tl-track__pulse"/>
+                <circle class="tl-track__start" r="6"/>
+                <circle class="tl-track__end" r="6"/>
+                <g class="tl-track__marker"><circle class="tl-halo" r="15"/><circle class="tl-core" r="7"/></g>
+                <g class="tl-track__plane"><g class="tl-plane-shape" transform="scale(1.2)"><path d="M-19 -15 25 0-16 11-8 1Z"/><path class="tl-fold" d="M-8 1 25 0M-8 1-10 8"/></g></g>
+              </svg>
+              <span class="tl-cap tl-cap--start" aria-hidden="true">
+                <span class="tl-cap__name">Primo contatto</span>
+              </span>
+              <span class="tl-cap tl-cap--mail" aria-hidden="true">
+                <!-- Sotto il pallino: la busta del primo contatto. Quando scorri diventa l'aeroplanino che percorre la linea fino a 01. -->
+                <svg class="tl-mail" viewBox="0 0 90 64" focusable="false">
+                  <g class="tl-env">
+                    <rect x="16" y="22" width="44" height="30" rx="3"/>
+                    <path class="tl-flap" d="M16 24 38 40 60 24"/>
+                  </g>
+                </svg>
+                </span>
+              <span class="tl-cap tl-cap--end" aria-hidden="true">
+                <span class="tl-cap__name">Pisogne</span>
+                <!-- Villaggio stilizzato: torre medievale al centro e qualche casetta, disegnati a mano libera. Solo grafica. -->
+                <svg class="tl-village" viewBox="0 8 190 90" focusable="false">
+                  <!-- Borgo a mano libera: montagne abbozzate sullo sfondo, case dietro e davanti alla torre, lago in basso. -->
+                  <g class="tl-b tl-mtn" style="--d:.15s">
+                    <path d="M2 74 22 50 30 58 50 26 62 44 70 38 92 66 108 42 118 50 138 22 152 44 160 38 186 70"/>
+                    <path d="M43 37 48 41 52 36 56 42M131 33 136 37 140 32 145 38M20 54l-2 8M112 46l-3 8" style="stroke-width:1.4"/>
+                  </g>
+                  <g class="tl-b" style="--d:.5s"><!-- case dietro -->
+                    <path class="tl-rf" d="M35 74 35.5 55 58 54 58.5 74Z"/>
+                    <path class="tl-rf tl-roof" d="M32 56 46 42 61 56Z" transform="translate(1.2 1.2)"/>
+                    <path d="M35 74 35.5 55M58 54 58.5 74M31 56 46 41 62 55"/><path class="tl-win" d="M43 60h5v5h-5z"/>
+                  </g>
+                  <g class="tl-b" style="--d:.6s">
+                    <path class="tl-rf" d="M60 74 60 52 84 52 84 74Z"/>
+                    <path class="tl-rf tl-roof" d="M57 54 71.5 38 87 54Z" transform="translate(1.2 1.2)"/>
+                    <path d="M60 74 60 52.5M84 52 84.5 74M56 54 71.5 37 88 54"/><path class="tl-win" d="M64 58h5v5h-5z"/>
+                  </g>
+                  <g class="tl-b" style="--d:.7s"><g transform="translate(-6 0)">
+                    <path class="tl-rf" d="M92 74V50H118V74Z"/>
+                    <path class="tl-rf tl-roof" d="M89 52 105 35 121 52Z" transform="translate(1.2 1.2)"/>
+                    <path d="M92.5 74 92 50.5M118 50 118.5 74M88 52 105 34 122 52"/><path class="tl-win" d="M108 56h5v5h-5z"/>
+                  </g></g>
+                  <g class="tl-b" style="--d:.8s"><!-- case davanti -->
+                    <path class="tl-rf" d="M12 80 12 58 38 58 38 80Z"/>
+                    <path class="tl-rf tl-roof" d="M8 60 25 41 43 60Z" transform="translate(1.5 1.5)"/>
+                    <path d="M12 80 11.5 58M38.5 57.5 38 80M7 60 25 40 44 59"/>
+                    <path class="tl-thin" d="M18 80V70h6v10"/><path class="tl-win" d="M29 63h5v5h-5z"/>
+                  </g>
+                  <g class="tl-b" style="--d:.9s">
+                    <path class="tl-rf" d="M128 80 128 56 156 56 156 80Z"/>
+                    <path class="tl-rf tl-roof" d="M124 58 142 38 160 57Z" transform="translate(1.5 1.5)"/>
+                    <path d="M128 80 127.5 56M156.5 55.5 157 80M123 58 142 37 161 57"/>
+                    <path class="tl-win" d="M133 62h6v6h-6zM145 62h6v6h-6z"/>
+                  </g>
+                  <g class="tl-b" style="--d:1s">
+                    <path class="tl-rf" d="M162 80 162 66 180 66 180 80Z"/>
+                    <path class="tl-rf tl-roof" d="M159 68 171 55 184 68Z" transform="translate(1.2 1.2)"/>
+                    <path d="M162 80 161.5 66M180 66 180.5 80M158 68 171 54 185 68"/><path class="tl-win" d="M168 71h5v5h-5z"/>
+                  </g>
+                  <g class="tl-b" style="--d:.35s"><g transform="translate(24 0)"><!-- torre medievale, senza bandiera, leggermente decentrata -->
+                    <path class="tl-rf" d="M72 80 72.5 29 102 28 102 80Z"/>
+                    <path d="M72 80 72.5 29M102 28.5 102 80M72 29 102 28"/>
+                    <path d="M72.5 29 72 15 80 14.5 80 21 83 21.5 83 14.5 91 15 91 21 94 21 94 14.5 102 15 102 28.5"/>
+                    <path class="tl-win" d="M85.5 40h3.4v14h-3.4z"/>
+                    <path class="tl-thin" d="M80 80V72C80 63 94 63 94 72V80"/>
+                    <path class="tl-thin" d="M75 42h5M92 47h6M76 58h4M94 36h5"/>
+                  </g></g>
+                  <path class="tl-lake" pathLength="1" d="M0 85.5C14 82.5 26 88.5 42 85.5S70 82.5 86 85.5 114 88.5 130 85.5 168 82.5 190 85.5"/>
+                  <path class="tl-lake2" pathLength="1" d="M16 92C30 90 40 94 54 92S80 90 96 92M122 92C134 90 144 94 158 92"/>
+                </svg>
+              </span>
+          
+              <!-- Lista ordinata: per gli screen reader è una sequenza di 4 passi.
+                   Per modificare un testo cambia <h3> e <p>; il numero nel cerchio è solo grafica. -->
+              <ol class="tl-steps">
+          
+                <li class="tl-step" data-tl-step>
+                  <span class="tl-node" aria-hidden="true">
+                    <svg viewBox="0 0 76 76"><circle class="tl-ring-base" cx="38" cy="38" r="37"/><circle class="tl-ring-fill" cx="38" cy="38" r="37"/></svg>
+                    <b>01</b>
+                  </span>
+                  <div class="tl-step__body">
+                    <h3 class="tl-step__title"><span class="tl-sr-only">Passo 1. </span>Raccontaci cosa ti serve</h3>
+                    <p class="tl-step__text">Compila il modulo o scrivici: obiettivo, persone, date, bambini. Bastano pochi dettagli per capire il soggiorno giusto.</p>
+                  </div>
+                </li>
+          
+                <li class="tl-step" data-tl-step>
+                  <span class="tl-node" aria-hidden="true">
+                    <svg viewBox="0 0 76 76"><circle class="tl-ring-base" cx="38" cy="38" r="37"/><circle class="tl-ring-fill" cx="38" cy="38" r="37"/></svg>
+                    <b>02</b>
+                  </span>
+                  <div class="tl-step__body">
+                    <h3 class="tl-step__title"><span class="tl-sr-only">Passo 2. </span>Ricevi la proposta</h3>
+                    <p class="tl-step__text">Entro due giorni lavorativi arriva il preventivo del pacchetto scelto, con alloggio e i trasferimenti se servono. Resta valido trenta giorni.</p>
+                  </div>
+                </li>
+          
+                <li class="tl-step" data-tl-step>
+                  <span class="tl-node" aria-hidden="true">
+                    <svg viewBox="0 0 76 76"><circle class="tl-ring-base" cx="38" cy="38" r="37"/><circle class="tl-ring-fill" cx="38" cy="38" r="37"/></svg>
+                    <b>03</b>
+                  </span>
+                  <div class="tl-step__body">
+                    <h3 class="tl-step__title"><span class="tl-sr-only">Passo 3. </span>Personalizza ogni dettaglio</h3>
+                    <p class="tl-step__text">Spostate le date e il numero di persone; aggiungete hub, outdoor o una cena in più — e confermate.</p>
+                  </div>
+                </li>
+          
+                <li class="tl-step" data-tl-step>
+                  <span class="tl-node" aria-hidden="true">
+                    <svg viewBox="0 0 76 76"><circle class="tl-ring-base" cx="38" cy="38" r="37"/><circle class="tl-ring-fill" cx="38" cy="38" r="37"/></svg>
+                    <b>04</b>
+                  </span>
+                  <div class="tl-step__body">
+                    <h3 class="tl-step__title"><span class="tl-sr-only">Passo 4. </span>Si parte con il programma già chiuso</h3>
+                    <p class="tl-step__text">Arrivo, orari, attività e tavola sono già nel preventivo. Dall’inizio alla fine è lo stesso soggiorno.</p>
+                  </div>
+                </li>
+          
+              </ol>
+            </div>
+        </div>
+        <script>document.currentScript.previousElementSibling.classList.add('tl-js')</script>
+        <a class="btn btn-ink" href="#proposta">
+          Richiedi una proposta
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6.2 15.8 13 9 19.8l-1.4-1.4L13 13 7.6 7.6z"/></svg>
+        </a>
+      </section>
+
       <section class="room room--process" id="processo" aria-labelledby="processo-title">
         <div class="room-head">
           <h2 id="processo-title">Il soggiorno in 4 passi</h2>
@@ -1292,5 +1451,6 @@
   </div>
 
   <script src="js/main.js?v=83"></script>
+  <script src="js/timeline.js?v=1"></script>
 </body>
 </html>
