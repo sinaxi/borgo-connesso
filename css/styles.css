@@ -1888,6 +1888,25 @@ html.forest-done .forest-green {
 #valori .parts {
   width: 100%;
   min-width: 0;
+  container-type: inline-size;
+  container-name: parts-col;
+}
+
+/* I 3 titoli dopo «Perché»: sempre una riga (desktop e mobile) */
+#borgo .parts h3 {
+  width: 100%;
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: clip;
+  letter-spacing: -0.03em;
+  font-size: clamp(1.15rem, 4.2cqi + 0.55rem, 1.8rem);
+}
+
+@supports not (font-size: 1cqi) {
+  #borgo .parts h3 {
+    font-size: clamp(1.12rem, 4.2vw + 0.35rem, 1.8rem);
+  }
 }
 
 #borgo .parts article,
@@ -3982,8 +4001,8 @@ html.forest-done .forest-green {
   margin: 0;
   max-width: 12ch;
   color: #fff;
-  /* Mobile invariato (min 3rem); desktop/tablet un filo più contenuti */
-  font-size: clamp(3rem, 6.15vw, 5.4rem);
+  /* Mobile invariato (min 3rem); desktop ancora un filo più contenuto */
+  font-size: clamp(3rem, 5.6vw, 4.85rem);
   font-weight: 800;
   letter-spacing: -0.055em;
   line-height: 0.92;
