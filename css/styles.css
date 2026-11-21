@@ -1940,7 +1940,7 @@ html.forest-done .forest-green {
   border-radius: 0.5em 0.3em 0.55em 0.28em;
 }
 
-/* Blocco intero chiudibile (Valori): foto full-bleed nel room, X sull’immagine aperta */
+/* Blocco intero chiudibile (Valori): X sul pannello (desktop angolo room; mobile sulla foto) */
 .room--block-fold {
   display: grid;
   gap: 0;
@@ -2052,9 +2052,10 @@ html.forest-done .forest-green {
 
 .block-fold-close {
   position: absolute;
-  top: 14px;
-  right: 14px;
-  z-index: 3;
+  /* Desktop: angolo in alto a destra del blocco arrotondato */
+  top: clamp(16px, 2vw, 24px);
+  right: clamp(16px, 2vw, 24px);
+  z-index: 5;
   display: grid;
   place-items: center;
   width: clamp(2.4rem, 3.4vw, 2.9rem);
@@ -2080,7 +2081,7 @@ html.forest-done .forest-green {
 }
 
 .block-fold-close:focus-visible {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--lake);
   outline-offset: 3px;
 }
 
@@ -2089,7 +2090,20 @@ html.forest-done .forest-green {
 }
 
 .block-fold-panel {
+  position: relative;
   padding: var(--room-pad-y) var(--room-pad-x);
+}
+
+/* Mobile: X resta sull’immagine (primo blocco dello stack) */
+@media (max-width: 900px) {
+  .block-fold-close {
+    top: calc(var(--room-pad-y) + 12px);
+    right: calc(var(--room-pad-x) + 12px);
+  }
+
+  .block-fold-close:focus-visible {
+    outline-color: #fff;
+  }
 }
 
 .block-fold-panel[hidden] {
