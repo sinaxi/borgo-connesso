@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anteprima bullets — motion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main-color.css?v=1">
+  <style>
+    :root {
+      --ink: #111;
+      --sage: #5c5c5c;
+      --paper: #efefef;
+      --ivory: #fff;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Outfit", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 28px 18px 88px;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.55rem, 4vw, 2.1rem);
+      letter-spacing: -0.04em;
+    }
+    .lede {
+      margin: 0 0 18px;
+      max-width: 52ch;
+      color: var(--sage);
+      line-height: 1.5;
+    }
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 0 0 28px;
+    }
+    .toolbar button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 16px;
+      background: #111;
+      color: #fff;
+      font: 600 0.88rem/1 Outfit, system-ui, sans-serif;
+      cursor: pointer;
+      transition: transform 0.15s var(--ease-out), background 0.2s;
+    }
+    .toolbar button:hover { background: var(--main-color); }
+    .toolbar button:active { transform: scale(0.97); }
+
+    .grid {
+      display: grid;
+      gap: 22px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    @media (min-width: 900px) {
+      .grid { grid-template-columns: 1fr 1fr; }
+    }
+    .panel {
+      background: var(--ivory);
+      border-radius: 28px;
+      padding: 24px 22px 28px;
+      box-shadow: 0 1px 2px rgba(17,17,17,.05), 0 18px 40px -24px rgba(17,17,17,.28);
+    }
+    .tag {
+      display: inline-block;
+      margin: 0 0 8px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--main-color);
+    }
+    .panel h2 {
+      margin: 0 0 6px;
+      font-size: 1.28rem;
+      letter-spacing: -0.03em;
+    }
+    .why {
+      margin: 0 0 18px;
+      font-size: 0.9rem;
+      color: var(--sage);
+      line-height: 1.45;
+    }
+
+    /* F · MASCHERA */
+    .list-mask {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 14px;
+    }
+    .list-mask li {
+      position: relative;
+      margin: 0;
+      padding: 2px 0;
+    }
+    .list-mask .row {
+      display: grid;
+      grid-template-columns: 10px minmax(0, 1fr);
+      gap: 14px;
+      align-items: start;
+      clip-path: inset(0 100% 0 0);
+      filter: blur(8px);
+      opacity: 0.35;
+    }
+    .play .list-mask .row {
+      animation: mask-open 0.75s var(--ease-out) both;
+    }
+    .play .list-mask li:nth-child(1) .row { animation-delay: 0.08s; }
+    .play .list-mask li:nth-child(2) .row { animation-delay: 0.22s; }
+    .play .list-mask li:nth-child(3) .row { animation-delay: 0.36s; }
+    .play .list-mask li:nth-child(4) .row { animation-delay: 0.5s; }
+    @keyframes mask-open {
+      to {
+        clip-path: inset(0 0 0 0);
+        filter: blur(0);
+        opacity: 1;
+      }
+    }
+    .list-mask .dot {
+      width: 10px;
+      height: 10px;
+      margin-top: 0.45em;
+      border-radius: 50%;
+      background: var(--main-color);
+      box-shadow: 0 0 0 0 rgba(var(--main-color-rgb), 0.45);
+    }
+    .play .list-mask .dot {
+      animation: pulse-ring 0.9s var(--ease-out) both;
+    }
+    .play .list-mask li:nth-child(1) .dot { animation-delay: 0.2s; }
+    .play .list-mask li:nth-child(2) .dot { animation-delay: 0.34s; }
+    .play .list-mask li:nth-child(3) .dot { animation-delay: 0.48s; }
+    .play .list-mask li:nth-child(4) .dot { animation-delay: 0.62s; }
+    @keyframes pulse-ring {
+      0% { box-shadow: 0 0 0 0 rgba(var(--main-color-rgb), 0.5); transform: scale(0.7); }
+      70% { box-shadow: 0 0 0 12px rgba(var(--main-color-rgb), 0); transform: scale(1); }
+      100% { box-shadow: 0 0 0 0 rgba(var(--main-color-rgb), 0); transform: scale(1); }
+    }
+    .list-mask p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--sage);
+    }
+
+    /* G · FARO */
+    .list-glow {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+    .list-glow li {
+      position: relative;
+      isolation: isolate;
+      padding: 12px 14px;
+      border-radius: 16px;
+      overflow: hidden;
+      opacity: 0;
+      transform: translate3d(0, 16px, 0) scale(0.97);
+    }
+    .play .list-glow li {
+      animation: glow-in 0.7s var(--ease-out) both;
+    }
+    .play .list-glow li:nth-child(1) { animation-delay: 0.1s; }
+    .play .list-glow li:nth-child(2) { animation-delay: 0.24s; }
+    .play .list-glow li:nth-child(3) { animation-delay: 0.38s; }
+    .play .list-glow li:nth-child(4) { animation-delay: 0.52s; }
+    @keyframes glow-in {
+      to { opacity: 1; transform: none; }
+    }
+    .list-glow li::before {
+      content: "";
+      position: absolute;
+      inset: -40% -20%;
+      z-index: -1;
+      background: radial-gradient(
+        closest-side,
+        rgba(var(--main-color-rgb), 0.28),
+        transparent 72%
+      );
+      opacity: 0;
+      transform: scale(0.4);
+    }
+    .play .list-glow li::before {
+      animation: bloom 1s var(--ease-out) both;
+    }
+    .play .list-glow li:nth-child(1)::before { animation-delay: 0.18s; }
+    .play .list-glow li:nth-child(2)::before { animation-delay: 0.32s; }
+    .play .list-glow li:nth-child(3)::before { animation-delay: 0.46s; }
+    .play .list-glow li:nth-child(4)::before { animation-delay: 0.6s; }
+    @keyframes bloom {
+      0% { opacity: 0; transform: scale(0.4); }
+      45% { opacity: 1; transform: scale(1.05); }
+      100% { opacity: 0.55; transform: scale(1); }
+    }
+    .list-glow p {
+      margin: 0;
+      position: relative;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .list-glow li:hover::before {
+      opacity: 0.85;
+      transition: opacity 0.25s var(--ease);
+    }
+
+    /* H · CORRENTE */
+    .list-current { position: relative; }
+    .list-current ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0;
+    }
+    .list-current::before {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 8px;
+      bottom: 8px;
+      width: 2px;
+      background: rgba(17,17,17,.1);
+      border-radius: 2px;
+    }
+    .list-current .spark {
+      position: absolute;
+      left: 4px;
+      top: 8px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--main-color);
+      box-shadow: 0 0 16px rgba(var(--main-color-rgb), 0.55);
+      opacity: 0;
+      z-index: 2;
+      pointer-events: none;
+    }
+    .play .list-current .spark {
+      animation: spark-run 1.65s var(--ease-out) 0.15s both;
+    }
+    @keyframes spark-run {
+      0% { opacity: 0; top: 8px; }
+      8% { opacity: 1; }
+      100% { opacity: 0.35; top: calc(100% - 16px); }
+    }
+    .list-current li {
+      position: relative;
+      display: grid;
+      grid-template-columns: 16px minmax(0, 1fr);
+      gap: 12px;
+      padding: 12px 0;
+      opacity: 0.28;
+      filter: saturate(0.2);
+      transform: translateX(-6px);
+    }
+    .play .list-current li {
+      animation: current-lit 0.55s var(--ease-out) both;
+    }
+    .play .list-current li:nth-child(1) { animation-delay: 0.2s; }
+    .play .list-current li:nth-child(2) { animation-delay: 0.55s; }
+    .play .list-current li:nth-child(3) { animation-delay: 0.9s; }
+    .play .list-current li:nth-child(4) { animation-delay: 1.25s; }
+    @keyframes current-lit {
+      to {
+        opacity: 1;
+        filter: none;
+        transform: none;
+      }
+    }
+    .list-current .node {
+      width: 16px;
+      height: 16px;
+      margin-top: 0.15em;
+      border-radius: 50%;
+      background: #fff;
+      box-shadow: inset 0 0 0 2px rgba(17,17,17,.18);
+      z-index: 1;
+    }
+    .play .list-current li .node {
+      animation: node-fill 0.4s var(--ease-out) both;
+    }
+    .play .list-current li:nth-child(1) .node { animation-delay: 0.28s; }
+    .play .list-current li:nth-child(2) .node { animation-delay: 0.63s; }
+    .play .list-current li:nth-child(3) .node { animation-delay: 0.98s; }
+    .play .list-current li:nth-child(4) .node { animation-delay: 1.33s; }
+    @keyframes node-fill {
+      to {
+        background: var(--main-color);
+        box-shadow: inset 0 0 0 2px var(--main-color), 0 0 0 4px rgba(var(--main-color-rgb), 0.18);
+      }
+    }
+    .list-current p {
+      margin: 0;
+      font-size: 1rem;
+      line-height: 1.4;
+      color: var(--sage);
+    }
+
+    /* I · ONDA */
+    .list-wave {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 20px;
+    }
+    .list-wave li {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+    .play .list-wave li {
+      animation: glow-in 0.6s var(--ease-out) both;
+    }
+    .play .list-wave li:nth-child(1) { animation-delay: 0.08s; }
+    .play .list-wave li:nth-child(2) { animation-delay: 0.2s; }
+    .play .list-wave li:nth-child(3) { animation-delay: 0.32s; }
+    .play .list-wave li:nth-child(4) { animation-delay: 0.44s; }
+    .list-wave p {
+      margin: 0 0 8px;
+      font-size: 1.02rem;
+      line-height: 1.4;
+      color: var(--ink);
+      font-weight: 500;
+    }
+    .list-wave svg {
+      display: block;
+      width: 100%;
+      max-width: 22rem;
+      height: 10px;
+      overflow: visible;
+    }
+    .list-wave path {
+      fill: none;
+      stroke: var(--main-color);
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-dasharray: 240;
+      stroke-dashoffset: 240;
+    }
+    .play .list-wave path {
+      animation: wave-draw 0.85s var(--ease-out) both;
+    }
+    .play .list-wave li:nth-child(1) path { animation-delay: 0.25s; }
+    .play .list-wave li:nth-child(2) path { animation-delay: 0.4s; }
+    .play .list-wave li:nth-child(3) path { animation-delay: 0.55s; }
+    .play .list-wave li:nth-child(4) path { animation-delay: 0.7s; }
+    @keyframes wave-draw {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .list-mask .row,
+      .list-mask .dot,
+      .list-glow li,
+      .list-glow li::before,
+      .list-current .spark,
+      .list-current li,
+      .list-current .node,
+      .list-wave li,
+      .list-wave path {
+        animation: none !important;
+        opacity: 1 !important;
+        filter: none !important;
+        transform: none !important;
+        clip-path: none !important;
+        stroke-dashoffset: 0 !important;
+      }
+      .list-current .node {
+        background: var(--main-color);
+        box-shadow: inset 0 0 0 2px var(--main-color);
+      }
+      .list-glow li::before { opacity: 0.4; }
+    }
+
+    .prior {
+      margin: 40px auto 0;
+      max-width: 1100px;
+      color: var(--sage);
+      font-size: 0.9rem;
+      line-height: 1.5;
+    }
+    .pick {
+      margin: 18px auto 0;
+      max-width: 1100px;
+      padding: 16px 18px;
+      border-radius: 18px;
+      background: #111;
+      color: #fff;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .pick strong { color: color-mix(in srgb, var(--main-color) 70%, #fff); }
+  </style>
+</head>
+<body>
+  <h1>Proposte · più motion</h1>
+  <p class="lede">F–I: maschera, faro, corrente, onda. Premi «Ripeti animazioni» per rivederle.</p>
+
+  <div class="toolbar">
+    <button type="button" id="replay">Ripeti animazioni</button>
+  </div>
+
+  <div class="grid" id="stage">
+    <section class="panel">
+      <span class="tag">F · Maschera</span>
+      <h2>Apertura a clip-path</h2>
+      <p class="why">Ogni riga si apre da sinistra con blur che si dissolve; il punto Main Color fa un breve anello. Sensazione di scoperta sul territorio.</p>
+      <ul class="list-mask">
+        <li><div class="row"><span class="dot" aria-hidden="true"></span><p>Il lago in kayak all’alba, prima dei battelli</p></div></li>
+        <li><div class="row"><span class="dot" aria-hidden="true"></span><p>Corna Trentapassi: il Sebino intero, visto dall’alto</p></div></li>
+        <li><div class="row"><span class="dot" aria-hidden="true"></span><p>La Valeriana fino alle rocce incise della Valcamonica</p></div></li>
+        <li><div class="row"><span class="dot" aria-hidden="true"></span><p>Sci in giornata: Montecampione, Borno, Monte Pora, Aprica — e le ciaspole sopra il paese</p></div></li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <span class="tag">G · Faro</span>
+      <h2>Bagliore dietro al testo</h2>
+      <p class="why">Un alone Main Color fiorisce dietro ogni voce e resta morbido. Hover: riprende luce. Caldo, adatto a Hub / benessere.</p>
+      <ul class="list-glow">
+        <li><p>Postazioni comode e connessione veloce, misurata</p></li>
+        <li><p>Sale riunioni per i team e cabine per le call</p></li>
+        <li><p>Aree relax per staccare tra un progetto e l’altro</p></li>
+        <li><p>Chioschi connessi sul lago e in paese, con l’aperitivo pronto</p></li>
+      </ul>
+    </section>
+
+    <section class="panel">
+      <span class="tag">H · Corrente</span>
+      <h2>Impulso che scende</h2>
+      <p class="why">Una scintilla scorre lungo la linea e «accende» i nodi uno dopo l’altro. Come un segnale che arriva — forte su Hub.</p>
+      <div class="list-current">
+        <span class="spark" aria-hidden="true"></span>
+        <ol>
+          <li><span class="node" aria-hidden="true"></span><p>Postazioni comode e connessione veloce, misurata</p></li>
+          <li><span class="node" aria-hidden="true"></span><p>Sale riunioni per i team e cabine per le call</p></li>
+          <li><span class="node" aria-hidden="true"></span><p>Aree relax per staccare tra un progetto e l’altro</p></li>
+          <li><span class="node" aria-hidden="true"></span><p>Chioschi connessi sul lago e in paese, con l’aperitivo pronto</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="panel">
+      <span class="tag">I · Onda</span>
+      <h2>Tratto d’acqua sotto il testo</h2>
+      <p class="why">Sotto ogni voce un’onda SVG si disegna in Main Color (stroke-dash). Metafora lago, senza icone inventate.</p>
+      <ul class="list-wave">
+        <li>
+          <p>Il lago in kayak all’alba, prima dei battelli</p>
+          <svg viewBox="0 0 240 10" aria-hidden="true"><path d="M2 6 C28 2 40 10 66 6 S104 2 130 6 172 10 198 5 230 2 238 6"/></svg>
+        </li>
+        <li>
+          <p>Corna Trentapassi: il Sebino intero, visto dall’alto</p>
+          <svg viewBox="0 0 240 10" aria-hidden="true"><path d="M2 7 C26 3 48 9 72 5 S112 2 136 7 176 10 204 4 232 3 238 6"/></svg>
+        </li>
+        <li>
+          <p>La Valeriana fino alle rocce incise della Valcamonica</p>
+          <svg viewBox="0 0 240 10" aria-hidden="true"><path d="M2 5 C30 9 44 2 70 7 S110 10 134 4 170 2 198 7 228 9 238 5"/></svg>
+        </li>
+        <li>
+          <p>Sci in giornata: Montecampione, Borno, Monte Pora, Aprica — e le ciaspole sopra il paese</p>
+          <svg viewBox="0 0 240 10" aria-hidden="true"><path d="M2 6 C24 2 52 10 78 5 S118 1 142 6 178 11 206 5 234 2 238 6"/></svg>
+        </li>
+      </ul>
+    </section>
+  </div>
+
+  <p class="prior">Anche A–E restano valide se preferisci qualcosa di più strutturale.</p>
+  <p class="pick">Dimmi la lettera (o il mix, es. <strong>I Outdoor + H Hub</strong>). Anteprima: <strong>http://127.0.0.1:8765/preview-bullets.html</strong></p>
+
+  <script>
+    const stage = document.getElementById("stage");
+    const replay = document.getElementById("replay");
+    function play() {
+      stage.classList.remove("play");
+      void stage.offsetWidth;
+      stage.classList.add("play");
+    }
+    replay.addEventListener("click", play);
+    play();
+  </script>
+</body>
+</html>
