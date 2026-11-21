@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anteprima · Hub & Outdoor a swipe (blocco intero)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main-color.css?v=1">
+  <style>
+    :root {
+      --ink: #111;
+      --sage: #5c5c5c;
+      --paper: #efefef;
+      --ivory: #fff;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Outfit", system-ui, sans-serif;
+      background: #171717;
+      color: var(--ink);
+      padding: 18px 0 110px;
+    }
+    .page-head {
+      padding: 0 16px 14px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin: 0 0 6px;
+      color: #fff;
+      font-size: 1.28rem;
+      letter-spacing: -0.04em;
+    }
+    .lede {
+      margin: 0;
+      color: rgba(255,255,255,.62);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      padding: 12px 16px 18px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    .toolbar button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: #fff;
+      color: #111;
+      font: 600 0.82rem/1 Outfit, system-ui, sans-serif;
+      cursor: pointer;
+    }
+
+    .demo {
+      max-width: 420px;
+      margin: 0 auto 36px;
+      background: var(--paper);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,.4);
+    }
+    .demo-meta {
+      padding: 16px 16px 10px;
+      background: #fff;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .tag {
+      display: inline-block;
+      margin: 0 0 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--main-color);
+    }
+    .demo-meta h2 {
+      margin: 0 0 4px;
+      font-size: 1.1rem;
+      letter-spacing: -0.03em;
+    }
+    .demo-meta p {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--sage);
+      line-height: 1.4;
+    }
+
+    /* —— Tower blocco (layout reale) —— */
+    .tower {
+      display: flex;
+      flex-direction: column;
+      flex: 0 0 auto;
+      width: 100%;
+      min-width: 0;
+      background: var(--paper);
+    }
+    .tower-shot {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      aspect-ratio: 4 / 5;
+      margin: 0 10px;
+      background: #ddd;
+    }
+    .tower-shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.04);
+    }
+    .tower-shot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        180deg,
+        rgba(17,17,17,0) 45%,
+        rgba(var(--main-color-rgb), 0.55) 100%
+      );
+      pointer-events: none;
+    }
+    .tower-copy {
+      margin-top: -2.1rem;
+      position: relative;
+      z-index: 2;
+      padding: 0 10px 18px 14px;
+      display: grid;
+      gap: 10px;
+      container-type: inline-size;
+    }
+    .tower-copy h3 {
+      margin: 0;
+      color: #111;
+      -webkit-text-fill-color: #111;
+      white-space: nowrap;
+      font-size: clamp(2.2rem, 16cqi, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.065em;
+      line-height: 0.84;
+      -webkit-text-stroke: 8px var(--ivory);
+      paint-order: stroke fill;
+    }
+    .tower-copy p {
+      margin: 0.6rem 0 0;
+      color: var(--sage);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+    .tower-list {
+      list-style: none;
+      margin: 4px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 6px;
+    }
+    .tower-list li {
+      position: relative;
+      isolation: isolate;
+      padding: 8px 6px 8px 14px;
+      border-radius: 12px;
+      overflow: hidden;
+      color: #111;
+      font-weight: 500;
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+    .tower-list li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: calc(8px + 0.45em);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--main-color);
+      z-index: 1;
+    }
+    .tower-list li::after {
+      content: "";
+      position: absolute;
+      inset: -40% -18%;
+      z-index: -1;
+      background: radial-gradient(closest-side, rgba(var(--main-color-rgb), 0.26), transparent 72%);
+      opacity: 0.5;
+    }
+
+    /* —— Track comuni —— */
+    .track {
+      display: flex;
+      gap: 12px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-snap-type: x mandatory;
+      scrollbar-width: none;
+      padding: 12px 0 8px;
+    }
+    .track::-webkit-scrollbar { display: none; }
+    .track .tower {
+      scroll-snap-align: start;
+    }
+
+    .dots {
+      display: flex;
+      gap: 7px;
+      justify-content: center;
+      padding: 4px 0 14px;
+    }
+    .dots i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: rgba(17,17,17,.16);
+    }
+    .dots i.is-on { background: var(--main-color); }
+
+    /* A · Peek */
+    .track--peek {
+      padding-left: 12px;
+      padding-right: 48px;
+    }
+    .track--peek .tower {
+      width: calc(100% - 36px);
+      flex-basis: calc(100% - 36px);
+    }
+
+    /* B · Snap full + auto */
+    .track--snap .tower {
+      width: calc(100% - 24px);
+      flex-basis: calc(100% - 24px);
+      margin-left: 12px;
+    }
+    .track--snap .tower:last-child { margin-right: 12px; }
+
+    /* C · Chevron */
+    .stage { position: relative; }
+    .chev {
+      position: absolute;
+      right: 10px;
+      top: 28%;
+      z-index: 5;
+      width: 40px;
+      height: 40px;
+      border: 0;
+      border-radius: 50%;
+      background: #111;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      box-shadow: 0 8px 22px rgba(0,0,0,.28);
+      animation: chev 1.35s var(--ease-out) infinite;
+    }
+    .chev svg { width: 15px; height: 15px; }
+    .stage.is-swiped .chev { display: none; }
+    @keyframes chev {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(6px); }
+    }
+    .edge-fade::after {
+      content: "";
+      position: absolute;
+      top: 0; right: 0; bottom: 40px;
+      width: 40px;
+      pointer-events: none;
+      z-index: 3;
+      background: linear-gradient(90deg, transparent, var(--paper));
+    }
+
+    /* D · Coverflow */
+    .track--flow {
+      padding: 16px 40px 12px 16px;
+      perspective: 900px;
+    }
+    .track--flow .tower {
+      width: 78%;
+      flex-basis: 78%;
+      transform: scale(0.92);
+      opacity: 0.55;
+      transition: transform 0.35s var(--ease-out), opacity 0.35s var(--ease-out);
+      scroll-snap-align: center;
+    }
+    .track--flow .tower.is-focus {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    /* E · One-shot breathe — same as snap track, driven by JS */
+
+    /* F · Segment + progress */
+    .seg {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin: 0 12px 8px;
+      padding: 4px;
+      border-radius: 999px;
+      background: rgba(17,17,17,.06);
+    }
+    .seg button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 9px 10px;
+      background: transparent;
+      font: 650 0.82rem/1 Outfit, system-ui, sans-serif;
+      color: var(--sage);
+      cursor: pointer;
+    }
+    .seg button.is-on {
+      background: #111;
+      color: #fff;
+    }
+    .prog {
+      height: 3px;
+      margin: 0 16px 6px;
+      border-radius: 3px;
+      background: rgba(17,17,17,.1);
+      overflow: hidden;
+    }
+    .prog > i {
+      display: block;
+      height: 100%;
+      width: 50%;
+      background: var(--main-color);
+      border-radius: 3px;
+      transition: transform 0.35s var(--ease-out);
+      transform-origin: left center;
+    }
+
+    .pick {
+      position: sticky;
+      bottom: 10px;
+      z-index: 20;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #111;
+      color: #fff;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      box-shadow: 0 14px 40px rgba(0,0,0,.45);
+    }
+    .pick strong { color: color-mix(in srgb, var(--main-color) 72%, #fff); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .chev { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <h1>6 alternative · blocco intero</h1>
+    <p class="lede">Non i soli bullet: scorrono <strong style="color:#fff">foto + titolo + testo + lista</strong> di Hub &amp; CoWo e Outdoor. Dimmi la lettera.</p>
+  </div>
+  <div class="toolbar">
+    <button type="button" id="replay">Ripeti animazioni</button>
+  </div>
+
+  <template id="tpl-hub">
+    <article class="tower" data-panel="hub">
+      <div class="tower-shot">
+        <img src="assets/territorio-hub.jpg?v=3" width="960" height="1200" alt="">
+      </div>
+      <div class="tower-copy">
+        <h3>Hub &amp; CoWo</h3>
+        <p>Un borgo pensato per chi lavora da remoto, non un ufficio riadattato con postazioni in più e una vista lago. Puoi lavorare nel Coworking Hub, nel silenzio giusto per concentrarti. Oppure in un chiosco sul lago: schermo aperto, acqua che cambia colore mentre chiudi le ultime cose. Qui il lavoro non si ferma: cambia scenario.</p>
+        <ul class="tower-list">
+          <li>Postazioni comode e connessione veloce, misurata</li>
+          <li>Sale riunioni per i team e cabine per le call</li>
+          <li>Aree relax per staccare tra un progetto e l’altro</li>
+          <li>Chioschi sul lago e nei parchi: la tua scrivania con vista</li>
+        </ul>
+      </div>
+    </article>
+  </template>
+
+  <template id="tpl-outdoor">
+    <article class="tower" data-panel="outdoor">
+      <div class="tower-shot">
+        <img src="assets/territorio-outdoor.jpg?v=3" width="960" height="1200" alt="">
+      </div>
+      <div class="tower-copy">
+        <h3>Outdoor</h3>
+        <p>Qui in un’ora si passa dall’acqua alla montagna. All’alba il lago è ancora fermo e lo si attraversa in kayak, prima che passino i battelli. Dalla Corna Trentapassi lo si vede intero, come una mappa aperta. L’Antica Valeriana attraversa la sponda orientale del Sebino. D’inverno ci sono stazioni sciistiche a pochi minuti.</p>
+        <ul class="tower-list">
+          <li>Il lago in kayak all’alba, prima dei battelli</li>
+          <li>Corna Trentapassi: il Sebino intero, visto dall’alto</li>
+          <li>L’Antica Valeriana fino alle rocce incise dai Camuni</li>
+          <li>Sci in giornata: Montecampione, Borno, Pora, Aprica</li>
+        </ul>
+      </div>
+    </article>
+  </template>
+
+  <!-- A -->
+  <section class="demo" data-demo="A">
+    <div class="demo-meta">
+      <span class="tag">A · Peek + nudge</span>
+      <h2>Hub pieno, Outdoor sporge</h2>
+      <p>Due scatti automatici all’ingresso, poi swipe. Il pezzo tagliato dice «c’è un secondo blocco».</p>
+    </div>
+    <div class="track track--peek" data-nudge></div>
+    <div class="dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
+  </section>
+
+  <!-- B -->
+  <section class="demo" data-demo="B">
+    <div class="demo-meta">
+      <span class="tag">B · Snap + auto</span>
+      <h2>Un blocco alla volta</h2>
+      <p>Snap-x. Alterna Hub ↔ Outdoor ogni ~4s; lo swipe interrompe.</p>
+    </div>
+    <div class="track track--snap" data-auto></div>
+    <div class="dots" data-dots aria-hidden="true"><i class="is-on"></i><i></i></div>
+  </section>
+
+  <!-- C -->
+  <section class="demo" data-demo="C">
+    <div class="demo-meta">
+      <span class="tag">C · Freccia viva</span>
+      <h2>Scroll manuale + chevron</h2>
+      <p>Niente auto-scroll del contenuto. Freccia che pulsa (e si tappabile) finché non swipi.</p>
+    </div>
+    <div class="stage edge-fade" data-chev>
+      <div class="track track--snap" data-manual></div>
+      <button type="button" class="chev" aria-label="Vai a Outdoor">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+    <div class="dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
+  </section>
+
+  <!-- D -->
+  <section class="demo" data-demo="D">
+    <div class="demo-meta">
+      <span class="tag">D · Coverflow</span>
+      <h2>Blocco a fuoco + vicino ridotto</h2>
+      <p>Il secondo card resta visibile in scala. Lo swipe cambia il focus.</p>
+    </div>
+    <div class="track track--flow" data-flow></div>
+    <div class="dots" data-flow-dots aria-hidden="true"><i class="is-on"></i><i></i></div>
+  </section>
+
+  <!-- E -->
+  <section class="demo" data-demo="E">
+    <div class="demo-meta">
+      <span class="tag">E · Andata e ritorno</span>
+      <h2>Mostra Outdoor una volta</h2>
+      <p>All’ingresso: Hub → Outdoor → Hub, poi resta fermo. Solo gesture dopo.</p>
+    </div>
+    <div class="track track--snap" data-breathe></div>
+    <div class="dots" aria-hidden="true"><i class="is-on"></i><i></i></div>
+  </section>
+
+  <!-- F -->
+  <section class="demo" data-demo="F">
+    <div class="demo-meta">
+      <span class="tag">F · Segment + swipe</span>
+      <h2>Hub | Outdoor in testa</h2>
+      <p>Toggle + barra Main Color. Swipe e tap restano sincronizzati.</p>
+    </div>
+    <div class="seg" data-seg>
+      <button type="button" class="is-on" data-go="0">Hub &amp; CoWo</button>
+      <button type="button" data-go="1">Outdoor</button>
+    </div>
+    <div class="prog"><i data-prog></i></div>
+    <div class="track track--snap" data-seg-track></div>
+  </section>
+
+  <p class="pick">Dimmi la lettera <strong>A–F</strong>. Anteprima: <strong>http://127.0.0.1:8765/preview-towers-mobile.html</strong></p>
+
+  <script>
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const hubTpl = document.getElementById("tpl-hub");
+    const outTpl = document.getElementById("tpl-outdoor");
+
+    function fill(track) {
+      track.append(hubTpl.content.cloneNode(true), outTpl.content.cloneNode(true));
+    }
+    document.querySelectorAll(".track").forEach(fill);
+
+    function panels(track) {
+      return [...track.querySelectorAll(".tower")];
+    }
+    function goTo(track, index, smooth = true) {
+      const items = panels(track);
+      const el = items[index];
+      if (!el) return;
+      el.scrollIntoView({
+        behavior: reduced || !smooth ? "auto" : "smooth",
+        inline: "start",
+        block: "nearest",
+      });
+    }
+    function indexOf(track) {
+      const items = panels(track);
+      const left = track.scrollLeft;
+      let best = 0;
+      let dist = Infinity;
+      items.forEach((el, i) => {
+        const d = Math.abs(el.offsetLeft - left);
+        if (d < dist) { dist = d; best = i; }
+      });
+      return best;
+    }
+    function paintDots(root, i) {
+      const dots = root.querySelector(".dots");
+      if (!dots) return;
+      [...dots.children].forEach((d, idx) => d.classList.toggle("is-on", idx === i));
+    }
+
+    // A nudge
+    function runNudge(track) {
+      if (reduced) return;
+      track.scrollTo({ left: 0, behavior: "auto" });
+      const peek = Math.min(72, track.clientWidth * 0.16);
+      setTimeout(() => track.scrollTo({ left: peek, behavior: "smooth" }), 450);
+      setTimeout(() => track.scrollTo({ left: peek * 2.1, behavior: "smooth" }), 1050);
+      setTimeout(() => track.scrollTo({ left: 0, behavior: "smooth" }), 1850);
+    }
+    document.querySelectorAll("[data-nudge]").forEach((track) => {
+      const demo = track.closest(".demo");
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          runNudge(track);
+          io.disconnect();
+        }
+      }, { threshold: 0.35 });
+      io.observe(demo);
+      track.addEventListener("scroll", () => paintDots(demo, indexOf(track)), { passive: true });
+    });
+
+    // B auto
+    document.querySelectorAll("[data-auto]").forEach((track) => {
+      const demo = track.closest(".demo");
+      let i = 0;
+      let timer = 0;
+      let hold = false;
+      const tick = () => {
+        if (hold || reduced) return;
+        i = (i + 1) % 2;
+        goTo(track, i);
+        paintDots(demo, i);
+      };
+      const start = () => {
+        clearInterval(timer);
+        if (!reduced) timer = setInterval(tick, 4000);
+      };
+      track.addEventListener("pointerdown", () => { hold = true; clearInterval(timer); });
+      track.addEventListener("pointerup", () => { hold = false; i = indexOf(track); paintDots(demo, i); start(); });
+      track.addEventListener("scroll", () => paintDots(demo, indexOf(track)), { passive: true });
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) start();
+        else clearInterval(timer);
+      }, { threshold: 0.35 });
+      io.observe(demo);
+    });
+
+    // C chevron
+    document.querySelectorAll("[data-chev]").forEach((stage) => {
+      const track = stage.querySelector("[data-manual]");
+      const btn = stage.querySelector(".chev");
+      const demo = stage.closest(".demo");
+      const mark = () => stage.classList.add("is-swiped");
+      track.addEventListener("scroll", () => {
+        paintDots(demo, indexOf(track));
+        if (track.scrollLeft > 24) mark();
+      }, { passive: true });
+      btn.addEventListener("click", () => {
+        goTo(track, 1);
+        paintDots(demo, 1);
+        mark();
+      });
+    });
+
+    // D coverflow
+    document.querySelectorAll("[data-flow]").forEach((track) => {
+      const demo = track.closest(".demo");
+      const sync = () => {
+        const i = indexOf(track);
+        panels(track).forEach((el, idx) => el.classList.toggle("is-focus", idx === i));
+        paintDots(demo, i);
+      };
+      track.addEventListener("scroll", sync, { passive: true });
+      sync();
+    });
+
+    // E breathe once
+    function runBreathe(track) {
+      if (reduced) return;
+      goTo(track, 0, false);
+      setTimeout(() => goTo(track, 1), 700);
+      setTimeout(() => goTo(track, 0), 2800);
+    }
+    document.querySelectorAll("[data-breathe]").forEach((track) => {
+      const demo = track.closest(".demo");
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          runBreathe(track);
+          io.disconnect();
+        }
+      }, { threshold: 0.35 });
+      io.observe(demo);
+      track.addEventListener("scroll", () => paintDots(demo, indexOf(track)), { passive: true });
+    });
+
+    // F segment
+    document.querySelectorAll("[data-seg-track]").forEach((track) => {
+      const demo = track.closest(".demo");
+      const seg = demo.querySelector("[data-seg]");
+      const prog = demo.querySelector("[data-prog]");
+      const buttons = [...seg.querySelectorAll("button")];
+      const sync = () => {
+        const i = indexOf(track);
+        buttons.forEach((b, idx) => b.classList.toggle("is-on", idx === i));
+        if (prog) prog.style.transform = `translateX(${i * 100}%)`;
+      };
+      buttons.forEach((b) => {
+        b.addEventListener("click", () => {
+          goTo(track, Number(b.dataset.go));
+          sync();
+        });
+      });
+      track.addEventListener("scroll", sync, { passive: true });
+      sync();
+    });
+
+    document.getElementById("replay").addEventListener("click", () => {
+      document.querySelectorAll("[data-nudge]").forEach(runNudge);
+      document.querySelectorAll("[data-breathe]").forEach(runBreathe);
+      document.querySelectorAll("[data-chev]").forEach((s) => s.classList.remove("is-swiped"));
+      document.querySelectorAll(".track").forEach((t) => { t.scrollLeft = 0; });
+      document.querySelectorAll("[data-flow]").forEach((t) => {
+        panels(t).forEach((el, i) => el.classList.toggle("is-focus", i === 0));
+      });
+    });
+  </script>
+</body>
+</html>
