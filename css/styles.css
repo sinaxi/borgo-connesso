@@ -3380,7 +3380,8 @@ html.forest-done .forest-green {
   container-name: faq;
 }
 
-.faq-heading {
+/* Più specifico di .room h2, altrimenti su mobile vince clamp(2.2rem, 11vw, 3rem) e il titolo esce */
+.room--faq .faq-heading {
   margin: 0 0 clamp(28px, 5vw, 48px);
   max-width: 18ch;
   font-family: var(--display);
@@ -3517,10 +3518,10 @@ html.forest-done .forest-green {
 @media (max-width: 860px) {
   .faq {
     /* Spazio reale tra titolo e prima card (niente collasso sul flex) */
-    gap: clamp(44px, 12vw, 72px);
+    gap: clamp(48px, 13vw, 80px);
   }
 
-  .faq-heading {
+  .room--faq .faq-heading {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
@@ -3543,7 +3544,7 @@ html.forest-done .forest-green {
 
 @supports not (font-size: 1cqi) {
   @media (max-width: 860px) {
-    .faq-heading {
+    .room--faq .faq-heading {
       /* Fallback senza container query: scala sul viewport meno il padding room */
       font-size: min(1.48rem, calc((100vw - 48px) / 12.2));
     }
