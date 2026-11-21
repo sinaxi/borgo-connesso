@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anteprima mobile · bullets Hub / Outdoor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main-color.css?v=1">
+  <style>
+    :root {
+      --ink: #111;
+      --sage: #5c5c5c;
+      --paper: #efefef;
+      --ivory: #fff;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Outfit", system-ui, sans-serif;
+      background: #1a1a1a;
+      color: var(--ink);
+      padding: 20px 12px 96px;
+    }
+    h1 {
+      margin: 0 0 6px;
+      color: #fff;
+      font-size: 1.35rem;
+      letter-spacing: -0.04em;
+    }
+    .lede {
+      margin: 0 0 18px;
+      color: rgba(255,255,255,.62);
+      font-size: 0.9rem;
+      line-height: 1.45;
+      max-width: 42ch;
+    }
+    .pick {
+      position: sticky;
+      bottom: 12px;
+      z-index: 20;
+      margin: 28px auto 0;
+      max-width: 390px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #111;
+      color: #fff;
+      font-size: 0.88rem;
+      line-height: 1.45;
+      box-shadow: 0 12px 40px rgba(0,0,0,.45);
+    }
+    .pick strong { color: color-mix(in srgb, var(--main-color) 72%, #fff); }
+
+    .phone {
+      width: min(390px, 100%);
+      margin: 0 auto 28px;
+      background: var(--ivory);
+      border-radius: 28px;
+      padding: 18px 0 22px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.35);
+      overflow: hidden;
+    }
+    .tag {
+      display: inline-block;
+      margin: 0 16px 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--main-color);
+    }
+    .phone h2 {
+      margin: 0 16px 4px;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+    }
+    .why {
+      margin: 0 16px 14px;
+      font-size: 0.82rem;
+      color: var(--sage);
+      line-height: 1.4;
+    }
+
+    /* Chip Faro condiviso */
+    .chip {
+      position: relative;
+      isolation: isolate;
+      flex: 0 0 auto;
+      display: grid;
+      grid-template-columns: 6px minmax(0, 1fr);
+      gap: 10px;
+      align-items: start;
+      padding: 11px 16px 11px 14px;
+      border-radius: 14px;
+      color: #111;
+      font-size: 0.92rem;
+      font-weight: 500;
+      letter-spacing: -0.015em;
+      line-height: 1.35;
+      white-space: nowrap;
+      scroll-snap-align: start;
+    }
+    .chip::after {
+      content: "";
+      position: absolute;
+      inset: -40% -20%;
+      z-index: -1;
+      background: radial-gradient(
+        closest-side,
+        rgba(var(--main-color-rgb), 0.28),
+        transparent 72%
+      );
+      opacity: 0.55;
+      pointer-events: none;
+    }
+    .chip .dot {
+      width: 6px;
+      height: 6px;
+      margin-top: 0.45em;
+      border-radius: 50%;
+      background: var(--main-color);
+    }
+
+    .rail {
+      display: flex;
+      gap: 8px;
+      padding: 4px 16px 8px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .rail::-webkit-scrollbar { display: none; }
+
+    .edge {
+      position: relative;
+    }
+    .edge::after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 48px;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, #fff);
+      z-index: 2;
+    }
+
+    /* A · Marquee */
+    .marquee-wrap {
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    }
+    .marquee-track {
+      display: flex;
+      gap: 8px;
+      width: max-content;
+      animation: marquee 28s linear infinite;
+      padding: 4px 0 8px;
+    }
+    .marquee-wrap:hover .marquee-track,
+    .marquee-wrap:focus-within .marquee-track,
+    .marquee-wrap.is-paused .marquee-track {
+      animation-play-state: paused;
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to { transform: translateX(-50%); }
+    }
+
+    /* B · Peek + nudge */
+    .rail--peek {
+      scroll-snap-type: x mandatory;
+      padding-right: 64px;
+    }
+    .rail--peek .chip {
+      width: min(78vw, 300px);
+      white-space: normal;
+    }
+    .dots {
+      display: flex;
+      gap: 6px;
+      justify-content: center;
+      margin-top: 6px;
+    }
+    .dots i {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(17,17,17,.18);
+    }
+    .dots i.is-on { background: var(--main-color); }
+
+    /* C · Snap carousel */
+    .rail--snap {
+      scroll-snap-type: x mandatory;
+    }
+    .rail--snap .chip {
+      width: calc(100vw - 64px);
+      max-width: 358px;
+      white-space: normal;
+      scroll-snap-align: center;
+    }
+
+    /* D · Chevron */
+    .chev-wrap { position: relative; }
+    .chev {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      z-index: 3;
+      width: 34px;
+      height: 34px;
+      margin-top: -17px;
+      border: 0;
+      border-radius: 50%;
+      background: #111;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      animation: chev-pulse 1.4s var(--ease-out) infinite;
+      box-shadow: 0 6px 18px rgba(17,17,17,.25);
+    }
+    .chev svg { width: 14px; height: 14px; }
+    .chev-wrap.is-swiped .chev { display: none; }
+    @keyframes chev-pulse {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(5px); }
+    }
+
+    /* E · One-shot breathe */
+    .breathe-track {
+      display: flex;
+      gap: 8px;
+      width: max-content;
+      padding: 4px 16px 8px;
+      transform: translateX(0);
+    }
+    .phone.is-play .breathe-track {
+      animation: breathe 9s var(--ease-out) 0.4s both;
+    }
+    @keyframes breathe {
+      0% { transform: translateX(0); }
+      35% { transform: translateX(calc(-100% + 100cqw)); }
+      55% { transform: translateX(calc(-100% + 100cqw)); }
+      100% { transform: translateX(0); }
+    }
+    .breathe-host {
+      overflow: hidden;
+      container-type: inline-size;
+    }
+
+    /* F · Hint + shimmer */
+    .hint {
+      margin: 2px 16px 0;
+      font-size: 0.75rem;
+      color: var(--sage);
+      letter-spacing: 0.02em;
+      transition: opacity 0.4s var(--ease);
+    }
+    .phone.is-swiped .hint { opacity: 0; }
+    .shimmer-edge::before {
+      content: "";
+      position: absolute;
+      top: 8px;
+      right: 0;
+      bottom: 12px;
+      width: 56px;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.95));
+    }
+    .shimmer-edge::after {
+      content: "";
+      position: absolute;
+      top: 10px;
+      right: 8px;
+      bottom: 14px;
+      width: 2px;
+      z-index: 3;
+      border-radius: 2px;
+      background: var(--main-color);
+      opacity: 0.55;
+      animation: shimmer 1.6s var(--ease-out) infinite;
+      pointer-events: none;
+    }
+    .phone.is-swiped .shimmer-edge::after { display: none; }
+    @keyframes shimmer {
+      0%, 100% { opacity: 0.25; transform: scaleY(0.7); }
+      50% { opacity: 0.9; transform: scaleY(1); }
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 8px;
+      margin: 0 0 16px;
+      max-width: 390px;
+    }
+    .toolbar button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: #fff;
+      color: #111;
+      font: 600 0.82rem/1 Outfit, system-ui, sans-serif;
+      cursor: pointer;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .marquee-track,
+      .chev,
+      .breathe-track,
+      .shimmer-edge::after {
+        animation: none !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>6 alternative · solo mobile</h1>
+  <p class="lede">Contenuti reali Hub &amp; CoWo / Outdoor. Scrolla la pagina: ogni blocco è una proposta. Poi dimmi la lettera.</p>
+  <div class="toolbar">
+    <button type="button" id="replay">Ripeti animazioni</button>
+  </div>
+
+  <!-- A -->
+  <section class="phone" data-demo="A">
+    <span class="tag">A · Marquee lago</span>
+    <h2>Nastro continuo</h2>
+    <p class="why">Scorre da solo in loop. Tocca per mettere in pausa, poi puoi trascinare.</p>
+    <div class="marquee-wrap" tabindex="0">
+      <div class="marquee-track">
+        <span class="chip"><span class="dot"></span>Postazioni comode e connessione veloce, misurata</span>
+        <span class="chip"><span class="dot"></span>Sale riunioni per i team e cabine per le call</span>
+        <span class="chip"><span class="dot"></span>Aree relax per staccare tra un progetto e l’altro</span>
+        <span class="chip"><span class="dot"></span>Chioschi sul lago e nei parchi: la tua scrivania con vista</span>
+        <span class="chip" aria-hidden="true"><span class="dot"></span>Postazioni comode e connessione veloce, misurata</span>
+        <span class="chip" aria-hidden="true"><span class="dot"></span>Sale riunioni per i team e cabine per le call</span>
+        <span class="chip" aria-hidden="true"><span class="dot"></span>Aree relax per staccare tra un progetto e l’altro</span>
+        <span class="chip" aria-hidden="true"><span class="dot"></span>Chioschi sul lago e nei parchi: la tua scrivania con vista</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- B -->
+  <section class="phone" data-demo="B">
+    <span class="tag">B · Peek + nudge</span>
+    <h2>Voce piena + pezzo dopo</h2>
+    <p class="why">All’ingresso: due scatti automatici. Poi swipe libero. Pallini sotto.</p>
+    <div class="edge">
+      <div class="rail rail--peek" data-nudge>
+        <span class="chip"><span class="dot"></span>Il lago in kayak all’alba, prima dei battelli</span>
+        <span class="chip"><span class="dot"></span>Corna Trentapassi: il Sebino intero, visto dall’alto</span>
+        <span class="chip"><span class="dot"></span>L’Antica Valeriana fino alle rocce incise dai Camuni</span>
+        <span class="chip"><span class="dot"></span>Sci in giornata: Montecampione, Borno, Pora, Aprica</span>
+      </div>
+    </div>
+    <div class="dots" aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- C -->
+  <section class="phone" data-demo="C">
+    <span class="tag">C · Carosello snap</span>
+    <h2>Una voce alla volta</h2>
+    <p class="why">Avanza da sola ogni ~3s. Swipe interrompe. Testo a size comoda.</p>
+    <div class="rail rail--snap" data-autoplay>
+      <span class="chip"><span class="dot"></span>Postazioni comode e connessione veloce, misurata</span>
+      <span class="chip"><span class="dot"></span>Sale riunioni per i team e cabine per le call</span>
+      <span class="chip"><span class="dot"></span>Aree relax per staccare tra un progetto e l’altro</span>
+      <span class="chip"><span class="dot"></span>Chioschi sul lago e nei parchi: la tua scrivania con vista</span>
+    </div>
+    <div class="dots" data-dots aria-hidden="true"><i class="is-on"></i><i></i><i></i><i></i></div>
+  </section>
+
+  <!-- D -->
+  <section class="phone" data-demo="D">
+    <span class="tag">D · Freccia viva</span>
+    <h2>Scroll + chevron</h2>
+    <p class="why">Niente auto-scroll del testo. La freccia pulsa finché non swipi (o la tocchi).</p>
+    <div class="chev-wrap edge" data-chev>
+      <div class="rail" data-manual>
+        <span class="chip"><span class="dot"></span>Il lago in kayak all’alba, prima dei battelli</span>
+        <span class="chip"><span class="dot"></span>Corna Trentapassi: il Sebino intero, visto dall’alto</span>
+        <span class="chip"><span class="dot"></span>L’Antica Valeriana fino alle rocce incise dai Camuni</span>
+        <span class="chip"><span class="dot"></span>Sci in giornata: Montecampione, Borno, Pora, Aprica</span>
+      </div>
+      <button type="button" class="chev" aria-label="Scorri le voci">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- E -->
+  <section class="phone" data-demo="E">
+    <span class="tag">E · Nastro che respira</span>
+    <h2>Andata e ritorno una volta</h2>
+    <p class="why">Mostra tutta la lista, torna all’inizio, poi resta ferma. Premi «Ripeti» per rivedere.</p>
+    <div class="breathe-host edge">
+      <div class="breathe-track">
+        <span class="chip"><span class="dot"></span>Postazioni comode e connessione veloce, misurata</span>
+        <span class="chip"><span class="dot"></span>Sale riunioni per i team e cabine per le call</span>
+        <span class="chip"><span class="dot"></span>Aree relax per staccare tra un progetto e l’altro</span>
+        <span class="chip"><span class="dot"></span>Chioschi sul lago e nei parchi: la tua scrivania con vista</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- F -->
+  <section class="phone" data-demo="F">
+    <span class="tag">F · Hint + shimmer</span>
+    <h2>Micro-riga «Scorri»</h2>
+    <p class="why">Niente auto-scroll. Bordo che pulsa + testo hint. Spariscono al primo swipe.</p>
+    <div class="shimmer-edge edge" style="position:relative">
+      <div class="rail" data-hint-rail>
+        <span class="chip"><span class="dot"></span>Il lago in kayak all’alba, prima dei battelli</span>
+        <span class="chip"><span class="dot"></span>Corna Trentapassi: il Sebino intero, visto dall’alto</span>
+        <span class="chip"><span class="dot"></span>L’Antica Valeriana fino alle rocce incise dai Camuni</span>
+        <span class="chip"><span class="dot"></span>Sci in giornata: Montecampione, Borno, Pora, Aprica</span>
+      </div>
+    </div>
+    <p class="hint">Scorri</p>
+  </section>
+
+  <p class="pick">Dimmi la lettera (A–F) o un mix. Anteprima: <strong>http://127.0.0.1:8765/preview-bullets-mobile.html</strong></p>
+
+  <script>
+    const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    // A: pause on touch
+    document.querySelectorAll(".marquee-wrap").forEach((el) => {
+      const pause = () => el.classList.add("is-paused");
+      const play = () => el.classList.remove("is-paused");
+      el.addEventListener("pointerdown", pause);
+      el.addEventListener("pointerup", play);
+      el.addEventListener("pointerleave", play);
+    });
+
+    // B: nudge twice on enter
+    function runNudge(rail) {
+      if (reduced || !rail) return;
+      rail.scrollTo({ left: 0, behavior: "auto" });
+      const step = Math.min(120, rail.clientWidth * 0.28);
+      setTimeout(() => rail.scrollTo({ left: step, behavior: "smooth" }), 500);
+      setTimeout(() => rail.scrollTo({ left: step * 2, behavior: "smooth" }), 1100);
+      setTimeout(() => rail.scrollTo({ left: 0, behavior: "smooth" }), 1900);
+    }
+    document.querySelectorAll("[data-nudge]").forEach((rail) => {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          runNudge(rail);
+          io.disconnect();
+        }
+      }, { threshold: 0.45 });
+      io.observe(rail);
+    });
+
+    // C: autoplay snap
+    document.querySelectorAll("[data-autoplay]").forEach((rail) => {
+      const chips = [...rail.querySelectorAll(".chip")];
+      const dots = rail.parentElement.querySelector("[data-dots]");
+      let i = 0;
+      let timer = 0;
+      let touching = false;
+      function paint() {
+        if (dots) {
+          [...dots.children].forEach((d, idx) => d.classList.toggle("is-on", idx === i));
+        }
+      }
+      function go(next) {
+        i = (next + chips.length) % chips.length;
+        chips[i].scrollIntoView({ behavior: reduced ? "auto" : "smooth", inline: "center", block: "nearest" });
+        paint();
+      }
+      function start() {
+        if (reduced || touching) return;
+        clearInterval(timer);
+        timer = setInterval(() => go(i + 1), 3200);
+      }
+      rail.addEventListener("pointerdown", () => { touching = true; clearInterval(timer); });
+      rail.addEventListener("pointerup", () => { touching = false; start(); });
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) start();
+        else clearInterval(timer);
+      }, { threshold: 0.4 });
+      io.observe(rail);
+      paint();
+    });
+
+    // D: chevron
+    document.querySelectorAll("[data-chev]").forEach((wrap) => {
+      const rail = wrap.querySelector("[data-manual]");
+      const btn = wrap.querySelector(".chev");
+      const mark = () => wrap.classList.add("is-swiped");
+      rail.addEventListener("scroll", () => { if (rail.scrollLeft > 8) mark(); }, { passive: true });
+      btn.addEventListener("click", () => {
+        rail.scrollBy({ left: Math.min(220, rail.clientWidth * 0.7), behavior: "smooth" });
+        mark();
+      });
+    });
+
+    // E: breathe replay via class
+    function playBreathe() {
+      document.querySelectorAll('[data-demo="E"]').forEach((phone) => {
+        phone.classList.remove("is-play");
+        void phone.offsetWidth;
+        if (!reduced) phone.classList.add("is-play");
+      });
+    }
+    const eIo = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-play");
+          eIo.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.4 });
+    document.querySelectorAll('[data-demo="E"]').forEach((el) => eIo.observe(el));
+
+    // F: hint dismiss
+    document.querySelectorAll("[data-hint-rail]").forEach((rail) => {
+      const phone = rail.closest(".phone");
+      rail.addEventListener("scroll", () => {
+        if (rail.scrollLeft > 8) phone.classList.add("is-swiped");
+      }, { passive: true });
+    });
+
+    document.getElementById("replay").addEventListener("click", () => {
+      document.querySelectorAll("[data-nudge]").forEach(runNudge);
+      playBreathe();
+      document.querySelectorAll(".phone").forEach((p) => p.classList.remove("is-swiped"));
+      document.querySelectorAll("[data-chev]").forEach((w) => w.classList.remove("is-swiped"));
+      document.querySelectorAll(".rail").forEach((r) => { r.scrollLeft = 0; });
+    });
+  </script>
+</body>
+</html>
