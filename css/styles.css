@@ -2333,8 +2333,9 @@ html.forest-done .forest-green {
   color: #111;
   font-weight: 500;
   white-space: nowrap;
-  font-size: clamp(0.72rem, 3.15cqi + 0.42rem, 0.98rem);
-  letter-spacing: -0.015em;
+  /* Scala sul contenitore: le voci lunghe restano intere su una riga */
+  font-size: clamp(0.58rem, 2.35cqi + 0.2rem, 0.98rem);
+  letter-spacing: -0.02em;
   line-height: 1.35;
   opacity: 0;
   transform: translate3d(0, 14px, 0) scale(0.97);
@@ -2342,7 +2343,7 @@ html.forest-done .forest-green {
 
 @supports not (font-size: 1cqi) {
   .tower-list--faro li {
-    font-size: clamp(0.72rem, 2.9vw + 0.35rem, 0.98rem);
+    font-size: clamp(0.58rem, 2.2vw + 0.2rem, 0.98rem);
   }
 }
 
@@ -5870,6 +5871,18 @@ body.menu-closing .float-dock {
   .tower-copy {
     padding-left: 10px;
     padding-right: 6px;
+  }
+
+  .tower-list--faro li {
+    padding: 8px 2px 8px 12px;
+    font-size: clamp(0.56rem, 2.15cqi + 0.16rem, 0.86rem);
+    letter-spacing: -0.025em;
+  }
+
+  @supports not (font-size: 1cqi) {
+    .tower-list--faro li {
+      font-size: clamp(0.56rem, 2vw + 0.14rem, 0.86rem);
+    }
   }
 
   .path-copy {
