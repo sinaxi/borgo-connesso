@@ -15,8 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=311">
-  <link rel="stylesheet" href="css/timeline.css?v=2">
+  <link rel="stylesheet" href="css/styles.css?v=312">
+  <link rel="stylesheet" href="css/timeline.css?v=3">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -965,79 +965,86 @@
         </div>
       </section>
 
-      <section class="room" id="domande">
-        <div class="room-head">
-          <h2>Domande prima di un sì</h2>
-        </div>
-        <div class="acc" data-accordion>
-          <div class="acc-item is-open">
-            <h3>
-              <button class="acc-button" type="button" aria-expanded="true" aria-controls="faq-1" id="faq-btn-1">
-                <span>1.</span> Chi siete?
+      <section class="room room--faq" id="domande" aria-labelledby="domande-title">
+        <div class="faq">
+          <h2 class="faq-heading" id="domande-title">Domande frequenti</h2>
+          <div class="faq-list" data-faq>
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-1" id="faq-btn-1">
+                <span class="faq-question-text">Chi siete?</span>
+                <span class="faq-toggle" aria-hidden="true"><span class="faq-toggle-line faq-toggle-line-h"></span><span class="faq-toggle-line faq-toggle-line-v"></span></span>
               </button>
-            </h3>
-            <div class="acc-panel" id="faq-1" role="region" aria-labelledby="faq-btn-1">
-              <p>Un progetto in fase di validazione, che diventerà un’associazione di promozione sociale iscritta al RUNTS. Non abbiamo scopo di lucro: l’obiettivo è il pareggio, e quello che avanza resta nel progetto e nel paese.</p>
+              <div class="faq-answer-wrap" id="faq-1" role="region" aria-labelledby="faq-btn-1">
+                <div class="faq-answer-inner">
+                  <p class="faq-answer">Un progetto in fase di validazione, che diventerà un’associazione di promozione sociale iscritta al RUNTS. Non abbiamo scopo di lucro: l’obiettivo è il pareggio, e quello che avanza resta nel progetto e nel paese.</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="acc-item">
-            <h3>
-              <button class="acc-button" type="button" aria-expanded="false" aria-controls="faq-2" id="faq-btn-2">
-                <span>2.</span> Si riesce davvero a lavorare?
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-2" id="faq-btn-2">
+                <span class="faq-question-text">Si riesce davvero a lavorare?</span>
+                <span class="faq-toggle" aria-hidden="true"><span class="faq-toggle-line faq-toggle-line-h"></span><span class="faq-toggle-line faq-toggle-line-v"></span></span>
               </button>
-            </h3>
-            <div class="acc-panel" id="faq-2" role="region" aria-labelledby="faq-btn-2" hidden>
-              <p>Sì. Scrivania vera, sedia da lavoro, sala per le call e connessione misurata sul posto — la velocità la scriviamo, non la promettiamo. Nella Settimana in hub e nella Settimana di squadra lo spazio di lavoro è dentro il pacchetto; negli altri si aggiunge se lo chiedete.</p>
+              <div class="faq-answer-wrap" id="faq-2" role="region" aria-labelledby="faq-btn-2">
+                <div class="faq-answer-inner">
+                  <p class="faq-answer">Sì. Scrivania vera, sedia da lavoro, sala per le call e connessione misurata sul posto — la velocità la scriviamo, non la promettiamo. Nella Settimana in hub e nella Settimana di squadra lo spazio di lavoro è dentro il pacchetto; negli altri si aggiunge se lo chiedete.</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="acc-item">
-            <h3>
-              <button class="acc-button" type="button" aria-expanded="false" aria-controls="faq-3" id="faq-btn-3">
-                <span>3.</span> Perché d’inverno?
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-3" id="faq-btn-3">
+                <span class="faq-question-text">Perché d’inverno?</span>
+                <span class="faq-toggle" aria-hidden="true"><span class="faq-toggle-line faq-toggle-line-h"></span><span class="faq-toggle-line faq-toggle-line-v"></span></span>
               </button>
-            </h3>
-            <div class="acc-panel" id="faq-3" role="region" aria-labelledby="faq-btn-3" hidden>
-              <p>Perché è quando qui c’è posto, costa meno e non c’è nessuno. D’estate il lago si vende da solo. Da novembre a marzo le case sono ferme e il paese si svuota: è il problema che stiamo provando a risolvere, e per chi viene è il momento migliore.</p>
+              <div class="faq-answer-wrap" id="faq-3" role="region" aria-labelledby="faq-btn-3">
+                <div class="faq-answer-inner">
+                  <p class="faq-answer">Perché è quando qui c’è posto, costa meno e non c’è nessuno. D’estate il lago si vende da solo. Da novembre a marzo le case sono ferme e il paese si svuota: è il problema che stiamo provando a risolvere, e per chi viene è il momento migliore.</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="acc-item">
-            <h3>
-              <button class="acc-button" type="button" aria-expanded="false" aria-controls="faq-4" id="faq-btn-4">
-                <span>4.</span> Si scia?
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-4" id="faq-btn-4">
+                <span class="faq-question-text">Si scia?</span>
+                <span class="faq-toggle" aria-hidden="true"><span class="faq-toggle-line faq-toggle-line-h"></span><span class="faq-toggle-line faq-toggle-line-v"></span></span>
               </button>
-            </h3>
-            <div class="acc-panel" id="faq-4" role="region" aria-labelledby="faq-btn-4" hidden>
-              <p>Sì, ma non a Pisogne: gli impianti della Val Palot, sopra il paese, non sono più in funzione. Le stazioni vicine sono Montecampione, Borno, il Monte Pora e l’Aprica, tra mezz’ora e un’ora d’auto: ci si va in giornata e lo mettiamo nel programma se lo chiedete. Quando nevica, sopra Pisogne restano le ciaspole e i sentieri in quota.</p>
+              <div class="faq-answer-wrap" id="faq-4" role="region" aria-labelledby="faq-btn-4">
+                <div class="faq-answer-inner">
+                  <p class="faq-answer">Sì, ma non a Pisogne: gli impianti della Val Palot, sopra il paese, non sono più in funzione. Le stazioni vicine sono Montecampione, Borno, il Monte Pora e l’Aprica, tra mezz’ora e un’ora d’auto: ci si va in giornata e lo mettiamo nel programma se lo chiedete. Quando nevica, sopra Pisogne restano le ciaspole e i sentieri in quota.</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="acc-item">
-            <h3>
-              <button class="acc-button" type="button" aria-expanded="false" aria-controls="faq-5" id="faq-btn-5">
-                <span>5.</span> Come ci si arriva?
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-5" id="faq-btn-5">
+                <span class="faq-question-text">Come ci si arriva?</span>
+                <span class="faq-toggle" aria-hidden="true"><span class="faq-toggle-line faq-toggle-line-h"></span><span class="faq-toggle-line faq-toggle-line-v"></span></span>
               </button>
-            </h3>
-            <div class="acc-panel" id="faq-5" role="region" aria-labelledby="faq-btn-5" hidden>
-              <p>In treno sulla Brescia–Iseo–Edolo, con fermata a Pisogne. In auto, circa un’ora e mezza da Milano, molto meno da Brescia e Bergamo. Per chi arriva da fuori, l’aeroporto di Bergamo è a circa un’ora.</p>
+              <div class="faq-answer-wrap" id="faq-5" role="region" aria-labelledby="faq-btn-5">
+                <div class="faq-answer-inner">
+                  <p class="faq-answer">In treno sulla Brescia–Iseo–Edolo, con fermata a Pisogne. In auto, circa un’ora e mezza da Milano, molto meno da Brescia e Bergamo. Per chi arriva da fuori, l’aeroporto di Bergamo è a circa un’ora.</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="acc-item">
-            <h3>
-              <button class="acc-button" type="button" aria-expanded="false" aria-controls="faq-6" id="faq-btn-6">
-                <span>6.</span> I bambini ci sono?
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-6" id="faq-btn-6">
+                <span class="faq-question-text">I bambini ci sono?</span>
+                <span class="faq-toggle" aria-hidden="true"><span class="faq-toggle-line faq-toggle-line-h"></span><span class="faq-toggle-line faq-toggle-line-v"></span></span>
               </button>
-            </h3>
-            <div class="acc-panel" id="faq-6" role="region" aria-labelledby="faq-btn-6" hidden>
-              <p>Sì. Il pacchetto In famiglia è pensato per questo. Negli altri si aggiungono se il gruppo lo chiede, quotati a parte in base all’età.</p>
+              <div class="faq-answer-wrap" id="faq-6" role="region" aria-labelledby="faq-btn-6">
+                <div class="faq-answer-inner">
+                  <p class="faq-answer">Sì. Il pacchetto In famiglia è pensato per questo. Negli altri si aggiungono se il gruppo lo chiede, quotati a parte in base all’età.</p>
+                </div>
+              </div>
             </div>
-          </div>
-          <div class="acc-item">
-            <h3>
-              <button class="acc-button" type="button" aria-expanded="false" aria-controls="faq-7" id="faq-btn-7">
-                <span>7.</span> Le fotografie ritraggono il posto?
+            <div class="faq-item">
+              <button class="faq-question" type="button" aria-expanded="false" aria-controls="faq-7" id="faq-btn-7">
+                <span class="faq-question-text">Le fotografie ritraggono il posto?</span>
+                <span class="faq-toggle" aria-hidden="true"><span class="faq-toggle-line faq-toggle-line-h"></span><span class="faq-toggle-line faq-toggle-line-v"></span></span>
               </button>
-            </h3>
-            <div class="acc-panel" id="faq-7" role="region" aria-labelledby="faq-btn-7" hidden>
-              <p>Sono fotografie di atmosfera sul territorio. Non ritraggono una sede, perché una sede non c’è: ci sono le case, gli spazi e i locali del paese.</p>
+              <div class="faq-answer-wrap" id="faq-7" role="region" aria-labelledby="faq-btn-7">
+                <div class="faq-answer-inner">
+                  <p class="faq-answer">Sono fotografie di atmosfera sul territorio. Non ritraggono una sede, perché una sede non c’è: ci sono le case, gli spazi e i locali del paese.</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1450,7 +1457,7 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=83"></script>
-  <script src="js/timeline.js?v=2"></script>
+  <script src="js/main.js?v=84"></script>
+  <script src="js/timeline.js?v=3"></script>
 </body>
 </html>

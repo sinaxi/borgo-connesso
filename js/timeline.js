@@ -62,14 +62,21 @@
     /* Posizione orizzontale di testi e tappe (la tappa sta nel punto più piatto del tratto). */
     const left = [], px = [];
     steps.forEach((_, i) => {
-      if (narrow) {   // mobile: la tappa sta sul lato "basso" della scheda, nel punto della curva più vicino a lei, così scheda e tappa restano attaccate
-        const lane = goesRight(i) ? 8 : W - 8 - TW;                  // corsia a sinistra (tratto →) o a destra (tratto ←)
+      if (narrow) {
+        // Mobile: scheda e cerchio nella stessa corsia, cerchio sul bordo verso la curva.
+        // Ultimo passo: entrambi a sinistra, sotto Pisogne (fine percorso = XL).
+        if (i === last) {
+          left[i] = 8;
+          px[i] = Math.min(XL + 42, left[i] + TW - 40);
+          return;
+        }
+        const lane = goesRight(i) ? 8 : W - 8 - TW;
+        left[i] = lane;
         px[i] = goesRight(i) ? lane + TW - 44 : lane + 44;
-        left[i] = i === last ? 8 : lane;                             // l'ultima scheda va sotto "Pisogne", a sinistra
         return;
       }
-      if (goesRight(i)) { px[i] = XL + 0.30 * S; left[i] = narrow ? 8 : Math.max(pad, px[i] - pinOff); }
-      else { left[i] = W - (narrow ? 8 : pad) - TW; px[i] = left[i] + pinOff; }
+      if (goesRight(i)) { px[i] = XL + 0.30 * S; left[i] = Math.max(pad, px[i] - pinOff); }
+      else { left[i] = W - pad - TW; px[i] = left[i] + pinOff; }
     });
 
     const bz = (a, b, c, d, t) => { const u = 1 - t; return u * u * u * a + 3 * u * u * t * b + 3 * u * t * t * c + t * t * t * d; };
@@ -96,20 +103,26 @@
     }
 
     /* Prova distanze crescenti finché ogni testo sta sotto il suo tratto e sopra il successivo (e il suo perno). */
-    let delta = narrow ? 200 : 240, plan;
+    let delta = narrow ? 220 : 240, plan;
     for (; delta < 900; delta += 8) {
       const sg = makeSegs(delta), sp = sg.map(s => pts(s));
       const pinY = sg.map((s, i) => yAtX(s, px[i]));
       const textTop = [], bottom = []; let ok = true;
       for (let i = 0; i < n && ok; i++) {
         const inR = q => q.x >= left[i] - 6 && q.x <= left[i] + TW + 6;
-        textTop[i] = Math.max(...sp[i].filter(inR).map(q => q.y)) + (narrow ? 44 : V.topOff);
+        if (narrow) {
+          // Scheda subito sotto il cerchio di riferimento (non sotto tutta l’onda).
+          textTop[i] = pinY[i] + 46;
+        } else {
+          textTop[i] = Math.max(...sp[i].filter(inR).map(q => q.y)) + V.topOff;
+        }
         bottom[i] = textTop[i] + hs[i];
         if (i === last) break;
         const next = sp[i + 1].filter(inR);
         if (next.length && Math.min(...next.map(q => q.y)) < bottom[i] + 14) ok = false;
         const overlap = !(px[i + 1] + 36 < left[i] || px[i + 1] - 36 > left[i] + TW);
         if (overlap && pinY[i + 1] - V.nodeUp < bottom[i] + 8) ok = false;
+        if (narrow && pinY[i + 1] < bottom[i] + 52) ok = false;
       }
       plan = { sg, pinY, textTop, bottom };
       if (ok) break;
@@ -117,12 +130,13 @@
     const { sg, pinY, textTop, bottom } = plan;
     const E = sg[last].p[3], B0 = sg[0].p[0];
     const endX = E.x, endY = E.y;
-    /* Mobile: l'ultima scheda sta proprio sotto "Pisogne" e il suo borgo (che occupa la parte bassa a sinistra). */
+    /* Mobile: quarta scheda proprio sotto etichetta Pisogne + borgo. */
     if (narrow) {
-      textTop[last] = Math.max(textTop[last], endY + 20 + (capB.offsetHeight || 80) + 26);
+      const villageBlock = Math.max(capB.offsetHeight || 0, 118);
+      textTop[last] = endY + 22 + villageBlock + 14;
       bottom[last] = textTop[last] + hs[last];
     }
-    const H = Math.max(endY + 205, bottom[last] + 50);
+    const H = Math.max(endY + (narrow ? 280 : 205), bottom[last] + 50);
     root.style.height = H + 'px';
     svg.setAttribute('width', W); svg.setAttribute('height', H);
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
@@ -150,7 +164,8 @@
       return total * best / N;
     });
     /* Ancore scroll → lunghezza: la rotta avanza in modo proporzionale tra una tappa e la successiva. */
-    aY = [Y0 - 150, ...pinY.map(v => v + 30), Math.max(endY + 80, pinY[last] + 60)];   // il percorso arriva a Pisogne quando il pallino è ancora a metà schermo
+    // Mobile: Pisogne si completa mentre fine percorso + borgo sono ancora in vista (non a scroll finito).
+    aY = [Y0 - 150, ...pinY.map(v => v + 30), narrow ? endY + 24 : Math.max(endY + 80, pinY[last] + 60)];
     aL = [0, ...nodeLen, total];
 
     const startX = B0.x, startY = B0.y;

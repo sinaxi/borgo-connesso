@@ -319,24 +319,14 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-document.querySelectorAll("[data-accordion]").forEach((root) => {
-  const items = [...root.querySelectorAll(".acc-item")];
-  items.forEach((item) => {
-    const button = item.querySelector(".acc-button");
-    const panel = item.querySelector(".acc-panel");
-    button?.addEventListener("click", () => {
+document.querySelectorAll("[data-faq]").forEach((root) => {
+  root.querySelectorAll(".faq-item").forEach((item) => {
+    const button = item.querySelector(".faq-question");
+    if (!button) return;
+    button.addEventListener("click", () => {
       const willOpen = !item.classList.contains("is-open");
-      items.forEach((other) => {
-        other.classList.remove("is-open");
-        other.querySelector(".acc-button")?.setAttribute("aria-expanded", "false");
-        const otherPanel = other.querySelector(".acc-panel");
-        if (otherPanel) otherPanel.hidden = true;
-      });
-      if (willOpen) {
-        item.classList.add("is-open");
-        button.setAttribute("aria-expanded", "true");
-        if (panel) panel.hidden = false;
-      }
+      item.classList.toggle("is-open", willOpen);
+      button.setAttribute("aria-expanded", String(willOpen));
     });
   });
 });
