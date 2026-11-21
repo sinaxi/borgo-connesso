@@ -51,12 +51,18 @@
     const pad = narrow ? 12 : 30;               // margine esterno
     const XL = pad, XR = W - pad, S = XR - XL;  // apice sinistro / destro della curva
     const TW = narrow ? Math.min(244, W - 60) : 430;   // larghezza delle schede
+    // Mobile: scheda 04 più corta, a destra, senza toccare Pisogne+borgo
+    const villageReserve = narrow ? Math.min(112, Math.round(W * 0.30)) : 0;
+    const TW_last = narrow
+      ? Math.min(168, Math.max(132, W - 8 - villageReserve - 14))
+      : TW;
     const pinOff = narrow ? 70 : 48;            // distanza della tappa dall'inizio della scheda
     const FLAT = 0.82;                          // 0.5 = onda più inclinata · 0.9 = centro quasi piatto, curve più verticali
     const Y0 = narrow ? 108 : 114;               // altezza del punto di partenza
     const goesRight = i => i % 2 === 0;         // tratti 1,3: sinistra→destra · tratti 2,4: destra→sinistra
+    const stepW = i => (narrow && i === last ? TW_last : TW);
 
-    steps.forEach(s => { s.style.width = TW + 'px'; });
+    steps.forEach((s, i) => { s.style.width = stepW(i) + 'px'; });
     const hs = steps.map(s => s.offsetHeight);
 
     /* Posizione orizzontale di testi e tappe (la tappa sta nel punto più piatto del tratto). */
@@ -64,11 +70,16 @@
     const laneL = 8;
     steps.forEach((_, i) => {
       if (narrow) {
-        // Mobile: scheda e cerchio nella stessa corsia (01/03 sx, 02/04 dx).
-        // Il 04 resta a destra sotto il cerchio; Pisogne+borgo stanno a sinistra sul punto finale.
-        const lane = goesRight(i) ? laneL : W - 8 - TW;
+        // Mobile: 01/03 sx, 02 dx; 04 più stretta a destra, oltre il villaggio.
+        if (i === last) {
+          left[i] = Math.max(villageReserve + 12, W - 8 - TW_last);
+          px[i] = left[i] + 40;
+          return;
+        }
+        const w = TW;
+        const lane = goesRight(i) ? laneL : W - 8 - w;
         left[i] = lane;
-        px[i] = goesRight(i) ? lane + TW - 44 : lane + 44;
+        px[i] = goesRight(i) ? lane + w - 44 : lane + 44;
         return;
       }
       if (goesRight(i)) { px[i] = XL + 0.30 * S; left[i] = Math.max(pad, px[i] - pinOff); }
@@ -105,7 +116,8 @@
       const pinY = sg.map((s, i) => yAtX(s, px[i]));
       const textTop = [], bottom = []; let ok = true;
       for (let i = 0; i < n && ok; i++) {
-        const inR = q => q.x >= left[i] - 6 && q.x <= left[i] + TW + 6;
+        const w = stepW(i);
+        const inR = q => q.x >= left[i] - 6 && q.x <= left[i] + w + 6;
         if (narrow) {
           // Scheda subito sotto il cerchio di riferimento (non sotto tutta l’onda).
           textTop[i] = pinY[i] + 46;
@@ -116,7 +128,7 @@
         if (i === last) break;
         const next = sp[i + 1].filter(inR);
         if (next.length && Math.min(...next.map(q => q.y)) < bottom[i] + 14) ok = false;
-        const overlap = !(px[i + 1] + 36 < left[i] || px[i + 1] - 36 > left[i] + TW);
+        const overlap = !(px[i + 1] + 36 < left[i] || px[i + 1] - 36 > left[i] + w);
         if (overlap && pinY[i + 1] - V.nodeUp < bottom[i] + 8) ok = false;
         if (narrow && pinY[i + 1] < bottom[i] + 52) ok = false;
       }
