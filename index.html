@@ -16,7 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main-color.css?v=1">
-  <link rel="stylesheet" href="css/styles.css?v=334">
+  <link rel="stylesheet" href="css/styles.css?v=335">
   <link rel="stylesheet" href="css/timeline.css?v=7">
 </head>
 <body id="top">
@@ -301,41 +301,55 @@
         <div class="room-head">
           <h2>Cosa offre l’area</h2>
         </div>
-        <div class="mosaic">
-          <article class="tower">
-            <div class="tower-media">
-              <div class="tower-shot">
-                <img src="assets/territorio-hub.jpg?v=3" width="1920" height="1286" alt="Laptop e aperitivo al chiosco sul lungolago" loading="lazy">
-              </div>
+        <div class="mosaic mosaic--towers" data-tower-deck>
+          <div class="tower-deck-chrome">
+            <div class="tower-deck-seg" role="tablist" aria-label="Hub e Outdoor">
+              <button type="button" class="is-on" role="tab" aria-selected="true" data-tower-go="0">Hub &amp; CoWo</button>
+              <button type="button" role="tab" aria-selected="false" data-tower-go="1">Outdoor</button>
             </div>
-            <div class="tower-copy">
-              <h3>Hub &amp; CoWo</h3>
-              <p>Un borgo pensato per chi lavora da remoto, non un ufficio riadattato con postazioni in più e una vista lago. Puoi lavorare nel Coworking Hub, nel silenzio giusto per concentrarti. Oppure in un chiosco sul lago: schermo aperto, acqua che cambia colore mentre chiudi le ultime cose. Più tardi la luce scende, e sul tavolino arriva un Negroni, uno Spritz o un calice di Franciacorta da assaggiare con calma. Qui il lavoro non si ferma: cambia scenario.</p>
-              <ul class="tower-list tower-list--faro">
-                <li>Postazioni comode e connessione veloce, misurata</li>
-                <li>Sale riunioni per i team e cabine per le call</li>
-                <li>Aree relax per staccare tra un progetto e l’altro</li>
-                <li>Chioschi sul lago e nei parchi: la tua scrivania con vista</li>
-              </ul>
+            <div class="tower-deck-prog" aria-hidden="true"><i data-tower-prog></i></div>
+          </div>
+          <div class="tower-deck-stage">
+            <div class="tower-deck-track" data-tower-track>
+              <article class="tower" data-tower-panel="0">
+                <div class="tower-media">
+                  <div class="tower-shot">
+                    <img src="assets/territorio-hub.jpg?v=3" width="1920" height="1286" alt="Laptop e aperitivo al chiosco sul lungolago" loading="lazy">
+                  </div>
+                </div>
+                <div class="tower-copy">
+                  <h3>Hub &amp; CoWo</h3>
+                  <p>Un borgo pensato per chi lavora da remoto, non un ufficio riadattato con postazioni in più e una vista lago. Puoi lavorare nel Coworking Hub, nel silenzio giusto per concentrarti. Oppure in un chiosco sul lago: schermo aperto, acqua che cambia colore mentre chiudi le ultime cose. Più tardi la luce scende, e sul tavolino arriva un Negroni, uno Spritz o un calice di Franciacorta da assaggiare con calma. Qui il lavoro non si ferma: cambia scenario.</p>
+                  <ul class="tower-list tower-list--faro">
+                    <li>Postazioni comode e connessione veloce, misurata</li>
+                    <li>Sale riunioni per i team e cabine per le call</li>
+                    <li>Aree relax per staccare tra un progetto e l’altro</li>
+                    <li>Chioschi sul lago e nei parchi: la tua scrivania con vista</li>
+                  </ul>
+                </div>
+              </article>
+              <article class="tower tower--shift" data-tower-panel="1">
+                <div class="tower-media">
+                  <div class="tower-shot">
+                    <img src="assets/territorio-outdoor.jpg?v=3" width="1920" height="1286" alt="Kayak rosso all’alba sul lago, montagna e nebbia bassa" loading="lazy">
+                  </div>
+                </div>
+                <div class="tower-copy">
+                  <h3>Outdoor</h3>
+                  <p>Qui in un’ora si passa dall’acqua alla montagna. All’alba il lago è ancora fermo e lo si attraversa in kayak, prima che passino i battelli. Dalla Corna Trentapassi lo si vede intero, come una mappa aperta. L’Antica Valeriana è stata per millenni l’unico passaggio obbligato verso la Valle Camonica e il Lago d’Iseo; attraversa la sponda orientale del Sebino, alternando sterrati, sentieri e strade asfaltate poco trafficate. D’inverno ci sono stazioni sciistiche a pochi minuti. Per i team, ogni uscita può diventare una sfida con un obiettivo da raggiungere insieme.</p>
+                  <ul class="tower-list tower-list--faro">
+                    <li>Il lago in kayak all’alba, prima dei battelli</li>
+                    <li>Corna Trentapassi: il Sebino intero, visto dall’alto</li>
+                    <li>L’Antica Valeriana fino alle rocce incise dai Camuni</li>
+                    <li>Sci in giornata: Montecampione, Borno, Pora, Aprica</li>
+                  </ul>
+                </div>
+              </article>
             </div>
-          </article>
-          <article class="tower tower--shift">
-            <div class="tower-media">
-              <div class="tower-shot">
-                <img src="assets/territorio-outdoor.jpg?v=3" width="1920" height="1286" alt="Kayak rosso all’alba sul lago, montagna e nebbia bassa" loading="lazy">
-              </div>
-            </div>
-            <div class="tower-copy">
-              <h3>Outdoor</h3>
-              <p>Qui in un’ora si passa dall’acqua alla montagna. All’alba il lago è ancora fermo e lo si attraversa in kayak, prima che passino i battelli. Dalla Corna Trentapassi lo si vede intero, come una mappa aperta. L’Antica Valeriana è stata per millenni l’unico passaggio obbligato verso la Valle Camonica e il Lago d’Iseo; attraversa la sponda orientale del Sebino, alternando sterrati, sentieri e strade asfaltate poco trafficate. D’inverno ci sono stazioni sciistiche a pochi minuti. Per i team, ogni uscita può diventare una sfida con un obiettivo da raggiungere insieme.</p>
-              <ul class="tower-list tower-list--faro">
-                <li>Il lago in kayak all’alba, prima dei battelli</li>
-                <li>Corna Trentapassi: il Sebino intero, visto dall’alto</li>
-                <li>L’Antica Valeriana fino alle rocce incise dai Camuni</li>
-                <li>Sci in giornata: Montecampione, Borno, Pora, Aprica</li>
-              </ul>
-            </div>
-          </article>
+            <button type="button" class="tower-deck-chev" data-tower-chev aria-label="Vai a Outdoor">
+              <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M6 3l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
         </div>
 
         <div class="mosaic">
@@ -1453,7 +1467,7 @@
     </div>
   </div>
 
-  <script src="js/main.js?v=87"></script>
+  <script src="js/main.js?v=88"></script>
   <script src="js/timeline.js?v=7"></script>
 </body>
 </html>
