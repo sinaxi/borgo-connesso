@@ -51,10 +51,10 @@
     const pad = narrow ? 12 : 30;               // margine esterno
     const XL = pad, XR = W - pad, S = XR - XL;  // apice sinistro / destro della curva
     const TW = narrow ? Math.min(244, W - 60) : 430;   // larghezza delle schede
-    // Mobile: scheda 04 più corta, a destra, senza toccare Pisogne+borgo
-    const villageReserve = narrow ? Math.min(112, Math.round(W * 0.30)) : 0;
+    // Mobile: scheda 04 a destra, più larga (usa lo spazio verso il borgo, senza overlap)
+    const villageReserve = narrow ? Math.min(100, Math.round(W * 0.26)) : 0;
     const TW_last = narrow
-      ? Math.min(168, Math.max(132, W - 8 - villageReserve - 14))
+      ? Math.min(210, Math.max(168, W - 8 - villageReserve - 10))
       : TW;
     const pinOff = narrow ? 70 : 48;            // distanza della tappa dall'inizio della scheda
     const FLAT = 0.82;                          // 0.5 = onda più inclinata · 0.9 = centro quasi piatto, curve più verticali
@@ -72,7 +72,7 @@
       if (narrow) {
         // Mobile: 01/03 sx, 02 dx; 04 più stretta a destra, oltre il villaggio.
         if (i === last) {
-          left[i] = Math.max(villageReserve + 12, W - 8 - TW_last);
+          left[i] = Math.max(villageReserve + 10, W - 8 - TW_last);
           px[i] = left[i] + 40;
           return;
         }
