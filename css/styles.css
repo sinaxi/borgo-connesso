@@ -605,11 +605,13 @@ body.menu-closing .rail-show {
   left: 0;
   right: 0;
   bottom: 0;
-  /* Solo lo spazio sotto le silhouette — niente tendina/riga sulla foto */
-  height: var(--forest-extra);
+  /* Altezza fissa + translate: animare height a ogni frame faceva scattare lo scroll */
+  height: 100lvh;
   background: var(--forest-green);
   z-index: 8;
   pointer-events: none;
+  transform: translate3d(0, 100%, 0);
+  will-change: transform;
   transition: opacity 0.35s var(--ease);
 }
 
@@ -619,8 +621,8 @@ body.menu-closing .rail-show {
   right: 0;
   bottom: 0;
   height: var(--forest-h);
-  /* translate3d invece di bottom: resta sul compositor, senza scatti di layout */
-  transform: translate3d(0, calc(var(--forest-extra) * -1), 0);
+  /* Transform inline da JS (initHeroForest): niente var su :root → niente layout thrash */
+  transform: translate3d(0, 0, 0);
   will-change: transform;
   /* In alto niente taglio (valle e montagne sporgono); in basso sì. */
   overflow: visible;
@@ -880,7 +882,7 @@ html {
 
 .hero-layer.layer-1 img {
   bottom: 0;
-  transform: translate3d(-50%, calc(var(--forest-extra) * var(--forest-lag-1)), 0);
+  transform: translate3d(-50%, 0, 0);
 }
 
 /* Seconda catena di montagne e fila di alberi lontana: esistono solo nella
@@ -904,8 +906,8 @@ html {
   width: var(--forest-art-w);
   height: calc(var(--forest-art-w) * 240 / 2000);
   background: var(--forest-pool);
-  /* Si muove con il dirupo: la cascata resta sempre dentro l'acqua */
-  transform: translate3d(-50%, calc(var(--forest-extra) * var(--forest-lag-2)), 0);
+  /* Si muove col parent (.forest-dock-scene): niente lag relativo */
+  transform: translate3d(-50%, 0, 0);
   pointer-events: none;
 }
 
@@ -916,7 +918,7 @@ html {
 
 .hero-layer.layer-2 img {
   bottom: var(--forest-lift-2);
-  transform: translate3d(-50%, calc(var(--forest-extra) * var(--forest-lag-2)), 0);
+  transform: translate3d(-50%, 0, 0);
 }
 
 .hero-layer.layer-3 {
@@ -925,7 +927,7 @@ html {
 
 .hero-layer.layer-3 img {
   bottom: var(--forest-lift-3);
-  transform: translate3d(-50%, calc(var(--forest-extra) * var(--forest-lag-3)), 0);
+  transform: translate3d(-50%, 0, 0);
 }
 
 .hero-bottom {

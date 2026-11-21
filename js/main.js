@@ -1128,8 +1128,38 @@ function initHeroForest() {
     const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
     // Solo spazio verde sotto le silhouette — composizione a riposo invariata
     const extra = Math.min(y, cachedMaxExtra);
+    const vh = window.innerHeight;
+    const sceneBottom = vh - extra;
+    const rest = cachedRest;
+
+    // 1) Tutte le letture layout PRIMA delle scritture (niente thrash mid-frame)
+    let bandTop = 0;
+    let underTop = 0;
+    let firstCardTop = 0;
+    let copyBox = null;
+    let afterTop = Infinity;
+    let lastCardTop = 0;
+    let artW = 0;
+    if (band) bandTop = band.getBoundingClientRect().top;
+    if (underText && !phonePortrait) underTop = underText.getBoundingClientRect().top;
+    if (firstCard) firstCardTop = firstCard.getBoundingClientRect().top;
+    if (copy) {
+      copyBox = copy.getBoundingClientRect();
+      artW = (art && art.offsetWidth) || 0;
+    }
+    if (after) afterTop = after.getBoundingClientRect().top;
+    if (sky && lastCard) lastCardTop = lastCard.getBoundingClientRect().top;
+
+    // 2) Scritture: solo transform sul compositor (niente height / var :root)
     if (extra !== lastExtra) {
       lastExtra = extra;
+      scene.style.transform = extra
+        ? `translate3d(0, ${-extra}px, 0)`
+        : "translate3d(0, 0, 0)";
+      fill.style.transform = extra
+        ? `translate3d(0, calc(100% - ${extra}px), 0)`
+        : "translate3d(0, 100%, 0)";
+      // Teniamo la var per CSS legacy / debug, senza usarla per height
       root.style.setProperty("--forest-extra", `${extra}px`);
     }
     // Foresta ferma in cima: compare il testo «Sul Lago d'Iseo…»
@@ -1139,8 +1169,6 @@ function initHeroForest() {
       lastAtRest = atRest;
       root.classList.toggle("forest-at-rest", atRest);
     }
-    const sceneBottom = window.innerHeight - extra;
-    const rest = cachedRest;
     if (band) {
       // Niente padding dinamico: su Safari spingeva/nascondeva il testo.
       if (band.dataset.fgPad) {
@@ -1148,7 +1176,7 @@ function initHeroForest() {
         band.style.paddingTop = "";
       }
       // La fascia verde non sporge mai sopra la base della foresta
-      const bandCut = Math.max(0, Math.ceil(sceneBottom - band.getBoundingClientRect().top));
+      const bandCut = Math.max(0, Math.ceil(sceneBottom - bandTop));
       if (bandCut !== lastBandCut) {
         lastBandCut = bandCut;
         band.style.setProperty("--fg-band-cut", `${bandCut}px`);
@@ -1156,7 +1184,7 @@ function initHeroForest() {
       // Quando la prima card è arrivata al suo posto il testo è tutto
       // coperto: si spegne, così non rispunta ai bordi della pila.
       if (firstCard) {
-        const covered = firstCard.getBoundingClientRect().top <= rest + 24;
+        const covered = firstCardTop <= rest + 24;
         if (covered !== lastCovered) {
           lastCovered = covered;
           band.classList.toggle("is-covered", covered);
@@ -1173,7 +1201,7 @@ function initHeroForest() {
           underText.style.removeProperty("--fg-fade");
         }
       } else {
-        const cut = Math.max(-40, Math.ceil(sceneBottom - underText.getBoundingClientRect().top));
+        const cut = Math.max(-40, Math.ceil(sceneBottom - underTop));
         if (cut !== lastCut) {
           lastCut = cut;
           underText.style.setProperty("--fg-cut", `${cut}px`);
@@ -1181,16 +1209,15 @@ function initHeroForest() {
         }
       }
     }
-    if (copy) {
+    if (copy && copyBox) {
       // Linea sopra la quale il titolo si vede: viaggia con la foresta,
       // all'altezza delle chiome. A foresta ferma «il Borgo» resta appena
       // visibile tra gli alberi; a pagina ferma è tutto in vista.
-      const box = copy.getBoundingClientRect();
-      const treeLine = ((art && art.offsetWidth) || 0) * 0.21;
-      const clearAtStart = window.innerHeight - box.bottom - COPY_FADE - 8;
+      const treeLine = artW * 0.21;
+      const clearAtStart = vh - copyBox.bottom - COPY_FADE - 8;
       const lineHeight = Math.max(0, Math.min(treeLine, clearAtStart));
       const copyCut = Math.round(
-        Math.min(box.height + COPY_FADE + 8, Math.max(-8, sceneBottom - lineHeight - box.top))
+        Math.min(copyBox.height + COPY_FADE + 8, Math.max(-8, sceneBottom - lineHeight - copyBox.top))
       );
       if (copyCut !== lastCopyCut) {
         lastCopyCut = copyCut;
@@ -1201,7 +1228,7 @@ function initHeroForest() {
     // Appena «Perché» entra in schermo, foresta/video/verde spariscono:
     // tra le card e quel blocco torna il grigio della pagina.
     if (after) {
-      const done = y >= cachedMaxExtra && after.getBoundingClientRect().top < window.innerHeight - 4;
+      const done = y >= cachedMaxExtra && afterTop < vh - 4;
       if (done !== lastDone) {
         lastDone = done;
         document.documentElement.classList.toggle("forest-done", done);
@@ -1219,13 +1246,10 @@ function initHeroForest() {
 
     // Il cielo resta sopra la pila: quando le card si sganciano e salgono,
     // sale con loro finché sotto il «+» resta solo cielo. Lì si blocca.
+    // skyMaxRise è aggiornato solo al resize (recomputeLayout).
     if (sky && lastCard) {
-      if (skyRidge) {
-        const ridgeH = skyRidge.offsetHeight || skyRidge.getBoundingClientRect().height;
-        skyMaxRise = Math.max(0, sky.offsetHeight - ridgeH - skyLockTop());
-      }
       const follow = Math.round(
-        Math.max(-skyMaxRise, Math.min(0, lastCard.getBoundingClientRect().top - lastCardStuckTop))
+        Math.max(-skyMaxRise, Math.min(0, lastCardTop - lastCardStuckTop))
       );
       if (follow !== lastSkyFollow) {
         lastSkyFollow = follow;
