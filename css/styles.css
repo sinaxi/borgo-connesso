@@ -3376,6 +3376,8 @@ html.forest-done .forest-green {
   width: 100%;
   max-width: 70rem;
   margin: 0 auto;
+  container-type: inline-size;
+  container-name: faq;
 }
 
 .faq-heading {
@@ -3513,22 +3515,38 @@ html.forest-done .forest-green {
 }
 
 @media (max-width: 860px) {
+  .faq {
+    /* Spazio reale tra titolo e prima card (niente collasso sul flex) */
+    gap: clamp(44px, 12vw, 72px);
+  }
+
   .faq-heading {
     width: 100%;
     max-width: 100%;
     box-sizing: border-box;
-    margin-bottom: clamp(52px, 11vw, 72px);
+    margin: 0;
     padding-right: 0;
     text-align: left;
     white-space: nowrap;
-    overflow: visible;
-    /* Una riga intera senza uscire dal bordo del room */
-    font-size: clamp(1.28rem, 5.6vw, 1.75rem);
-    letter-spacing: -0.03em;
+    overflow: hidden;
+    text-overflow: clip;
+    /* Una riga intera dentro la larghezza del room (cqi = .faq, non il viewport) */
+    font-size: min(1.48rem, 8.4cqi);
+    letter-spacing: -0.04em;
+    line-height: 1;
   }
 
   .faq-list {
     grid-template-columns: 1fr;
+  }
+}
+
+@supports not (font-size: 1cqi) {
+  @media (max-width: 860px) {
+    .faq-heading {
+      /* Fallback senza container query: scala sul viewport meno il padding room */
+      font-size: min(1.48rem, calc((100vw - 48px) / 12.2));
+    }
   }
 }
 

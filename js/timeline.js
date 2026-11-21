@@ -64,14 +64,8 @@
     const laneL = 8;
     steps.forEach((_, i) => {
       if (narrow) {
-        // Mobile: scheda e cerchio nella stessa corsia.
-        // Ultimo passo: scheda a sinistra come le altre; cerchio 04 PRIMA di Pisogne
-        // (non sul punto finale, altrimenti copre l’etichetta).
-        if (i === last) {
-          left[i] = laneL;
-          px[i] = left[i] + TW - 44;
-          return;
-        }
+        // Mobile: scheda e cerchio nella stessa corsia (01/03 sx, 02/04 dx).
+        // Il 04 resta a destra sotto il cerchio; Pisogne+borgo stanno a sinistra sul punto finale.
         const lane = goesRight(i) ? laneL : W - 8 - TW;
         left[i] = lane;
         px[i] = goesRight(i) ? lane + TW - 44 : lane + 44;
@@ -133,18 +127,17 @@
     const E = sg[last].p[3], B0 = sg[0].p[0];
     const endX = E.x, endY = E.y;
 
-    /* Mobile: Pisogne + borgo allineati a sinistra con la scheda 04; scheda sotto il borgo. */
+    /* Mobile: Pisogne+borgo sul punto finale a sinistra; scheda 04 come le altre (sotto il cerchio a destra). */
     if (narrow) {
-      capB.style.left = left[last] + 'px';
+      capB.style.left = Math.max(0, endX - 4) + 'px';
       capB.style.top = endY + 'px';
-      /* forza layout per misurare l’altezza reale del blocco Pisogne+borgo */
-      void capB.offsetHeight;
-      const villageBlock = Math.max(capB.offsetHeight || 0, 120);
-      textTop[last] = endY + 32 + villageBlock + 10;
+      /* La scheda resta a pinY+46 come i passi sopra; il borgo più stretto lascia spazio a destra. */
       bottom[last] = textTop[last] + hs[last];
+      const villageBottom = endY + 22 + 96;
+      if (villageBottom > bottom[last]) bottom[last] = villageBottom;
     }
 
-    const H = Math.max(endY + (narrow ? 280 : 205), bottom[last] + 50);
+    const H = Math.max(endY + (narrow ? 220 : 205), bottom[last] + 50);
     root.style.height = H + 'px';
     svg.setAttribute('width', W); svg.setAttribute('height', H);
     svg.setAttribute('viewBox', `0 0 ${W} ${H}`);
@@ -183,6 +176,7 @@
       capB.style.left = endX + 'px';
       capB.style.top = endY + 'px';
     }
+    /* narrow: capB già posizionato sopra sul punto finale */
     capM.style.left = startX + 'px'; capM.style.top = startY + 'px';
     steps.forEach((s, i) => s.style.setProperty('--pd', (nodeLen[i] / total * CONFIG.pulseMs / 1000).toFixed(2) + 's'));
   }

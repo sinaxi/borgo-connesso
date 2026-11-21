@@ -15,8 +15,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/styles.css?v=318">
-  <link rel="stylesheet" href="css/timeline.css?v=4">
+  <link rel="stylesheet" href="css/styles.css?v=319">
+  <link rel="stylesheet" href="css/timeline.css?v=5">
 </head>
 <body id="top">
   <a class="skip" href="#contenuto">Vai al contenuto</a>
@@ -730,45 +730,40 @@
               <span class="tl-cap tl-cap--end" aria-hidden="true">
                 <span class="tl-cap__name">Pisogne</span>
                 <!-- Villaggio stilizzato: torre medievale al centro e qualche casetta, disegnati a mano libera. Solo grafica. -->
-                <svg class="tl-village" viewBox="0 8 190 90" focusable="false">
-                  <!-- Borgo a mano libera: montagne abbozzate sullo sfondo, case dietro e davanti alla torre, lago in basso. -->
+                <svg class="tl-village" viewBox="0 8 162 90" focusable="false">
+                  <!-- Borgo a mano libera: più compatto (niente casetta a destra), torre al centro, lago sotto. -->
                   <g class="tl-b tl-mtn" style="--d:.15s">
-                    <path d="M2 74 22 50 30 58 50 26 62 44 70 38 92 66 108 42 118 50 138 22 152 44 160 38 186 70"/>
-                    <path d="M43 37 48 41 52 36 56 42M131 33 136 37 140 32 145 38M20 54l-2 8M112 46l-3 8" style="stroke-width:1.4"/>
+                    <path d="M2 74 20 52 28 60 46 28 58 46 66 40 86 66 100 44 110 52 128 24 142 46 150 40 160 68"/>
+                    <path d="M40 38 45 42 49 37 53 43M122 34 127 38 131 33 136 39M18 56l-2 8M104 48l-3 8" style="stroke-width:1.4"/>
                   </g>
                   <g class="tl-b" style="--d:.5s"><!-- case dietro -->
-                    <path class="tl-rf" d="M35 74 35.5 55 58 54 58.5 74Z"/>
-                    <path class="tl-rf tl-roof" d="M32 56 46 42 61 56Z" transform="translate(1.2 1.2)"/>
-                    <path d="M35 74 35.5 55M58 54 58.5 74M31 56 46 41 62 55"/><path class="tl-win" d="M43 60h5v5h-5z"/>
+                    <path class="tl-rf" d="M28 74 28.5 55 50 54 50.5 74Z"/>
+                    <path class="tl-rf tl-roof" d="M25 56 38.5 42 53 56Z" transform="translate(1.2 1.2)"/>
+                    <path d="M28 74 28.5 55M50 54 50.5 74M24 56 38.5 41 54 55"/><path class="tl-win" d="M36 60h5v5h-5z"/>
                   </g>
                   <g class="tl-b" style="--d:.6s">
-                    <path class="tl-rf" d="M60 74 60 52 84 52 84 74Z"/>
-                    <path class="tl-rf tl-roof" d="M57 54 71.5 38 87 54Z" transform="translate(1.2 1.2)"/>
-                    <path d="M60 74 60 52.5M84 52 84.5 74M56 54 71.5 37 88 54"/><path class="tl-win" d="M64 58h5v5h-5z"/>
+                    <path class="tl-rf" d="M52 74 52 52 74 52 74 74Z"/>
+                    <path class="tl-rf tl-roof" d="M49 54 62.5 38 77 54Z" transform="translate(1.2 1.2)"/>
+                    <path d="M52 74 52 52.5M74 52 74.5 74M48 54 62.5 37 78 54"/><path class="tl-win" d="M56 58h5v5h-5z"/>
                   </g>
-                  <g class="tl-b" style="--d:.7s"><g transform="translate(-6 0)">
-                    <path class="tl-rf" d="M92 74V50H118V74Z"/>
-                    <path class="tl-rf tl-roof" d="M89 52 105 35 121 52Z" transform="translate(1.2 1.2)"/>
-                    <path d="M92.5 74 92 50.5M118 50 118.5 74M88 52 105 34 122 52"/><path class="tl-win" d="M108 56h5v5h-5z"/>
-                  </g></g>
+                  <g class="tl-b" style="--d:.7s">
+                    <path class="tl-rf" d="M78 74V50H102V74Z"/>
+                    <path class="tl-rf tl-roof" d="M75 52 90 35 105 52Z" transform="translate(1.2 1.2)"/>
+                    <path d="M78.5 74 78 50.5M102 50 102.5 74M74 52 90 34 106 52"/><path class="tl-win" d="M93 56h5v5h-5z"/>
+                  </g>
                   <g class="tl-b" style="--d:.8s"><!-- case davanti -->
-                    <path class="tl-rf" d="M12 80 12 58 38 58 38 80Z"/>
-                    <path class="tl-rf tl-roof" d="M8 60 25 41 43 60Z" transform="translate(1.5 1.5)"/>
-                    <path d="M12 80 11.5 58M38.5 57.5 38 80M7 60 25 40 44 59"/>
-                    <path class="tl-thin" d="M18 80V70h6v10"/><path class="tl-win" d="M29 63h5v5h-5z"/>
+                    <path class="tl-rf" d="M8 80 8 58 32 58 32 80Z"/>
+                    <path class="tl-rf tl-roof" d="M4 60 20 41 36 60Z" transform="translate(1.5 1.5)"/>
+                    <path d="M8 80 7.5 58M32.5 57.5 32 80M3 60 20 40 37 59"/>
+                    <path class="tl-thin" d="M14 80V70h6v10"/><path class="tl-win" d="M23 63h5v5h-5z"/>
                   </g>
                   <g class="tl-b" style="--d:.9s">
-                    <path class="tl-rf" d="M128 80 128 56 156 56 156 80Z"/>
-                    <path class="tl-rf tl-roof" d="M124 58 142 38 160 57Z" transform="translate(1.5 1.5)"/>
-                    <path d="M128 80 127.5 56M156.5 55.5 157 80M123 58 142 37 161 57"/>
-                    <path class="tl-win" d="M133 62h6v6h-6zM145 62h6v6h-6z"/>
+                    <path class="tl-rf" d="M112 80 112 56 138 56 138 80Z"/>
+                    <path class="tl-rf tl-roof" d="M108 58 125 38 142 57Z" transform="translate(1.5 1.5)"/>
+                    <path d="M112 80 111.5 56M138.5 55.5 139 80M107 58 125 37 143 57"/>
+                    <path class="tl-win" d="M117 62h6v6h-6zM128 62h6v6h-6z"/>
                   </g>
-                  <g class="tl-b" style="--d:1s">
-                    <path class="tl-rf" d="M162 80 162 66 180 66 180 80Z"/>
-                    <path class="tl-rf tl-roof" d="M159 68 171 55 184 68Z" transform="translate(1.2 1.2)"/>
-                    <path d="M162 80 161.5 66M180 66 180.5 80M158 68 171 54 185 68"/><path class="tl-win" d="M168 71h5v5h-5z"/>
-                  </g>
-                  <g class="tl-b" style="--d:.35s"><g transform="translate(24 0)"><!-- torre medievale, senza bandiera, leggermente decentrata -->
+                  <g class="tl-b" style="--d:.35s"><g transform="translate(16 0)"><!-- torre medievale, senza bandiera -->
                     <path class="tl-rf" d="M72 80 72.5 29 102 28 102 80Z"/>
                     <path d="M72 80 72.5 29M102 28.5 102 80M72 29 102 28"/>
                     <path d="M72.5 29 72 15 80 14.5 80 21 83 21.5 83 14.5 91 15 91 21 94 21 94 14.5 102 15 102 28.5"/>
@@ -776,8 +771,8 @@
                     <path class="tl-thin" d="M80 80V72C80 63 94 63 94 72V80"/>
                     <path class="tl-thin" d="M75 42h5M92 47h6M76 58h4M94 36h5"/>
                   </g></g>
-                  <path class="tl-lake" pathLength="1" d="M0 85.5C14 82.5 26 88.5 42 85.5S70 82.5 86 85.5 114 88.5 130 85.5 168 82.5 190 85.5"/>
-                  <path class="tl-lake2" pathLength="1" d="M16 92C30 90 40 94 54 92S80 90 96 92M122 92C134 90 144 94 158 92"/>
+                  <path class="tl-lake" pathLength="1" d="M0 85.5C12 82.5 22 88.5 36 85.5S60 82.5 74 85.5 96 88.5 110 85.5 140 82.5 162 85.5"/>
+                  <path class="tl-lake2" pathLength="1" d="M12 92C24 90 34 94 46 92S68 90 82 92M104 92C116 90 126 94 140 92"/>
                 </svg>
               </span>
           
@@ -1458,6 +1453,6 @@
   </div>
 
   <script src="js/main.js?v=85"></script>
-  <script src="js/timeline.js?v=4"></script>
+  <script src="js/timeline.js?v=5"></script>
 </body>
 </html>
