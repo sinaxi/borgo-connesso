@@ -50,7 +50,7 @@
     const W = root.clientWidth, narrow = W < 640, n = steps.length, last = n - 1;
     const pad = narrow ? 12 : 30;               // margine esterno
     const XL = pad, XR = W - pad, S = XR - XL;  // apice sinistro / destro della curva
-    const TW = narrow ? 244 : 430;              // larghezza delle schede
+    const TW = narrow ? Math.min(244, W - 60) : 430;   // larghezza delle schede
     const pinOff = narrow ? 70 : 48;            // distanza della tappa dall'inizio della scheda
     const FLAT = 0.82;                          // 0.5 = onda più inclinata · 0.9 = centro quasi piatto, curve più verticali
     const Y0 = narrow ? 108 : 114;               // altezza del punto di partenza
@@ -62,6 +62,12 @@
     /* Posizione orizzontale di testi e tappe (la tappa sta nel punto più piatto del tratto). */
     const left = [], px = [];
     steps.forEach((_, i) => {
+      if (narrow) {   // mobile: la tappa sta sul lato "basso" della scheda, nel punto della curva più vicino a lei, così scheda e tappa restano attaccate
+        const lane = goesRight(i) ? 8 : W - 8 - TW;                  // corsia a sinistra (tratto →) o a destra (tratto ←)
+        px[i] = goesRight(i) ? lane + TW - 44 : lane + 44;
+        left[i] = i === last ? 8 : lane;                             // l'ultima scheda va sotto "Pisogne", a sinistra
+        return;
+      }
       if (goesRight(i)) { px[i] = XL + 0.30 * S; left[i] = narrow ? 8 : Math.max(pad, px[i] - pinOff); }
       else { left[i] = W - (narrow ? 8 : pad) - TW; px[i] = left[i] + pinOff; }
     });
@@ -97,7 +103,7 @@
       const textTop = [], bottom = []; let ok = true;
       for (let i = 0; i < n && ok; i++) {
         const inR = q => q.x >= left[i] - 6 && q.x <= left[i] + TW + 6;
-        textTop[i] = Math.max(...sp[i].filter(inR).map(q => q.y)) + V.topOff;
+        textTop[i] = Math.max(...sp[i].filter(inR).map(q => q.y)) + (narrow ? 44 : V.topOff);
         bottom[i] = textTop[i] + hs[i];
         if (i === last) break;
         const next = sp[i + 1].filter(inR);
@@ -111,6 +117,11 @@
     const { sg, pinY, textTop, bottom } = plan;
     const E = sg[last].p[3], B0 = sg[0].p[0];
     const endX = E.x, endY = E.y;
+    /* Mobile: l'ultima scheda sta proprio sotto "Pisogne" e il suo borgo (che occupa la parte bassa a sinistra). */
+    if (narrow) {
+      textTop[last] = Math.max(textTop[last], endY + 20 + (capB.offsetHeight || 80) + 26);
+      bottom[last] = textTop[last] + hs[last];
+    }
     const H = Math.max(endY + 205, bottom[last] + 50);
     root.style.height = H + 'px';
     svg.setAttribute('width', W); svg.setAttribute('height', H);
@@ -139,7 +150,7 @@
       return total * best / N;
     });
     /* Ancore scroll → lunghezza: la rotta avanza in modo proporzionale tra una tappa e la successiva. */
-    aY = [Y0 - 150, ...pinY.map(v => v + 30), H - 40];
+    aY = [Y0 - 150, ...pinY.map(v => v + 30), Math.max(endY + 80, pinY[last] + 60)];   // il percorso arriva a Pisogne quando il pallino è ancora a metà schermo
     aL = [0, ...nodeLen, total];
 
     const startX = B0.x, startY = B0.y;
