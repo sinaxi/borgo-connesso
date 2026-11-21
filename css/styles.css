@@ -3517,8 +3517,8 @@ html.forest-done .forest-green {
 
 @media (max-width: 860px) {
   .faq {
-    /* Spazio reale tra titolo e prima card (niente collasso sul flex) */
-    gap: clamp(48px, 13vw, 80px);
+    /* Respiro tra titolo e prima card — stretto, non un vuoto da scheda */
+    gap: clamp(18px, 4.5vw, 26px);
   }
 
   .room--faq .faq-heading {
