@@ -3981,7 +3981,8 @@ html.forest-done .forest-green {
   margin: 0;
   max-width: 12ch;
   color: #fff;
-  font-size: clamp(3rem, 6.6vw, 5.85rem);
+  /* Mobile invariato (min 3rem); desktop/tablet un filo più contenuti */
+  font-size: clamp(3rem, 6.15vw, 5.4rem);
   font-weight: 800;
   letter-spacing: -0.055em;
   line-height: 0.92;
