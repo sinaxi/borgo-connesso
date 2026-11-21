@@ -5407,7 +5407,8 @@ body.menu-closing .float-dock {
   }
 
   .tower-copy {
-    margin-top: -3rem;
+    /* Un filo più sotto, come «Perché»: spezza il bordo basso della foto */
+    margin-top: -2.2rem;
     padding: 0 4px 0 16px;
   }
 
