@@ -435,14 +435,28 @@ if (heroVisual) {
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let heroIndex = 0;
 
+  function tryPlayHeroVideo() {
+    if (!heroVideo || reduceMotion || heroIndex !== 0) return;
+    heroVideo.muted = true;
+    heroVideo.defaultMuted = true;
+    heroVideo.playsInline = true;
+    const play = heroVideo.play();
+    if (play?.catch) play.catch(() => {});
+  }
+
   function syncHeroVideo(activeIndex) {
     if (!heroVideo) return;
     if (reduceMotion || activeIndex !== 0) {
       heroVideo.pause();
       return;
     }
-    const play = heroVideo.play();
-    if (play?.catch) play.catch(() => {});
+    // Mobile Safari: un solo play() a DOMContentLoaded spesso fallisce
+    // (preload metadata / Low Power). Riprova su ready + gesture.
+    tryPlayHeroVideo();
+    if (heroVideo.readyState < 2) {
+      heroVideo.addEventListener("loadeddata", tryPlayHeroVideo, { once: true });
+      heroVideo.addEventListener("canplay", tryPlayHeroVideo, { once: true });
+    }
   }
 
   function showHero(next) {
@@ -462,6 +476,16 @@ if (heroVisual) {
   });
 
   showHero(0);
+
+  if (heroVideo && !reduceMotion) {
+    const unlockHero = () => tryPlayHeroVideo();
+    document.addEventListener("touchstart", unlockHero, { once: true, passive: true });
+    document.addEventListener("click", unlockHero, { once: true });
+    document.addEventListener("visibilitychange", () => {
+      if (document.visibilityState === "visible") tryPlayHeroVideo();
+    });
+    window.addEventListener("pageshow", tryPlayHeroVideo);
+  }
 }
 
 const chi = document.querySelector("#chi");
