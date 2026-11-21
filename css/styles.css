@@ -3,8 +3,9 @@
   --olive: #1c1c1c;
   --sage: #5c5c5c;
   --sage-soft: #8d8d8d;
-  --lake: #ff3b30;
-  --lake-ink: #ffffff;
+  /* Alias → Main Color (css/main-color.css). Non hardcodare un secondo rosso. */
+  --lake: var(--main-color);
+  --lake-ink: var(--main-color-ink);
   --sky: #f3f3f3;
   --ivory: #ffffff;
   --ivory-deep: #f6f6f6;
@@ -2222,7 +2223,7 @@ html.forest-done .forest-green {
   background: linear-gradient(
     180deg,
     rgba(17, 17, 17, 0.06) 20%,
-    rgba(255, 59, 48, 0.58) 100%
+    rgba(var(--main-color-rgb), 0.58) 100%
   );
 }
 
@@ -2822,7 +2823,7 @@ html.forest-done .forest-green {
 
 .step--tell.is-in .step-node {
   background: var(--lake);
-  box-shadow: 0 0 0 2px var(--lake), 0 0 0 8px rgba(255, 59, 48, 0.18);
+  box-shadow: 0 0 0 2px var(--lake), 0 0 0 8px rgba(var(--main-color-rgb), 0.18);
   animation: step-node-pulse 1.8s var(--ease) 0.4s both;
 }
 
@@ -2832,8 +2833,8 @@ html.forest-done .forest-green {
 }
 
 @keyframes step-node-pulse {
-  0%, 100% { box-shadow: 0 0 0 2px var(--lake), 0 0 0 6px rgba(255, 59, 48, 0.12); }
-  50% { box-shadow: 0 0 0 2px var(--lake), 0 0 0 12px rgba(255, 59, 48, 0.08); }
+  0%, 100% { box-shadow: 0 0 0 2px var(--lake), 0 0 0 6px rgba(var(--main-color-rgb), 0.12); }
+  50% { box-shadow: 0 0 0 2px var(--lake), 0 0 0 12px rgba(var(--main-color-rgb), 0.08); }
 }
 
 /* 02 — red rule draws under title */
@@ -2919,7 +2920,7 @@ html.forest-done .forest-green {
   bottom: -40%;
   width: 55%;
   height: 90%;
-  background: radial-gradient(circle, rgba(255, 59, 48, 0.28), transparent 68%);
+  background: radial-gradient(circle, rgba(var(--main-color-rgb), 0.28), transparent 68%);
   pointer-events: none;
   opacity: 0;
   transition: opacity 0.7s var(--ease);
@@ -3108,7 +3109,7 @@ html.forest-done .forest-green {
     ),
     radial-gradient(
       120% 80% at 50% 20%,
-      rgba(255, 59, 48, 0.18) 0%,
+      rgba(var(--main-color-rgb), 0.18) 0%,
       transparent 55%
     );
 }
@@ -3889,7 +3890,7 @@ html.forest-done .forest-green {
   background: linear-gradient(
     180deg,
     rgba(17, 17, 17, 0.08) 20%,
-    rgba(255, 59, 48, 0.62) 100%
+    rgba(var(--main-color-rgb), 0.62) 100%
   );
 }
 
@@ -4217,7 +4218,7 @@ html.forest-done .forest-green {
   width: 30px;
   height: 30px;
   border-radius: 50%;
-  background: #ff3b30;
+  background: var(--main-color);
   color: #fff;
   font-size: 0.78rem;
   font-weight: 800;
@@ -6162,7 +6163,7 @@ body.menu-closing .float-dock {
    Per cambiare i colori basta modificare le variabili qui sotto.
    ========================================================================== */
 .room--soggiorno {
-  --sog-pink: #ff4d8b;   /* card 1 · Case vacanza (testo bianco) */
+  --sog-pink: var(--main-color); /* card 1 · Holiday Homes = Main Color */
   --sog-teal: #1a3a3a;   /* card 2 · Sala riunioni (testo bianco) */
   --sog-lav: #b8a4ed;    /* card 3 · Esperienze outdoor */
   --sog-peach: #ffb084;  /* card 4 · Wellness */

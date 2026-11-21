@@ -1,0 +1,20 @@
+/* ==========================================================================
+   Main Color — unico rosso/arancione del brand Borgo Connesso
+
+   Fonte unica. Per cambiare TUTTO il rosso/arancione del sito
+   (CTA, timeline «Il soggiorno in 4 passi», evidenziazioni, hover,
+   Holiday Homes card 1, underline titoli, ecc.) modifica solo
+   --main-color (e allinea --main-color-rgb allo stesso hex).
+
+   Alias legacy: --lake / --lake-ink restano in styles.css e puntano qui.
+   ========================================================================== */
+
+:root {
+  --main-color: #ff3b30;
+  --main-color-ink: #ffffff;
+  /* Canale RGB per rgba(var(--main-color-rgb), a) — tiene aggiornato con --main-color */
+  --main-color-rgb: 255, 59, 48;
+  --main-color-soft: color-mix(in srgb, var(--main-color) 55%, #ffffff);
+  --main-color-tint: color-mix(in srgb, var(--main-color) 28%, #fff6f5);
+  --main-color-tint-alt: color-mix(in srgb, var(--main-color) 22%, #ffffff);
+}

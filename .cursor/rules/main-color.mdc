@@ -1,0 +1,21 @@
+---
+description: Main Color brand token — change all red/orange accents from one CSS file
+alwaysApply: true
+---
+
+# Main Color
+
+When the user says **Main Color** / **main color**, they mean the site red/orange brand accent.
+
+- Source of truth: `css/main-color.css` (`--main-color`, `--main-color-rgb`, soft/tint tokens).
+- Linked in `index.html` **before** `css/styles.css`.
+- Legacy aliases: `--lake` / `--lake-ink` in `styles.css` must stay as `var(--main-color)` / `var(--main-color-ink)`.
+- Timeline uses `--sun: var(--main-color)` (and soft/ripple from main-color).
+- Holiday Homes card 1 uses `--sog-pink: var(--main-color)`.
+
+When asked to change the Main Color:
+
+1. Update `--main-color` hex in `css/main-color.css`.
+2. Update `--main-color-rgb` to the same RGB components.
+3. Bump `main-color.css?v=` (and dependents if needed), commit and push.
+4. Do **not** invent a parallel red; do **not** leave hard-coded `#ff3b30` / `rgba(255,59,48,…)` in live CSS — use the tokens.
