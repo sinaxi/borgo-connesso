@@ -1168,6 +1168,15 @@ function initHeroForest() {
   let skyMaxRise = 0;
   let lastSkyFollow = null;
   let phonePortrait = window.matchMedia("(max-width: 720px) and (orientation: portrait)").matches;
+  let fillH = 0;
+  let artWCached = 0;
+  /* Mobile: lerp leggero + secondari throttled → meno scatti su iOS */
+  let displayExtra = 0;
+  let targetExtra = 0;
+  let liftRaf = 0;
+  let secondaryAcc = 0;
+  const LERP = 0.42;
+  const SECONDARY_MS = 32;
 
   // rest/fit solo al resize: ricalcolarli a ogni scroll faceva scattare i livelli
   const recomputeLayout = () => {
@@ -1179,6 +1188,8 @@ function initHeroForest() {
       root.style.setProperty("--forest-rest-top", `${cachedRest}px`);
     }
     cachedMaxExtra = Math.max(0, window.innerHeight - cachedRest);
+    fillH = fill.offsetHeight || window.innerHeight;
+    artWCached = (art && art.offsetWidth) || 0;
     if (lastCard) {
       // Dove si ferma l'ultima card (il suo top sticky, in px)
       const stuck = parseFloat(getComputedStyle(lastCard).top);
@@ -1205,65 +1216,50 @@ function initHeroForest() {
     }
   };
 
-  const update = () => {
-    const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
-    // Solo spazio verde sotto le silhouette — composizione a riposo invariata
-    const extra = Math.min(y, cachedMaxExtra);
+  /* Solo compositor: niente getBoundingClientRect, niente var su :root */
+  const applyLift = (extra) => {
+    if (extra === lastExtra) return;
+    lastExtra = extra;
+    const y = -extra;
+    scene.style.transform = `translate3d(0, ${y}px, 0)`;
+    /* Pixel fissi (no calc%): su Safari il mix %/px scattava */
+    const fillY = Math.max(0, fillH - extra);
+    fill.style.transform = `translate3d(0, ${fillY}px, 0)`;
+  };
+
+  const updateSecondary = (extra, y) => {
     const vh = window.innerHeight;
     const sceneBottom = vh - extra;
     const rest = cachedRest;
 
-    // 1) Tutte le letture layout PRIMA delle scritture (niente thrash mid-frame)
     let bandTop = 0;
     let underTop = 0;
     let firstCardTop = 0;
     let copyBox = null;
     let afterTop = Infinity;
     let lastCardTop = 0;
-    let artW = 0;
     if (band) bandTop = band.getBoundingClientRect().top;
     if (underText && !phonePortrait) underTop = underText.getBoundingClientRect().top;
     if (firstCard) firstCardTop = firstCard.getBoundingClientRect().top;
-    if (copy) {
-      copyBox = copy.getBoundingClientRect();
-      artW = (art && art.offsetWidth) || 0;
-    }
+    if (copy) copyBox = copy.getBoundingClientRect();
     if (after) afterTop = after.getBoundingClientRect().top;
     if (sky && lastCard) lastCardTop = lastCard.getBoundingClientRect().top;
 
-    // 2) Scritture: solo transform sul compositor (niente height / var :root)
-    if (extra !== lastExtra) {
-      lastExtra = extra;
-      scene.style.transform = extra
-        ? `translate3d(0, ${-extra}px, 0)`
-        : "translate3d(0, 0, 0)";
-      fill.style.transform = extra
-        ? `translate3d(0, calc(100% - ${extra}px), 0)`
-        : "translate3d(0, 100%, 0)";
-      // Teniamo la var per CSS legacy / debug, senza usarla per height
-      root.style.setProperty("--forest-extra", `${extra}px`);
-    }
-    // Foresta ferma in cima: compare il testo «Sul Lago d'Iseo…»
-    // → su desktop sparisce «il Borgo connesso».
     const atRest = extra >= cachedMaxExtra && cachedMaxExtra > 0;
     if (atRest !== lastAtRest) {
       lastAtRest = atRest;
       root.classList.toggle("forest-at-rest", atRest);
     }
     if (band) {
-      // Niente padding dinamico: su Safari spingeva/nascondeva il testo.
       if (band.dataset.fgPad) {
         delete band.dataset.fgPad;
         band.style.paddingTop = "";
       }
-      // La fascia verde non sporge mai sopra la base della foresta
       const bandCut = Math.max(0, Math.ceil(sceneBottom - bandTop));
       if (bandCut !== lastBandCut) {
         lastBandCut = bandCut;
         band.style.setProperty("--fg-band-cut", `${bandCut}px`);
       }
-      // Quando la prima card è arrivata al suo posto il testo è tutto
-      // coperto: si spegne, così non rispunta ai bordi della pila.
       if (firstCard) {
         const covered = firstCardTop <= rest + 24;
         if (covered !== lastCovered) {
@@ -1273,8 +1269,6 @@ function initHeroForest() {
       }
     }
     if (underText) {
-      // Su telefono niente mask: fade:0 con stop coincidenti su Safari
-      // rendeva il testo invisibile. Desktop tiene la sfumatura.
       if (phonePortrait) {
         if (lastCut !== "off") {
           lastCut = "off";
@@ -1291,10 +1285,7 @@ function initHeroForest() {
       }
     }
     if (copy && copyBox) {
-      // Linea sopra la quale il titolo si vede: viaggia con la foresta,
-      // all'altezza delle chiome. A foresta ferma «il Borgo» resta appena
-      // visibile tra gli alberi; a pagina ferma è tutto in vista.
-      const treeLine = artW * 0.21;
+      const treeLine = artWCached * 0.21;
       const clearAtStart = vh - copyBox.bottom - COPY_FADE - 8;
       const lineHeight = Math.max(0, Math.min(treeLine, clearAtStart));
       const copyCut = Math.round(
@@ -1306,14 +1297,11 @@ function initHeroForest() {
       }
     }
 
-    // Appena «Perché» entra in schermo, foresta/video/verde spariscono:
-    // tra le card e quel blocco torna il grigio della pagina.
     if (after) {
       const done = y >= cachedMaxExtra && afterTop < vh - 4;
       if (done !== lastDone) {
         lastDone = done;
         document.documentElement.classList.toggle("forest-done", done);
-        // La barra passa sopra il prato (CSS) o torna al clearance foresta
         if (done) root.style.removeProperty("--float-dock-clearance");
         else {
           const forestH = scene.offsetHeight || 320;
@@ -1325,9 +1313,6 @@ function initHeroForest() {
       }
     }
 
-    // Il cielo resta sopra la pila: quando le card si sganciano e salgono,
-    // sale con loro finché sotto il «+» resta solo cielo. Lì si blocca.
-    // skyMaxRise è aggiornato solo al resize (recomputeLayout).
     if (sky && lastCard) {
       const follow = Math.round(
         Math.max(-skyMaxRise, Math.min(0, lastCardTop - lastCardStuckTop))
@@ -1339,23 +1324,55 @@ function initHeroForest() {
     }
   };
 
-  let ticking = false;
+  const tickLift = (now) => {
+    liftRaf = 0;
+    const y = Math.max(0, window.scrollY || window.pageYOffset || 0);
+    targetExtra = Math.min(y, cachedMaxExtra);
+
+    if (!reducedMotion && (phonePortrait || window.innerWidth <= 1040)) {
+      const delta = targetExtra - displayExtra;
+      if (Math.abs(delta) < 0.35) displayExtra = targetExtra;
+      else displayExtra += delta * LERP;
+    } else {
+      displayExtra = targetExtra;
+    }
+
+    applyLift(displayExtra);
+
+    secondaryAcc += 16;
+    const needSecondary =
+      secondaryAcc >= SECONDARY_MS || Math.abs(targetExtra - displayExtra) < 0.35;
+    if (needSecondary) {
+      secondaryAcc = 0;
+      updateSecondary(displayExtra, y);
+    }
+
+    if (Math.abs(targetExtra - displayExtra) >= 0.35) {
+      liftRaf = requestAnimationFrame(tickLift);
+    }
+  };
+
   const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(() => {
-      ticking = false;
-      update();
-    });
+    if (!liftRaf) liftRaf = requestAnimationFrame(tickLift);
   };
 
   window.addEventListener("scroll", onScroll, { passive: true });
   window.addEventListener("resize", () => {
     recomputeLayout();
-    onScroll();
+    displayExtra = Math.min(
+      Math.max(0, window.scrollY || 0),
+      cachedMaxExtra
+    );
+    targetExtra = displayExtra;
+    lastExtra = -1;
+    applyLift(displayExtra);
+    updateSecondary(displayExtra, window.scrollY || 0);
   });
   recomputeLayout();
-  update();
+  displayExtra = Math.min(Math.max(0, window.scrollY || 0), cachedMaxExtra);
+  targetExtra = displayExtra;
+  applyLift(displayExtra);
+  updateSecondary(displayExtra, window.scrollY || 0);
 }
 
 initHeroForest();

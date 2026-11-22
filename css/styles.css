@@ -613,6 +613,8 @@ body.menu-closing .rail-show {
   pointer-events: none;
   transform: translate3d(0, 100%, 0);
   will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   transition: opacity 0.35s var(--ease);
 }
 
@@ -625,6 +627,8 @@ body.menu-closing .rail-show {
   /* Transform inline da JS (initHeroForest): niente var su :root → niente layout thrash */
   transform: translate3d(0, 0, 0);
   will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   /* In alto niente taglio (valle e montagne sporgono); in basso sì. */
   overflow: visible;
   clip-path: inset(-200vh 0 0 0);
