@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Simulazioni Main Color chiaro — card soggiorno</title>
+  <title>C + seconda card ripensata — card soggiorno</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -30,10 +30,7 @@
       color: var(--ink);
     }
 
-    .top {
-      max-width: 1180px;
-      margin: 0 auto 28px;
-    }
+    .top { max-width: 1180px; margin: 0 auto 28px; }
     .top h1 {
       margin: 0 0 8px;
       font-size: clamp(1.55rem, 4vw, 2.15rem);
@@ -59,12 +56,7 @@
       box-shadow: 0 12px 28px -22px rgba(0,0,0,.35);
     }
     .baseline strong { font-size: 0.82rem; }
-    .baseline p {
-      margin: 0;
-      font-size: 0.8rem;
-      color: var(--sage);
-      line-height: 1.4;
-    }
+    .baseline p { margin: 0; font-size: 0.8rem; color: var(--sage); line-height: 1.4; }
     .bar {
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -75,12 +67,12 @@
       border-radius: 8px;
       box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
     }
-
-    .toc {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
+    .bar .bad {
+      outline: 2px solid var(--main-color);
+      outline-offset: 1px;
     }
+
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; }
     .toc a {
       text-decoration: none;
       color: var(--ink);
@@ -98,17 +90,12 @@
       transform: translateY(-1px);
     }
 
-    .sims {
-      display: grid;
-      gap: 36px;
-      max-width: 1180px;
-      margin: 0 auto;
-    }
+    .sims { display: grid; gap: 36px; max-width: 1180px; margin: 0 auto; }
 
     .sim {
-      --c1: #ff8c86;
-      --c2: #d4a090;
-      --c3: #a8b5a8;
+      --c1: var(--main-color);
+      --c2: #4a6a72;
+      --c3: #2a4a52;
       --c4: #8fb9b0;
       --c5: #c4d4a8;
       --c6: #e6ddd0;
@@ -165,7 +152,7 @@
       border-radius: 50%;
       box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
     }
-    .swatches .lead {
+    .swatches .fix {
       outline: 2px solid var(--ink);
       outline-offset: 1px;
     }
@@ -271,121 +258,108 @@
     .sog-bars i:nth-child(3) { height: 10px; }
     .sog-bars i:nth-child(4) { height: 12px; }
 
-    .badge-lead {
+    .badge-fix {
       display: inline-block;
       margin-left: 6px;
       padding: 3px 8px;
       border-radius: 999px;
-      background: rgba(0,0,0,.08);
+      background: rgba(255,255,255,.22);
       font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
       vertical-align: middle;
     }
-    .sog-card.is-dark .badge-lead {
-      background: rgba(255,255,255,.22);
+    .sog-card:not(.is-dark) .badge-fix {
+      background: rgba(0,0,0,.08);
     }
 
-    /* Live pieno vs queste prove: apertura = Main Color schiarito */
+    /*
+      Base C live (coda fissa dove possibile):
+      c3 #2a4a52 · c4 #8fb9b0 · c5 #c4d4a8 · c6 #e6ddd0
+      c1 Main Color · c2 = quello che ripensiamo
+    */
 
-    /* 1 · Soft 55% → ponte terracotta → C */
+    /* 1 · 2ª = step verso c3 (niente nero) */
     #sim-1 {
-      --c1: #ff8c86;
-      --c2: #e0a898;
-      --c3: #c4b5a4;
-      --c4: #9bb8b0;
-      --c5: #c4d4a8;
-      --c6: #e6ddd0;
-      --sog-mint: #b8c9a8; --sog-cream: #e2d8c8;
-    }
-    /* 2 · Soft 55% → ponte fresco acqua */
-    #sim-2 {
-      --c1: #ff8c86;
-      --c2: #d4a8a0;
-      --c3: #a8b8b0;
-      --c4: #8fb9b0;
-      --c5: #c4d4a8;
-      --c6: #e6ddd0;
+      --c1: var(--main-color);
+      --c2: #3a5860;
+      --c3: #2a4a52;
+      --c4: #8fb9b0; --c5: #c4d4a8; --c6: #e6ddd0;
       --sog-mint: #9fc9b4; --sog-cream: #d8e2d4;
     }
-    /* 3 · Soft 40% (più chiaro) → scala pastello */
+    /* 2 · 2ª = mid C schiarita (#4a6a72) */
+    #sim-2 {
+      --c1: var(--main-color);
+      --c2: #4a6a72;
+      --c3: #2a4a52;
+      --c4: #8fb9b0; --c5: #c4d4a8; --c6: #e6ddd0;
+      --sog-mint: #9fc9b4; --sog-cream: #d8e2d4;
+    }
+    /* 3 · 2ª = acqua media (#5f858c), c3 resta scuro C */
     #sim-3 {
-      --c1: #ffb0ab;
-      --c2: #e8c4b8;
-      --c3: #c8d0c4;
-      --c4: #a5c0ba;
-      --c5: #d0d8c0;
-      --c6: #efe9de;
-      --sog-mint: #a8d0bc; --sog-cream: #e4e8dc;
+      --c1: var(--main-color);
+      --c2: #5f858c;
+      --c3: #2a4a52;
+      --c4: #8fb9b0; --c5: #c4d4a8; --c6: #e6ddd0;
+      --sog-mint: #9fc9b4; --sog-cream: #d8e2d4;
     }
-    /* 4 · Soft 65% (un filo più pieno) → desatura in lago */
+    /* 4 · 2ª = forest-pool scuro (#5a7a74) */
     #sim-4 {
-      --c1: #ff6f66;
-      --c2: #d49890;
-      --c3: #a8aea8;
-      --c4: #7eb8c9;
-      --c5: #bdd4c8;
-      --c6: #e4ebe4;
-      --sog-mint: #96c8b8; --sog-cream: #d2e4e0;
+      --c1: var(--main-color);
+      --c2: #5a7a74;
+      --c3: #2a4a52;
+      --c4: #8fb9b0; --c5: #c4d4a8; --c6: #e6ddd0;
+      --sog-mint: #9fc9b4; --sog-cream: #d8e2d4;
     }
-    /* 5 · Soft → blush → salvia (caldo → verde brand) */
+    /* 5 · 2ª chiara (#8fb9b0), c3 scuro — ritmo scuro dopo */
     #sim-5 {
-      --c1: #ff8c86;
-      --c2: #e8b4a8;
-      --c3: #c4c0a8;
-      --c4: #94b3a0;
-      --c5: #c0d0b0;
-      --c6: #e8e6d6;
-      --sog-mint: #9fc9a8; --sog-cream: #d6e0cc;
+      --c1: var(--main-color);
+      --c2: #8fb9b0;
+      --c3: #2a4a52;
+      --c4: #a5c0ba; --c5: #c4d4a8; --c6: #e6ddd0;
+      --sog-mint: #9fc9b4; --sog-cream: #d8e2d4;
     }
-    /* 6 · Soft → sabbia → forest pool */
+    /* 6 · C riordinata: dopo rosso → c3 C, poi 2ª diventa step chiaro */
     #sim-6 {
-      --c1: #ff9e97;
-      --c2: #e0c0b0;
-      --c3: #c4b8a0;
-      --c4: #a5c0ba;
-      --c5: #c8d6c4;
-      --c6: #e8e6dc;
-      --sog-mint: #9ec9b4; --sog-cream: #d5e2da;
+      --c1: var(--main-color);
+      --c2: #2a4a52;
+      --c3: #5f858c;
+      --c4: #8fb9b0; --c5: #c4d4a8; --c6: #e6ddd0;
+      --sog-mint: #9fc9b4; --sog-cream: #d8e2d4;
     }
-    /* 7 · Tint 28% (apertura chiarissima) → nebbia */
+    /* 7 · Main soft + 2ª mid C (niente nero in tutta la pila) */
     #sim-7 {
-      --c1: #ffc9c5;
-      --c2: #e8d4cc;
-      --c3: #cdd8d0;
-      --c4: #a8c4bc;
-      --c5: #cdd9c0;
-      --c6: #efe9de;
-      --sog-mint: #a8d0bc; --sog-cream: #e0e8dc;
-    }
-    /* 8 · Soft + coda C uniforme (stesso end della C live) */
-    #sim-8 {
       --c1: #ff8c86;
-      --c2: #d8aea4;
-      --c3: #b0b8a8;
-      --c4: #8fb9b0;
-      --c5: #c4d4a8;
-      --c6: #e6ddd0;
+      --c2: #5f858c;
+      --c3: #7a9aa0;
+      --c4: #8fb9b0; --c5: #c4d4a8; --c6: #e6ddd0;
+      --sog-mint: #9fc9b4; --sog-cream: #d8e2d4;
+    }
+    /* 8 · Main pieno + 2ª = c3 C, scala tutta schiarita dopo */
+    #sim-8 {
+      --c1: var(--main-color);
+      --c2: #2a4a52;
+      --c3: #5f858c;
+      --c4: #8fb9b0; --c5: #c4d4a8; --c6: #e6ddd0;
       --sog-mint: #9fc9b4; --sog-cream: #d8e2d4;
     }
   </style>
 </head>
 <body>
   <header class="top">
-    <h1>Main Color chiaro · 8 aperture integrate</h1>
+    <h1>C scelta · seconda card ripensata</h1>
     <p class="lede">
-      Holiday Homes resta nella famiglia <strong>Main Color</strong>, ma schiarita
-      (<code>--main-color-soft</code> / tint). Le card dopo non partono più dal nero: un ponte
-      caldo → acqua/salvia, così la scala è una sola.
+      Base = palette <strong>C · Notte sul Sebino</strong> (coda acqua → muschio → avorio).
+      Quello che non andava era la <strong>2ª card</strong> (#0e1f24 quasi nero). Qui 8 riadattamenti: stessa C, seconda diversa.
     </p>
 
-    <div class="baseline" aria-label="Confronto live">
-      <strong>Live oggi</strong>
-      <p>#ff3b30 pieno → teal quasi nero. Sotto: stesso DNA rosso, inizio più soft e resto allineato.</p>
+    <div class="baseline" aria-label="C live">
+      <strong>C live (problema sulla 2ª)</strong>
+      <p>Rosso → <em>quasi nero</em> → teal scuro → acqua → muschio → avorio.</p>
       <div class="bar" aria-hidden="true">
         <span style="background:var(--main-color)"></span>
-        <span style="background:#0e1f24"></span>
+        <span class="bad" style="background:#0e1f24" title="2ª"></span>
         <span style="background:#2a4a52"></span>
         <span style="background:#8fb9b0"></span>
         <span style="background:#c4d4a8"></span>
@@ -394,14 +368,14 @@
     </div>
 
     <nav class="toc" aria-label="Vai alla simulazione">
-      <a href="#sim-1">1 Ponte terra</a>
-      <a href="#sim-2">2 Ponte acqua</a>
-      <a href="#sim-3">3 Soft 40%</a>
-      <a href="#sim-4">4 Soft 65%</a>
-      <a href="#sim-5">5 → Salvia</a>
-      <a href="#sim-6">6 → Pool</a>
-      <a href="#sim-7">7 Tint</a>
-      <a href="#sim-8">8 C coda</a>
+      <a href="#sim-1">1 Step soft</a>
+      <a href="#sim-2">2 Mid</a>
+      <a href="#sim-3">3 Acqua mid</a>
+      <a href="#sim-4">4 Pool</a>
+      <a href="#sim-5">5 Acqua subito</a>
+      <a href="#sim-6">6 Scuro dopo rosso</a>
+      <a href="#sim-7">7 Soft + mid</a>
+      <a href="#sim-8">8 C3 in 2ª</a>
     </nav>
   </header>
 
@@ -409,12 +383,12 @@
 
     <section class="sim" id="sim-1" aria-labelledby="t-1">
       <div class="sim-head">
-        <h2 id="t-1">1 · Soft 55% · ponte terracotta</h2>
-        <p>Apertura = Main Color ~55% bianco. Poi terracotta → sabbia → acqua C.</p>
+        <h2 id="t-1">1 · 2ª = step verso il teal C</h2>
+        <p>#3a5860 al posto del nero: ancora scura, ma già nella famiglia di #2a4a52.</p>
       </div>
       <div class="swatches" aria-hidden="true">
-        <span><i class="lead" style="background:var(--c1)"></i>Homes</span>
-        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c1)"></i>Homes</span>
+        <span><i class="fix" style="background:var(--c2)"></i>Hub</span>
         <span><i style="background:var(--c3)"></i>Wellness</span>
         <span><i style="background:var(--c4)"></i>Wi‑Fi</span>
         <span><i style="background:var(--c5)"></i>Tasting</span>
@@ -425,12 +399,12 @@
 
     <section class="sim" id="sim-2" aria-labelledby="t-2">
       <div class="sim-head">
-        <h2 id="t-2">2 · Soft 55% · ponte acqua</h2>
-        <p>Stesso soft in apertura, ma il ponte vira subito sul fresco del lago.</p>
+        <h2 id="t-2">2 · 2ª = mid C (#4a6a72)</h2>
+        <p>A metà strada tra rosso e coda chiara: più aria, stessa famiglia Sebino.</p>
       </div>
       <div class="swatches" aria-hidden="true">
-        <span><i class="lead" style="background:var(--c1)"></i>Homes</span>
-        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c1)"></i>Homes</span>
+        <span><i class="fix" style="background:var(--c2)"></i>Hub</span>
         <span><i style="background:var(--c3)"></i>Wellness</span>
         <span><i style="background:var(--c4)"></i>Wi‑Fi</span>
         <span><i style="background:var(--c5)"></i>Tasting</span>
@@ -441,12 +415,12 @@
 
     <section class="sim" id="sim-3" aria-labelledby="t-3">
       <div class="sim-head">
-        <h2 id="t-3">3 · Soft 40% · pastello</h2>
-        <p>Ancora più chiaro (#ffb0ab). Tutta la pila resta in zona luminosa.</p>
+        <h2 id="t-3">3 · 2ª = acqua mid (#5f858c)</h2>
+        <p>Seconda già “lago”; la terza resta il teal scuro C per un contrasto dopo.</p>
       </div>
       <div class="swatches" aria-hidden="true">
-        <span><i class="lead" style="background:var(--c1)"></i>Homes</span>
-        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c1)"></i>Homes</span>
+        <span><i class="fix" style="background:var(--c2)"></i>Hub</span>
         <span><i style="background:var(--c3)"></i>Wellness</span>
         <span><i style="background:var(--c4)"></i>Wi‑Fi</span>
         <span><i style="background:var(--c5)"></i>Tasting</span>
@@ -457,12 +431,12 @@
 
     <section class="sim" id="sim-4" aria-labelledby="t-4">
       <div class="sim-head">
-        <h2 id="t-4">4 · Soft 65% · più presenza</h2>
-        <p>Un filo più saturo del 55%, poi desatura verso azzurro lago.</p>
+        <h2 id="t-4">4 · 2ª = forest pool scuro</h2>
+        <p>#5a7a74: verde-acqua del brand, non il nero C.</p>
       </div>
       <div class="swatches" aria-hidden="true">
-        <span><i class="lead" style="background:var(--c1)"></i>Homes</span>
-        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c1)"></i>Homes</span>
+        <span><i class="fix" style="background:var(--c2)"></i>Hub</span>
         <span><i style="background:var(--c3)"></i>Wellness</span>
         <span><i style="background:var(--c4)"></i>Wi‑Fi</span>
         <span><i style="background:var(--c5)"></i>Tasting</span>
@@ -473,12 +447,12 @@
 
     <section class="sim" id="sim-5" aria-labelledby="t-5">
       <div class="sim-head">
-        <h2 id="t-5">5 · Soft → salvia brand</h2>
-        <p>Dal corallo soft alla salvia/ulivo: chiusura più verde che acqua.</p>
+        <h2 id="t-5">5 · 2ª = acqua C subito</h2>
+        <p>Hub prende già #8fb9b0; Wellness tiene lo scuro C. Ritmo chiaro → scuro → chiaro.</p>
       </div>
       <div class="swatches" aria-hidden="true">
-        <span><i class="lead" style="background:var(--c1)"></i>Homes</span>
-        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c1)"></i>Homes</span>
+        <span><i class="fix" style="background:var(--c2)"></i>Hub</span>
         <span><i style="background:var(--c3)"></i>Wellness</span>
         <span><i style="background:var(--c4)"></i>Wi‑Fi</span>
         <span><i style="background:var(--c5)"></i>Tasting</span>
@@ -489,12 +463,12 @@
 
     <section class="sim" id="sim-6" aria-labelledby="t-6">
       <div class="sim-head">
-        <h2 id="t-6">6 · Soft → forest pool</h2>
-        <p>Ponte sabbia, poi davvero sul #a5c0ba della fascia verde.</p>
+        <h2 id="t-6">6 · 2ª = teal scuro C (#2a4a52)</h2>
+        <p>Elimina il nero: la 2ª diventa direttamente il vecchio c3. Poi scala uniforme.</p>
       </div>
       <div class="swatches" aria-hidden="true">
-        <span><i class="lead" style="background:var(--c1)"></i>Homes</span>
-        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c1)"></i>Homes</span>
+        <span><i class="fix" style="background:var(--c2)"></i>Hub</span>
         <span><i style="background:var(--c3)"></i>Wellness</span>
         <span><i style="background:var(--c4)"></i>Wi‑Fi</span>
         <span><i style="background:var(--c5)"></i>Tasting</span>
@@ -505,12 +479,12 @@
 
     <section class="sim" id="sim-7" aria-labelledby="t-7">
       <div class="sim-head">
-        <h2 id="t-7">7 · Tint 28% · apertura chiarissima</h2>
-        <p>Come --main-color-tint: rosa-pesca molto chiaro, poi nebbia Sebino.</p>
+        <h2 id="t-7">7 · Main soft + 2ª mid</h2>
+        <p>Apertura soft (#ff8c86) + Hub #5f858c: niente buco nero, coda C intatta.</p>
       </div>
       <div class="swatches" aria-hidden="true">
-        <span><i class="lead" style="background:var(--c1)"></i>Homes</span>
-        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c1)"></i>Homes</span>
+        <span><i class="fix" style="background:var(--c2)"></i>Hub</span>
         <span><i style="background:var(--c3)"></i>Wellness</span>
         <span><i style="background:var(--c4)"></i>Wi‑Fi</span>
         <span><i style="background:var(--c5)"></i>Tasting</span>
@@ -521,12 +495,12 @@
 
     <section class="sim" id="sim-8" aria-labelledby="t-8">
       <div class="sim-head">
-        <h2 id="t-8">8 · Soft + coda C</h2>
-        <p>Apertura soft, ultime tre card = C live (#8fb9b0 → #c4d4a8 → #e6ddd0).</p>
+        <h2 id="t-8">8 · Come 6, coda più regolare</h2>
+        <p>Stesso trucco (2ª = #2a4a52), terza #5f858c: scalini più equidistanti verso l’avorio.</p>
       </div>
       <div class="swatches" aria-hidden="true">
-        <span><i class="lead" style="background:var(--c1)"></i>Homes</span>
-        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c1)"></i>Homes</span>
+        <span><i class="fix" style="background:var(--c2)"></i>Hub</span>
         <span><i style="background:var(--c3)"></i>Wellness</span>
         <span><i style="background:var(--c4)"></i>Wi‑Fi</span>
         <span><i style="background:var(--c5)"></i>Tasting</span>
@@ -539,7 +513,7 @@
 
   <template id="card-markup">
     <li class="sog-card" data-role="homes" style="--tone:var(--c1)">
-      <h3>Holiday Homes <span class="badge-lead">MC</span></h3>
+      <h3>Holiday Homes</h3>
       <p>Case vacanza nel borgo e nelle frazioni, già scelte per rispondere alle esigenze e alle attività che ogni ospite desidera svolgere.</p>
       <div class="sog-ui">
         <div class="sog-row"><span><span class="sog-ok" aria-hidden="true">✓</span>Una casa per ogni esigenza</span></div>
@@ -548,7 +522,7 @@
       </div>
     </li>
     <li class="sog-card" data-role="hub" style="--tone:var(--c2)">
-      <h3>Coworking Hub</h3>
+      <h3>Coworking Hub <span class="badge-fix">2ª</span></h3>
       <p>Spazi condivisi per lavorare H24 e sale riunione per attività da svolgere in team.</p>
       <div class="sog-ui">
         <div class="sog-row"><span><span class="sog-ok" aria-hidden="true">✓</span>Spazi riservabili</span></div>
@@ -600,9 +574,24 @@
   <script>
     function hexToRgb(hex) {
       const h = hex.replace("#", "").trim();
+      if (h.startsWith("var")) return { r: 20, g: 30, b: 36 };
       const full = h.length === 3 ? h.split("").map((c) => c + c).join("") : h;
       const n = parseInt(full, 16);
+      if (Number.isNaN(n)) return { r: 20, g: 30, b: 36 };
       return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+    }
+    function resolveTone(sim, prop) {
+      const raw = getComputedStyle(sim).getPropertyValue(prop).trim();
+      if (raw.startsWith("#")) return raw;
+      /* var(--main-color) → computed background via temp */
+      const probe = document.createElement("div");
+      probe.style.color = raw;
+      sim.appendChild(probe);
+      const rgb = getComputedStyle(probe).color;
+      probe.remove();
+      const m = rgb.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      if (!m) return "#0e1f24";
+      return "#" + [m[1], m[2], m[3]].map((x) => Number(x).toString(16).padStart(2, "0")).join("");
     }
     function isDarkTone(hex) {
       const { r, g, b } = hexToRgb(hex);
@@ -618,10 +607,9 @@
     document.querySelectorAll(".sim").forEach((sim) => {
       const stack = sim.querySelector(".stack");
       const frag = tpl.content.cloneNode(true);
-      const cs = getComputedStyle(sim);
       ["homes", "hub", "wellness", "wifi", "tasting", "outdoor"].forEach((role, i) => {
         const card = frag.querySelector(`[data-role="${role}"]`);
-        const tone = cs.getPropertyValue(`--c${i + 1}`).trim();
+        const tone = resolveTone(sim, `--c${i + 1}`);
         card.classList.toggle("is-dark", isDarkTone(tone));
       });
       stack.appendChild(frag);
