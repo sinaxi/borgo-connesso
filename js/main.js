@@ -687,96 +687,44 @@ document.querySelectorAll(".tower-list--faro").forEach((list) => {
   faroObserver.observe(list);
 });
 
-/* Hub / Outdoor deck (K): segment + swipe + freccia — solo ≤1040px */
+/* Hub / Outdoor accordion (M): entrambi chiusi su mobile/tablet */
 (() => {
-  const deck = document.querySelector("[data-tower-deck]");
-  if (!deck) return;
-
-  const track = deck.querySelector("[data-tower-track]");
-  const stage = deck.querySelector(".tower-deck-stage");
-  const tabs = [...deck.querySelectorAll("[data-tower-go]")];
-  const prog = deck.querySelector("[data-tower-prog]");
-  const chev = deck.querySelector("[data-tower-chev]");
+  const root = document.querySelector("[data-tower-acc]");
+  if (!root) return;
+  const items = [...root.querySelectorAll("[data-tower-acc-item]")];
   const mq = window.matchMedia("(max-width: 1040px)");
-  if (!track || !tabs.length) return;
 
-  const panels = () => [...track.querySelectorAll("[data-tower-panel]")];
-
-  function indexOf() {
-    const items = panels();
-    const mid = track.scrollLeft + track.clientWidth * 0.35;
-    let best = 0;
-    let dist = Infinity;
-    items.forEach((el, i) => {
-      const d = Math.abs(el.offsetLeft - mid);
-      if (d < dist) {
-        dist = d;
-        best = i;
+  function setOpen(item, open) {
+    item.classList.toggle("is-open", open);
+    const head = item.querySelector(".tower-acc-head");
+    head?.setAttribute("aria-expanded", String(open));
+    if (open) {
+      const list = item.querySelector(".tower-list--faro");
+      if (list) {
+        list.classList.remove("is-in");
+        void list.offsetWidth;
+        list.classList.add("is-in");
       }
-    });
-    return best;
-  }
-
-  function goTo(index, smooth = true) {
-    const el = panels()[index];
-    if (!el) return;
-    track.scrollTo({
-      left: Math.max(0, el.offsetLeft),
-      behavior: reducedMotion || !smooth ? "auto" : "smooth",
-    });
-  }
-
-  function sync(i) {
-    tabs.forEach((btn) => {
-      const on = Number(btn.dataset.towerGo) === i;
-      btn.classList.toggle("is-on", on);
-      btn.setAttribute("aria-selected", String(on));
-    });
-    if (prog) prog.style.transform = `translateX(${i * 100}%)`;
-    if (stage) stage.classList.toggle("is-end", i === 1);
-    if (chev) {
-      chev.setAttribute("aria-label", i === 0 ? "Vai a Outdoor" : "Vai a Hub e CoWo");
     }
   }
 
-  tabs.forEach((btn) => {
-    btn.addEventListener("click", (event) => {
-      event.preventDefault();
+  function closeAll() {
+    items.forEach((item) => setOpen(item, false));
+  }
+
+  items.forEach((item) => {
+    const head = item.querySelector(".tower-acc-head");
+    head?.addEventListener("click", () => {
       if (!mq.matches) return;
-      const i = Number(btn.dataset.towerGo);
-      goTo(i);
-      sync(i);
+      const willOpen = !item.classList.contains("is-open");
+      closeAll();
+      if (willOpen) setOpen(item, true);
     });
   });
 
-  track.addEventListener(
-    "scroll",
-    () => {
-      if (!mq.matches) return;
-      sync(indexOf());
-    },
-    { passive: true },
-  );
-
-  chev?.addEventListener("click", (event) => {
-    event.preventDefault();
-    if (!mq.matches) return;
-    const next = indexOf() === 0 ? 1 : 0;
-    goTo(next);
-    sync(next);
+  mq.addEventListener("change", () => {
+    if (!mq.matches) closeAll();
   });
-
-  const onMode = () => {
-    if (!mq.matches) {
-      track.scrollLeft = 0;
-      sync(0);
-      return;
-    }
-    sync(indexOf());
-  };
-
-  mq.addEventListener("change", onMode);
-  sync(0);
 })();
 
 const tileBand = document.querySelector(".tile-band");

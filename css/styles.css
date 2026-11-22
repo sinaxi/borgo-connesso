@@ -2183,14 +2183,12 @@ html.forest-done .forest-green {
   align-items: start;
 }
 
-/* Hub / Outdoor: su desktop restano mosaico; chrome/chev nascosti */
-.tower-deck-chrome,
-.tower-deck-chev {
+/* Hub / Outdoor accordion: head solo mobile; su desktop il panel è contents */
+.tower-acc-head {
   display: none;
 }
 
-.tower-deck-stage,
-.tower-deck-track {
+.tower-acc-panel {
   display: contents;
 }
 
@@ -2445,16 +2443,12 @@ html.forest-done .forest-green {
     transform: none;
   }
 
-  .tower-deck-chev {
-    animation: none !important;
-  }
-
-  .tower-deck-prog > i {
+  .tower-acc-panel {
     transition: none;
   }
 }
 
-/* K · Segment + freccia: solo mobile/tablet */
+/* M · Accordion Hub / Outdoor: solo mobile/tablet — entrambi chiusi di default */
 @media (max-width: 1040px) {
   .mosaic--towers {
     display: flex;
@@ -2465,145 +2459,107 @@ html.forest-done .forest-green {
     min-width: 0;
   }
 
-  .tower-deck-chrome {
-    display: grid;
-    gap: 8px;
-    width: 100%;
-    padding: 0;
+  .tower-acc {
+    margin-top: 0;
+    border-radius: 20px;
+    background: #fff;
+    overflow: hidden;
+    box-shadow: inset 0 0 0 1px rgba(17, 17, 17, 0.08);
   }
 
-  .tower-deck-seg {
+  .tower-acc-head {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0;
+    grid-template-columns: 72px minmax(0, 1fr) 44px;
+    gap: 12px;
+    align-items: center;
     width: 100%;
-    padding: 4px;
-    border-radius: 999px;
-    background: rgba(17, 17, 17, 0.06);
-  }
-
-  .tower-deck-seg button {
-    appearance: none;
+    padding: 10px;
     border: 0;
-    border-radius: 999px;
-    padding: 11px 10px;
     background: transparent;
-    font-family: var(--body);
-    font-weight: 600;
-    font-size: 0.84rem;
-    line-height: 1;
-    color: var(--sage);
+    text-align: left;
     cursor: pointer;
+    font-family: var(--body);
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
   }
 
-  .tower-deck-seg button.is-on {
-    background: #111;
-    color: #fff;
-  }
-
-  .tower-deck-seg button:focus-visible {
+  .tower-acc-head:focus-visible {
     outline: 2px solid var(--main-color);
-    outline-offset: 2px;
+    outline-offset: -2px;
   }
 
-  .tower-deck-prog {
-    height: 3px;
-    width: 100%;
-    margin: 0;
-    border-radius: 3px;
-    background: rgba(17, 17, 17, 0.1);
-    overflow: hidden;
-  }
-
-  .tower-deck-prog > i {
+  .tower-acc-thumb {
+    width: 72px;
+    height: 72px;
+    border-radius: 14px;
+    object-fit: cover;
     display: block;
-    height: 100%;
-    width: 50%;
-    border-radius: 3px;
-    background: var(--main-color);
-    transform: translateX(0);
-    transition: transform 0.35s var(--ease);
   }
 
-  .tower-deck-stage {
-    display: block;
-    position: relative;
+  .tower-acc-label {
     min-width: 0;
   }
 
-  .tower-deck-track {
-    display: flex;
-    gap: 12px;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    padding: 4px 0 8px;
+  .tower-acc-label strong {
+    display: block;
+    font-size: 1.08rem;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    color: #111;
+    line-height: 1.15;
   }
 
-  .tower-deck-track::-webkit-scrollbar {
-    display: none;
+  .tower-acc-label > span {
+    display: block;
+    margin-top: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.35;
+    color: var(--sage);
   }
 
-  .tower-deck-track .tower {
-    flex: 0 0 calc(100% - 28px);
-    width: calc(100% - 28px);
-    scroll-snap-align: start;
-    margin-top: 0;
-  }
-
-  .tower-deck-track .tower:first-child {
-    margin-left: 2px;
-  }
-
-  .tower-deck-track .tower:last-child {
-    margin-right: 12px;
-  }
-
-  .tower-deck-chev {
-    position: absolute;
-    right: 8px;
-    top: 22%;
-    z-index: 5;
-    display: grid;
-    place-items: center;
-    width: 42px;
-    height: 42px;
-    border: 0;
+  .tower-acc-toggle {
+    width: 44px;
+    height: 44px;
     border-radius: 50%;
     background: #111;
     color: #fff;
-    cursor: pointer;
-    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
-    animation: tower-deck-chev 1.35s var(--ease) infinite;
-    -webkit-tap-highlight-color: transparent;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.22);
+    flex-shrink: 0;
   }
 
-  .tower-deck-chev svg {
-    width: 15px;
-    height: 15px;
+  .tower-acc-toggle svg {
+    width: 20px;
+    height: 20px;
+    grid-area: 1 / 1;
   }
 
-  .tower-deck-stage.is-end .tower-deck-chev {
-    animation: none;
-    transform: scaleX(-1);
+  .tower-acc-minus {
+    display: none;
   }
 
-  .tower-deck-chev:focus-visible {
-    outline: 2px solid var(--main-color);
-    outline-offset: 3px;
+  .tower-acc.is-open .tower-acc-toggle {
+    background: var(--main-color);
+    color: #fff;
   }
-}
 
-@keyframes tower-deck-chev {
-  0%,
-  100% {
-    transform: translateX(0);
+  .tower-acc.is-open .tower-acc-plus {
+    display: none;
   }
-  50% {
-    transform: translateX(6px);
+
+  .tower-acc.is-open .tower-acc-minus {
+    display: block;
+  }
+
+  .tower-acc-panel {
+    display: none;
+    padding: 0 10px 14px;
+  }
+
+  .tower-acc.is-open .tower-acc-panel {
+    display: block;
   }
 }
 
