@@ -2214,7 +2214,8 @@ html.forest-done .forest-green {
   position: relative;
   overflow: hidden;
   border-radius: 22px;
-  aspect-ratio: 3 / 4;
+  /* −40% altezza rispetto a 3/4 → 5/4 */
+  aspect-ratio: 5 / 4;
   isolation: isolate;
   background: var(--ivory);
 }
@@ -5712,7 +5713,8 @@ body.menu-closing .float-dock {
   }
 
   .tower-shot {
-    aspect-ratio: 4 / 5;
+    /* −40% altezza rispetto a 4/5 → 4/3 */
+    aspect-ratio: 4 / 3;
   }
 
   .tower-copy h3 {
