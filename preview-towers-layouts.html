@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anteprima · layout mobile Hub / Outdoor</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main-color.css?v=1">
+  <style>
+    :root {
+      --ink: #111;
+      --sage: #5c5c5c;
+      --paper: #efefef;
+      --ivory: #fff;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Outfit", system-ui, sans-serif;
+      background: #171717;
+      color: var(--ink);
+      padding: 18px 0 110px;
+    }
+    .page-head {
+      padding: 0 16px 12px;
+      max-width: 420px;
+      margin: 0 auto;
+    }
+    h1 {
+      margin: 0 0 6px;
+      color: #fff;
+      font-size: 1.28rem;
+      letter-spacing: -0.04em;
+    }
+    .lede {
+      margin: 0;
+      color: rgba(255,255,255,.62);
+      font-size: 0.88rem;
+      line-height: 1.45;
+    }
+    .now {
+      margin: 10px 0 0;
+      padding: 10px 12px;
+      border-radius: 12px;
+      background: rgba(255,255,255,.08);
+      color: rgba(255,255,255,.75);
+      font-size: 0.8rem;
+      line-height: 1.4;
+    }
+    .now strong { color: #fff; }
+
+    .demo {
+      max-width: 420px;
+      margin: 22px auto;
+      background: var(--paper);
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,.4);
+    }
+    .demo-meta {
+      padding: 14px 16px 10px;
+      background: #fff;
+      border-bottom: 1px solid rgba(0,0,0,.06);
+    }
+    .tag {
+      display: inline-block;
+      margin: 0 0 4px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--main-color);
+    }
+    .demo-meta h2 {
+      margin: 0 0 4px;
+      font-size: 1.08rem;
+      letter-spacing: -0.03em;
+    }
+    .demo-meta p {
+      margin: 0;
+      font-size: 0.82rem;
+      color: var(--sage);
+      line-height: 1.4;
+    }
+    .room-pad { padding: 12px 14px 20px; }
+
+    /* Shared tower pieces */
+    .shot {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      aspect-ratio: 4 / 3;
+      background: #ddd;
+    }
+    .shot img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transform: scale(1.04);
+    }
+    .shot::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 45%, rgba(var(--main-color-rgb), 0.5) 100%);
+      pointer-events: none;
+    }
+    .title {
+      margin: -1.7rem 0 0;
+      position: relative;
+      z-index: 2;
+      color: #111;
+      -webkit-text-fill-color: #111;
+      white-space: nowrap;
+      font-size: clamp(2rem, 12vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.065em;
+      line-height: 0.84;
+      -webkit-text-stroke: 7px var(--ivory);
+      paint-order: stroke fill;
+    }
+    .body {
+      margin: 0.55rem 0 0;
+      color: var(--sage);
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+    .bullets {
+      list-style: none;
+      margin: 8px 0 0;
+      padding: 0;
+      display: grid;
+      gap: 5px;
+    }
+    .bullets li {
+      position: relative;
+      isolation: isolate;
+      padding: 7px 4px 7px 14px;
+      border-radius: 12px;
+      overflow: hidden;
+      color: #111;
+      font-weight: 500;
+      font-size: 0.88rem;
+      line-height: 1.35;
+    }
+    .bullets li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: calc(7px + 0.45em);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--main-color);
+      z-index: 1;
+    }
+    .bullets li::after {
+      content: "";
+      position: absolute;
+      inset: -40% -18%;
+      z-index: -1;
+      background: radial-gradient(closest-side, rgba(var(--main-color-rgb), 0.26), transparent 72%);
+      opacity: 0.5;
+    }
+
+    /* L · Stack verticale */
+    .stack .block + .block { margin-top: 28px; }
+
+    /* M · Accordion */
+    .acc-item {
+      border-radius: 20px;
+      overflow: hidden;
+      background: #fff;
+      margin-bottom: 10px;
+    }
+    .acc-head {
+      display: grid;
+      grid-template-columns: 72px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      width: 100%;
+      padding: 10px;
+      border: 0;
+      background: transparent;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .acc-head .thumb {
+      width: 72px;
+      height: 72px;
+      border-radius: 14px;
+      object-fit: cover;
+      display: block;
+    }
+    .acc-head strong {
+      display: block;
+      font-size: 1.05rem;
+      letter-spacing: -0.03em;
+      color: #111;
+    }
+    .acc-head span {
+      display: block;
+      margin-top: 2px;
+      font-size: 0.75rem;
+      color: var(--sage);
+    }
+    .acc-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: #111;
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .acc-body {
+      display: none;
+      padding: 0 12px 14px;
+    }
+    .acc-item.is-open .acc-body { display: block; }
+    .acc-item.is-open .acc-mark { background: var(--main-color); }
+    .acc-item.is-open .acc-mark::before { content: "–"; }
+    .acc-item:not(.is-open) .acc-mark::before { content: "+"; }
+
+    /* N · Duo tiles → detail */
+    .duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .duo button {
+      appearance: none;
+      border: 0;
+      padding: 0;
+      border-radius: 16px;
+      overflow: hidden;
+      cursor: pointer;
+      text-align: left;
+      background: #111;
+      position: relative;
+      aspect-ratio: 3 / 4;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .duo button img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      opacity: 0.88;
+    }
+    .duo button.is-on img { opacity: 1; }
+    .duo button em {
+      position: absolute;
+      left: 10px;
+      right: 10px;
+      bottom: 10px;
+      font-style: normal;
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: -0.04em;
+      color: #fff;
+      text-shadow: 0 1px 10px rgba(0,0,0,.45);
+    }
+    .duo button.is-on {
+      outline: 2px solid var(--main-color);
+      outline-offset: 2px;
+    }
+    .duo-detail .panel { display: none; }
+    .duo-detail .panel.is-on { display: block; }
+
+    /* O · Crossfade (un pannello) */
+    .fade-wrap { position: relative; }
+    .fade-tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      width: 100%;
+      padding: 4px;
+      margin-bottom: 12px;
+      border-radius: 999px;
+      background: rgba(17,17,17,.06);
+    }
+    .fade-tabs button {
+      appearance: none;
+      border: 0;
+      border-radius: 999px;
+      padding: 11px 8px;
+      background: transparent;
+      font: 600 0.84rem/1 Outfit, system-ui, sans-serif;
+      color: var(--sage);
+      cursor: pointer;
+    }
+    .fade-tabs button.is-on {
+      background: #111;
+      color: #fff;
+    }
+    .fade-panel {
+      display: none;
+      animation: fade-in 0.35s var(--ease-out) both;
+    }
+    .fade-panel.is-on { display: block; }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    /* P · Zipper / split media */
+    .zip-media {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin-bottom: 0;
+      border-radius: 20px;
+      overflow: hidden;
+    }
+    .zip-media button {
+      appearance: none;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      cursor: pointer;
+      position: relative;
+      height: 160px;
+      overflow: hidden;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .zip-media button img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: grayscale(0.35) brightness(0.85);
+      transition: filter 0.3s var(--ease);
+    }
+    .zip-media button.is-on img {
+      filter: none;
+    }
+    .zip-media button span {
+      position: absolute;
+      left: 8px;
+      bottom: 8px;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: -0.03em;
+      color: #fff;
+      text-shadow: 0 1px 8px rgba(0,0,0,.5);
+    }
+    .zip-body .panel { display: none; padding-top: 4px; }
+    .zip-body .panel.is-on { display: block; }
+
+    /* Q · Lista → scheda */
+    .rail-list {
+      display: grid;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .rail-list button {
+      appearance: none;
+      border: 0;
+      border-radius: 16px;
+      padding: 14px 14px;
+      background: #fff;
+      text-align: left;
+      cursor: pointer;
+      font-family: inherit;
+      box-shadow: inset 0 0 0 1px rgba(17,17,17,.08);
+      -webkit-tap-highlight-color: transparent;
+    }
+    .rail-list button.is-on {
+      background: #111;
+      box-shadow: none;
+      color: #fff;
+    }
+    .rail-list button strong {
+      display: block;
+      font-size: 1rem;
+      letter-spacing: -0.03em;
+    }
+    .rail-list button span {
+      display: block;
+      margin-top: 3px;
+      font-size: 0.75rem;
+      color: var(--sage);
+    }
+    .rail-list button.is-on span { color: rgba(255,255,255,.65); }
+    .rail-sheet .panel { display: none; }
+    .rail-sheet .panel.is-on { display: block; }
+
+    .pick {
+      position: sticky;
+      bottom: 10px;
+      z-index: 20;
+      max-width: 420px;
+      margin: 0 auto;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #111;
+      color: #fff;
+      font-size: 0.86rem;
+      line-height: 1.45;
+      box-shadow: 0 14px 40px rgba(0,0,0,.45);
+    }
+    .pick strong { color: color-mix(in srgb, var(--main-color) 72%, #fff); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .fade-panel { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page-head">
+    <h1>6 layout · Hub &amp; Outdoor mobile</h1>
+    <p class="lede">Non solo tab: modi diversi di mostrare i due blocchi. Contenuti reali, mondo visivo attuale.</p>
+    <p class="now">Ora online: <strong>K · segment + swipe + freccia</strong>. Sotto alternative diverse.</p>
+  </div>
+
+  <!-- L -->
+  <section class="demo" data-demo="L">
+    <div class="demo-meta">
+      <span class="tag">L · Stack</span>
+      <h2>Uno sotto l’altro</h2>
+      <p>Niente swipe. Entrambi i blocchi completi in colonna, come il desktop ma verticale. Massimo controllo, zero discoverability da risolvere.</p>
+    </div>
+    <div class="room-pad stack">
+      <article class="block">
+        <div class="shot"><img src="assets/territorio-hub.jpg?v=3" alt=""></div>
+        <h3 class="title">Hub &amp; CoWo</h3>
+        <p class="body">Un borgo pensato per chi lavora da remoto, non un ufficio riadattato. Coworking Hub o chiosco sul lago: qui il lavoro non si ferma, cambia scenario.</p>
+        <ul class="bullets">
+          <li>Postazioni comode e connessione veloce, misurata</li>
+          <li>Sale riunioni per i team e cabine per le call</li>
+          <li>Aree relax per staccare tra un progetto e l’altro</li>
+          <li>Chioschi sul lago e nei parchi: la tua scrivania con vista</li>
+        </ul>
+      </article>
+      <article class="block">
+        <div class="shot"><img src="assets/territorio-outdoor.jpg?v=3" alt=""></div>
+        <h3 class="title">Outdoor</h3>
+        <p class="body">In un’ora dall’acqua alla montagna. Kayak all’alba, Corna Trentapassi, Antica Valeriana, sci in giornata.</p>
+        <ul class="bullets">
+          <li>Il lago in kayak all’alba, prima dei battelli</li>
+          <li>Corna Trentapassi: il Sebino intero, visto dall’alto</li>
+          <li>L’Antica Valeriana fino alle rocce incise dai Camuni</li>
+          <li>Sci in giornata: Montecampione, Borno, Pora, Aprica</li>
+        </ul>
+      </article>
+    </div>
+  </section>
+
+  <!-- M -->
+  <section class="demo" data-demo="M">
+    <div class="demo-meta">
+      <span class="tag">M · Accordion</span>
+      <h2>Apri uno alla volta</h2>
+      <p>Riga compatta con foto + titolo. Tap apre il blocco pieno; l’altro si chiude.</p>
+    </div>
+    <div class="room-pad" data-acc>
+      <div class="acc-item is-open" data-acc-item>
+        <button type="button" class="acc-head" data-acc-head>
+          <img class="thumb" src="assets/territorio-hub.jpg?v=3" alt="">
+          <span><strong>Hub &amp; CoWo</strong><span>Lavoro, chioschi, vista lago</span></span>
+          <i class="acc-mark" aria-hidden="true"></i>
+        </button>
+        <div class="acc-body">
+          <div class="shot"><img src="assets/territorio-hub.jpg?v=3" alt=""></div>
+          <h3 class="title">Hub &amp; CoWo</h3>
+          <p class="body">Un borgo pensato per chi lavora da remoto. Coworking Hub o chiosco sul lago: il lavoro cambia scenario.</p>
+          <ul class="bullets">
+            <li>Postazioni comode e connessione veloce, misurata</li>
+            <li>Sale riunioni per i team e cabine per le call</li>
+            <li>Aree relax per staccare tra un progetto e l’altro</li>
+            <li>Chioschi sul lago e nei parchi: la tua scrivania con vista</li>
+          </ul>
+        </div>
+      </div>
+      <div class="acc-item" data-acc-item>
+        <button type="button" class="acc-head" data-acc-head>
+          <img class="thumb" src="assets/territorio-outdoor.jpg?v=3" alt="">
+          <span><strong>Outdoor</strong><span>Kayak, Valeriana, sci</span></span>
+          <i class="acc-mark" aria-hidden="true"></i>
+        </button>
+        <div class="acc-body">
+          <div class="shot"><img src="assets/territorio-outdoor.jpg?v=3" alt=""></div>
+          <h3 class="title">Outdoor</h3>
+          <p class="body">In un’ora dall’acqua alla montagna. Kayak all’alba, Corna Trentapassi, Antica Valeriana.</p>
+          <ul class="bullets">
+            <li>Il lago in kayak all’alba, prima dei battelli</li>
+            <li>Corna Trentapassi: il Sebino intero, visto dall’alto</li>
+            <li>L’Antica Valeriana fino alle rocce incise dai Camuni</li>
+            <li>Sci in giornata: Montecampione, Borno, Pora, Aprica</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- N -->
+  <section class="demo" data-demo="N">
+    <div class="demo-meta">
+      <span class="tag">N · Duo foto</span>
+      <h2>Due anteprime, un dettaglio</h2>
+      <p>Hub e Outdoor affiancati come cover. Tap sceglie quale testo + bullets mostrare sotto.</p>
+    </div>
+    <div class="room-pad" data-duo>
+      <div class="duo">
+        <button type="button" class="is-on" data-duo-go="0"><img src="assets/territorio-hub.jpg?v=3" alt=""><em>Hub &amp; CoWo</em></button>
+        <button type="button" data-duo-go="1"><img src="assets/territorio-outdoor.jpg?v=3" alt=""><em>Outdoor</em></button>
+      </div>
+      <div class="duo-detail">
+        <div class="panel is-on" data-duo-panel="0">
+          <h3 class="title">Hub &amp; CoWo</h3>
+          <p class="body">Un borgo pensato per chi lavora da remoto. Coworking Hub o chiosco sul lago.</p>
+          <ul class="bullets">
+            <li>Postazioni comode e connessione veloce, misurata</li>
+            <li>Sale riunioni per i team e cabine per le call</li>
+            <li>Aree relax per staccare tra un progetto e l’altro</li>
+            <li>Chioschi sul lago e nei parchi: la tua scrivania con vista</li>
+          </ul>
+        </div>
+        <div class="panel" data-duo-panel="1">
+          <h3 class="title">Outdoor</h3>
+          <p class="body">In un’ora dall’acqua alla montagna. Kayak, Corna Trentapassi, Valeriana, sci.</p>
+          <ul class="bullets">
+            <li>Il lago in kayak all’alba, prima dei battelli</li>
+            <li>Corna Trentapassi: il Sebino intero, visto dall’alto</li>
+            <li>L’Antica Valeriana fino alle rocce incise dai Camuni</li>
+            <li>Sci in giornata: Montecampione, Borno, Pora, Aprica</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O -->
+  <section class="demo" data-demo="O">
+    <div class="demo-meta">
+      <span class="tag">O · Crossfade</span>
+      <h2>Un solo blocco a schermo</h2>
+      <p>Tab full-width + cambio con fade. Niente swipe orizzontale: solo sostituzione.</p>
+    </div>
+    <div class="room-pad" data-fade>
+      <div class="fade-tabs">
+        <button type="button" class="is-on" data-fade-go="0">Hub &amp; CoWo</button>
+        <button type="button" data-fade-go="1">Outdoor</button>
+      </div>
+      <div class="fade-panel is-on" data-fade-panel="0">
+        <div class="shot"><img src="assets/territorio-hub.jpg?v=3" alt=""></div>
+        <h3 class="title">Hub &amp; CoWo</h3>
+        <p class="body">Un borgo pensato per chi lavora da remoto. Qui il lavoro non si ferma: cambia scenario.</p>
+        <ul class="bullets">
+          <li>Postazioni comode e connessione veloce, misurata</li>
+          <li>Sale riunioni per i team e cabine per le call</li>
+          <li>Aree relax per staccare tra un progetto e l’altro</li>
+          <li>Chioschi sul lago e nei parchi: la tua scrivania con vista</li>
+        </ul>
+      </div>
+      <div class="fade-panel" data-fade-panel="1">
+        <div class="shot"><img src="assets/territorio-outdoor.jpg?v=3" alt=""></div>
+        <h3 class="title">Outdoor</h3>
+        <p class="body">In un’ora dall’acqua alla montagna. Kayak all’alba, Corna Trentapassi, Antica Valeriana.</p>
+        <ul class="bullets">
+          <li>Il lago in kayak all’alba, prima dei battelli</li>
+          <li>Corna Trentapassi: il Sebino intero, visto dall’alto</li>
+          <li>L’Antica Valeriana fino alle rocce incise dai Camuni</li>
+          <li>Sci in giornata: Montecampione, Borno, Pora, Aprica</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- P -->
+  <section class="demo" data-demo="P">
+    <div class="demo-meta">
+      <span class="tag">P · Zipper</span>
+      <h2>Foto spezzata in due</h2>
+      <p>Le due immagini condividono la riga alta. Quella attiva è a colori; sotto il contenuto del lato scelto.</p>
+    </div>
+    <div class="room-pad" data-zip>
+      <div class="zip-media">
+        <button type="button" class="is-on" data-zip-go="0">
+          <img src="assets/territorio-hub.jpg?v=3" alt="">
+          <span>Hub &amp; CoWo</span>
+        </button>
+        <button type="button" data-zip-go="1">
+          <img src="assets/territorio-outdoor.jpg?v=3" alt="">
+          <span>Outdoor</span>
+        </button>
+      </div>
+      <div class="zip-body">
+        <div class="panel is-on" data-zip-panel="0">
+          <h3 class="title">Hub &amp; CoWo</h3>
+          <p class="body">Un borgo pensato per chi lavora da remoto. Coworking Hub o chiosco sul lago.</p>
+          <ul class="bullets">
+            <li>Postazioni comode e connessione veloce, misurata</li>
+            <li>Sale riunioni per i team e cabine per le call</li>
+            <li>Aree relax per staccare tra un progetto e l’altro</li>
+            <li>Chioschi sul lago e nei parchi: la tua scrivania con vista</li>
+          </ul>
+        </div>
+        <div class="panel" data-zip-panel="1">
+          <h3 class="title">Outdoor</h3>
+          <p class="body">In un’ora dall’acqua alla montagna. Kayak, Corna Trentapassi, Valeriana, sci.</p>
+          <ul class="bullets">
+            <li>Il lago in kayak all’alba, prima dei battelli</li>
+            <li>Corna Trentapassi: il Sebino intero, visto dall’alto</li>
+            <li>L’Antica Valeriana fino alle rocce incise dai Camuni</li>
+            <li>Sci in giornata: Montecampione, Borno, Pora, Aprica</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Q -->
+  <section class="demo" data-demo="Q">
+    <div class="demo-meta">
+      <span class="tag">Q · Lista + scheda</span>
+      <h2>Scelta testuale, poi blocco</h2>
+      <p>Due righe grandi (tipo menu). Sotto compare solo il blocco scelto, foto inclusa.</p>
+    </div>
+    <div class="room-pad" data-rail>
+      <div class="rail-list">
+        <button type="button" class="is-on" data-rail-go="0">
+          <strong>Hub &amp; CoWo</strong>
+          <span>Lavoro, chioschi, vista lago</span>
+        </button>
+        <button type="button" data-rail-go="1">
+          <strong>Outdoor</strong>
+          <span>Kayak, Valeriana, sci in giornata</span>
+        </button>
+      </div>
+      <div class="rail-sheet">
+        <div class="panel is-on" data-rail-panel="0">
+          <div class="shot"><img src="assets/territorio-hub.jpg?v=3" alt=""></div>
+          <h3 class="title">Hub &amp; CoWo</h3>
+          <p class="body">Un borgo pensato per chi lavora da remoto. Qui il lavoro non si ferma: cambia scenario.</p>
+          <ul class="bullets">
+            <li>Postazioni comode e connessione veloce, misurata</li>
+            <li>Sale riunioni per i team e cabine per le call</li>
+            <li>Aree relax per staccare tra un progetto e l’altro</li>
+            <li>Chioschi sul lago e nei parchi: la tua scrivania con vista</li>
+          </ul>
+        </div>
+        <div class="panel" data-rail-panel="1">
+          <div class="shot"><img src="assets/territorio-outdoor.jpg?v=3" alt=""></div>
+          <h3 class="title">Outdoor</h3>
+          <p class="body">In un’ora dall’acqua alla montagna. Kayak all’alba, Corna Trentapassi, Antica Valeriana.</p>
+          <ul class="bullets">
+            <li>Il lago in kayak all’alba, prima dei battelli</li>
+            <li>Corna Trentapassi: il Sebino intero, visto dall’alto</li>
+            <li>L’Antica Valeriana fino alle rocce incise dai Camuni</li>
+            <li>Sci in giornata: Montecampione, Borno, Pora, Aprica</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <p class="pick">Dimmi la lettera <strong>L–Q</strong> (o tieni <strong>K</strong>). Anteprima: <strong>http://127.0.0.1:8765/preview-towers-layouts.html</strong></p>
+
+  <script>
+    function wireToggle(root, goSel, panelSel, btnScope) {
+      const scope = root.querySelector(btnScope) || root;
+      scope.querySelectorAll(goSel).forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const i = btn.getAttribute(goSel.replace(/[\[\]=]/g, "").split("data-").pop()) 
+            || btn.dataset[Object.keys(btn.dataset).find((k) => k.endsWith("Go") || k.endsWith("go"))];
+          const key = Object.keys(btn.dataset).find((k) => /Go$/i.test(k));
+          const idx = key ? btn.dataset[key] : null;
+          if (idx == null) return;
+          scope.querySelectorAll(goSel).forEach((b) => b.classList.toggle("is-on", b === btn));
+          root.querySelectorAll(panelSel).forEach((p) => {
+            const match = p.getAttribute(panelSel.match(/\[([^\]]+)\]/)[1]) === idx
+              || p.dataset[Object.keys(p.dataset).find((k) => /Panel$/i.test(k))] === idx;
+            p.classList.toggle("is-on", match);
+          });
+        });
+      });
+    }
+
+    // Cleaner dedicated wirings
+    document.querySelectorAll("[data-acc]").forEach((root) => {
+      root.querySelectorAll("[data-acc-head]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const item = btn.closest("[data-acc-item]");
+          root.querySelectorAll("[data-acc-item]").forEach((el) => {
+            el.classList.toggle("is-open", el === item ? !el.classList.contains("is-open") || true : false);
+          });
+          item.classList.add("is-open");
+        });
+      });
+    });
+
+    function bind(rootSel, btnAttr, panelAttr) {
+      document.querySelectorAll(rootSel).forEach((root) => {
+        root.querySelectorAll(`[${btnAttr}]`).forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const i = btn.getAttribute(btnAttr);
+            root.querySelectorAll(`[${btnAttr}]`).forEach((b) => b.classList.toggle("is-on", b === btn));
+            root.querySelectorAll(`[${panelAttr}]`).forEach((p) => {
+              p.classList.toggle("is-on", p.getAttribute(panelAttr) === i);
+            });
+          });
+        });
+      });
+    }
+
+    bind("[data-duo]", "data-duo-go", "data-duo-panel");
+    bind("[data-fade]", "data-fade-go", "data-fade-panel");
+    bind("[data-zip]", "data-zip-go", "data-zip-panel");
+    bind("[data-rail]", "data-rail-go", "data-rail-panel");
+  </script>
+</body>
+</html>
