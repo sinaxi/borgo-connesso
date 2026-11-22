@@ -1938,8 +1938,7 @@ html.forest-done .forest-green {
   width: 100%;
 }
 
-/* KW nei blocchi Perché: evidenziatore sul testo (niente ::before assoluto —
-   a capo diventava una striscia rossa verticale / pezzi non colorati). */
+/* KW: solo grassetto, niente evidenziatore rosso */
 .parts h3 {
   color: #111;
 }
@@ -1949,19 +1948,13 @@ html.forest-done .forest-green {
   font-weight: 700;
 }
 
-.parts .kw-mark {
-  padding: 0.12em 0.18em 0.08em;
-  color: inherit;
-  font-weight: inherit;
-  background: color-mix(in srgb, var(--lake) 30%, #fff6f5);
-  border-radius: 0.28em 0.55em 0.32em 0.5em;
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
-}
-
+.parts .kw-mark,
 .parts .kw-mark--alt {
-  background: color-mix(in srgb, var(--lake) 24%, #ffffff);
-  border-radius: 0.5em 0.3em 0.55em 0.28em;
+  padding: 0;
+  color: inherit;
+  font-weight: 700;
+  background: none;
+  border-radius: 0;
 }
 
 /* Blocco intero chiudibile (Valori): X sul pannello (desktop angolo room; mobile sulla foto) */
