@@ -6469,12 +6469,12 @@ body.menu-closing .float-dock {
    ========================================================================== */
 .room--soggiorno {
   --sog-pink: var(--main-color); /* card 1 · Holiday Homes = Main Color */
-  /* Palette C · Notte sul Sebino (card 2–6) */
-  --sog-teal: #0e1f24;   /* card 2 · Coworking Hub */
-  --sog-peach: #8fb9b0;  /* card 3 · Wellness */
-  --sog-ochre: #c4d4a8;  /* card 4 · Wi-Fi kiosk */
-  --sog-sand: #e6ddd0;   /* card 5 · Tasting Experience */
-  --sog-lav: #2a4a52;    /* card 6 · Outdoor Experiences */
+  /* Palette C · Notte sul Sebino — gradazione per posizione (scuro → chiaro) */
+  --sog-teal: #0e1f24;   /* pos 2 */
+  --sog-lav: #2a4a52;    /* pos 3 */
+  --sog-peach: #8fb9b0;  /* pos 4 */
+  --sog-ochre: #c4d4a8;  /* pos 5 */
+  --sog-sand: #e6ddd0;   /* pos 6 */
   --sog-cream: #d8e2d4;  /* fondo dei chip */
   --sog-mint: #9fc9b4;   /* spunte ✓ */
   --sog-ink: #0a0a0a;
