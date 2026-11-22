@@ -6471,10 +6471,10 @@ body.menu-closing .float-dock {
   --sog-pink: var(--main-color); /* card 1 · Holiday Homes = Main Color */
   /* Palette C · Notte sul Sebino (card 2–6) */
   --sog-teal: #0e1f24;   /* card 2 · Coworking Hub */
-  --sog-lav: #2a4a52;    /* card 3 · Outdoor Experiences */
-  --sog-peach: #8fb9b0;  /* card 4 · Wellness */
-  --sog-ochre: #c4d4a8;  /* card 5 · Wi-Fi kiosk */
-  --sog-sand: #e6ddd0;   /* card 6 · Tasting Experience */
+  --sog-peach: #8fb9b0;  /* card 3 · Wellness */
+  --sog-ochre: #c4d4a8;  /* card 4 · Wi-Fi kiosk */
+  --sog-sand: #e6ddd0;   /* card 5 · Tasting Experience */
+  --sog-lav: #2a4a52;    /* card 6 · Outdoor Experiences */
   --sog-cream: #d8e2d4;  /* fondo dei chip */
   --sog-mint: #9fc9b4;   /* spunte ✓ */
   --sog-ink: #0a0a0a;
