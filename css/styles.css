@@ -6468,11 +6468,23 @@ body.menu-closing .float-dock {
    Per cambiare i colori basta modificare le variabili qui sotto.
    ========================================================================== */
 .room--soggiorno {
-  --sog-pink: var(--main-color); /* card 1 · Holiday Homes = Main Color */
-  /* Palette C · Notte sul Sebino — gradazione per posizione (scuro → chiaro) */
-  --sog-teal: #0e1f24;   /* pos 2 */
-  --sog-lav: #2a4a52;    /* pos 3 */
-  --sog-peach: #8fb9b0;  /* pos 4 */
+  /*
+    PROVA · sim 7 (Main soft + mid acqua).
+    Ripristino C live (se non va):
+      --sog-pink: var(--main-color);
+      --sog-teal: #0e1f24;
+      --sog-lav: #2a4a52;
+      --sog-peach: #8fb9b0;
+      --sog-ochre: #c4d4a8;
+      --sog-sand: #e6ddd0;
+      --sog-cream: #d8e2d4;
+      --sog-mint: #9fc9b4;
+    + Homes/Wellness di nuovo .is-dark; Homes --tone:var(--main-color)
+  */
+  --sog-pink: #ff8c86;   /* pos 1 · Main Color soft ~55% */
+  --sog-teal: #5f858c;   /* pos 2 · mid acqua */
+  --sog-lav: #8fb9b0;    /* pos 3 */
+  --sog-peach: #a5c0ba;  /* pos 4 */
   --sog-ochre: #c4d4a8;  /* pos 5 */
   --sog-sand: #e6ddd0;   /* pos 6 */
   --sog-cream: #d8e2d4;  /* fondo dei chip */
