@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Simulazioni colori — card soggiorno</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/main-color.css?v=1">
+  <style>
+    :root {
+      --ink: #0a0a0a;
+      --sage: #5c5c5c;
+      --paper: #efefef;
+      --ivory: #fff;
+      --forest-green: #141e16;
+      --forest-pool: #a5c0ba;
+      --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: "Outfit", system-ui, sans-serif;
+      background: var(--paper);
+      color: var(--ink);
+      padding: 28px 16px 96px;
+    }
+    ::selection {
+      background: color-mix(in srgb, var(--main-color) 28%, #fff);
+      color: var(--ink);
+    }
+
+    .top {
+      max-width: 1180px;
+      margin: 0 auto 28px;
+    }
+    .top h1 {
+      margin: 0 0 8px;
+      font-size: clamp(1.55rem, 4vw, 2.15rem);
+      letter-spacing: -0.04em;
+      line-height: 1.05;
+    }
+    .lede {
+      margin: 0 0 18px;
+      max-width: 58ch;
+      color: var(--sage);
+      line-height: 1.5;
+      font-size: 0.98rem;
+    }
+    .lede strong { color: var(--ink); font-weight: 600; }
+    .lock {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0 0 20px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff;
+      font-size: 0.82rem;
+      font-weight: 600;
+      box-shadow: 0 8px 20px -16px rgba(0,0,0,.35);
+    }
+    .lock i {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      background: var(--main-color);
+    }
+
+    .toc {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 0 8px;
+    }
+    .toc a {
+      text-decoration: none;
+      color: var(--ink);
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: #fff;
+      border: 1px solid rgba(0,0,0,.06);
+      transition: background .2s var(--ease), color .2s var(--ease), transform .15s var(--ease);
+    }
+    .toc a:hover {
+      background: var(--forest-green);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+
+    .sims {
+      display: grid;
+      gap: 36px;
+      max-width: 1180px;
+      margin: 0 auto;
+    }
+
+    .sim {
+      --sog-ink: #0a0a0a;
+      --sog-muted: #6a6a6a;
+      --sog-mint: #a4d4c5;
+      --sog-cream: #d9cba0;
+      scroll-margin-top: 16px;
+      padding: 18px;
+      border-radius: 28px;
+      background: #fff;
+      box-shadow: 0 18px 40px -28px rgba(0,0,0,.35);
+    }
+    .sim-head {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px 16px;
+      margin-bottom: 14px;
+    }
+    .sim-head h2 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: -0.03em;
+    }
+    .sim-head p {
+      margin: 0;
+      max-width: 48ch;
+      color: var(--sage);
+      font-size: 0.86rem;
+      line-height: 1.4;
+    }
+    .swatches {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin: 0 0 14px;
+    }
+    .swatches span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 8px 4px 4px;
+      border-radius: 999px;
+      background: var(--paper);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      color: var(--sage);
+    }
+    .swatches i {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.08);
+    }
+    .swatches .lock-dot::after {
+      content: "";
+      position: absolute;
+      /* marker unused */
+    }
+
+    .stack {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+    @media (min-width: 720px) {
+      .stack {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    @media (min-width: 1100px) {
+      .stack {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+      }
+    }
+
+    .sog-card {
+      display: grid;
+      gap: 10px;
+      align-content: start;
+      min-height: 260px;
+      padding: 22px 18px 18px;
+      border-radius: 20px;
+      background: var(--tone);
+      color: var(--sog-ink);
+    }
+    .sog-card.is-dark { color: #fff; }
+    .sog-card h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+    .sog-card > p {
+      margin: 0;
+      font-size: 0.9rem;
+      line-height: 1.45;
+      opacity: 0.92;
+    }
+    .sog-ui {
+      display: grid;
+      gap: 6px;
+      margin-top: 4px;
+      padding: 12px;
+      border-radius: 14px;
+      background: #fff;
+      color: var(--sog-ink);
+      box-shadow: 0 10px 18px -14px rgba(0,0,0,.4);
+    }
+    .sog-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+    .sog-ok {
+      display: inline-grid;
+      place-items: center;
+      width: 16px;
+      height: 16px;
+      margin-right: 6px;
+      border-radius: 50%;
+      background: var(--sog-mint);
+      color: var(--sog-ink);
+      font-size: 0.65rem;
+      vertical-align: -2px;
+    }
+    .sog-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+    .sog-chips li {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: var(--sog-cream);
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1;
+    }
+    .sog-bars {
+      display: inline-flex;
+      align-items: flex-end;
+      gap: 2px;
+      height: 12px;
+    }
+    .sog-bars i {
+      width: 3px;
+      border-radius: 1px;
+      background: var(--sog-ink);
+    }
+    .sog-bars i:nth-child(1) { height: 4px; }
+    .sog-bars i:nth-child(2) { height: 7px; }
+    .sog-bars i:nth-child(3) { height: 10px; }
+    .sog-bars i:nth-child(4) { height: 12px; }
+
+    .badge-lock {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.22);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      vertical-align: middle;
+    }
+    .sog-card:not(.is-dark) .badge-lock {
+      background: rgba(0,0,0,.08);
+    }
+
+    /* —— Palette A: attuale —— */
+    #sim-a {
+      --c2: #1a3a3a; --c3: #b8a4ed; --c4: #ffb084; --c5: #e8b94a; --c6: #d9cba0;
+      --sog-mint: #a4d4c5; --sog-cream: #d9cba0;
+    }
+    /* —— B: lago & salvia (brand PRODUCT) —— */
+    #sim-b {
+      --c2: #1c2a22; --c3: #a5c0ba; --c4: #c8d6c4; --c5: #7eb8c9; --c6: #e8e2d4;
+      --sog-mint: #9ec9b8; --sog-cream: #d5e0d8;
+    }
+    /* —— C: notte sul Sebino —— */
+    #sim-c {
+      --c2: #0e1f24; --c3: #2a4a52; --c4: #8fb9b0; --c5: #c4d4a8; --c6: #e6ddd0;
+      --sog-mint: #9fc9b4; --sog-cream: #d8e2d4;
+    }
+    /* —— D: terra & franciacorta —— */
+    #sim-d {
+      --c2: #2c2420; --c3: #c4a882; --c4: #d4b5a0; --c5: #e0c06a; --c6: #f0e6d2;
+      --sog-mint: #b8c9a0; --sog-cream: #e8dcc4;
+    }
+    /* —— E: acqua fredda —— */
+    #sim-e {
+      --c2: #163040; --c3: #6a9bb0; --c4: #b8d4dc; --c5: #9ec5b5; --c6: #dde8e4;
+      --sog-mint: #8ec4b0; --sog-cream: #c8dce0;
+    }
+    /* —— F: bosco denso —— */
+    #sim-f {
+      --c2: #141e16; --c3: #3d5240; --c4: #8fa892; --c5: #c5b88a; --c6: #d9d2bc;
+      --sog-mint: #a3c4a8; --sog-cream: #d0d4c0;
+    }
+    /* —— G: soft clay —— */
+    #sim-g {
+      --c2: #2d3e3e; --c3: #c9b8e0; --c4: #f0c4a8; --c5: #e8d08a; --c6: #e8dfc8;
+      --sog-mint: #a8d4c0; --sog-cream: #e0d6b8;
+    }
+    /* —— H: ritmi scuro/chiaro —— */
+    #sim-h {
+      --c2: #1a2e2a; --c3: #d4e0d8; --c4: #1e2830; --c5: #f0d9a8; --c6: #b8c9c4;
+      --sog-mint: #9ec9b0; --sog-cream: #d8e2d6;
+    }
+  </style>
+</head>
+<body>
+  <header class="top">
+    <h1>Colori card soggiorno — 8 simulazioni</h1>
+    <p class="lede">
+      <strong>Holiday Homes resta Main Color</strong> (#ff3b30) in tutte le prove.
+      Le altre cinque card cambiano insieme, con palette in linea con ulivo, salvia, acqua del lago e avorio del sito.
+    </p>
+    <p class="lock"><i aria-hidden="true"></i> Card 1 bloccata · rosso brand</p>
+    <nav class="toc" aria-label="Vai alla simulazione">
+      <a href="#sim-a">A Attuale</a>
+      <a href="#sim-b">B Lago &amp; salvia</a>
+      <a href="#sim-c">C Notte Sebino</a>
+      <a href="#sim-d">D Terra</a>
+      <a href="#sim-e">E Acqua fredda</a>
+      <a href="#sim-f">F Bosco</a>
+      <a href="#sim-g">G Soft clay</a>
+      <a href="#sim-h">H Ritmo</a>
+    </nav>
+  </header>
+
+  <div class="sims">
+
+    <!-- A -->
+    <section class="sim" id="sim-a" aria-labelledby="t-a">
+      <div class="sim-head">
+        <h2 id="t-a">A · Attuale</h2>
+        <p>Baseline live: teal scuro, lavanda, pesca, ocra, crema.</p>
+      </div>
+      <div class="swatches" aria-hidden="true">
+        <span><i style="background:var(--main-color)"></i>Homes</span>
+        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c3)"></i>Outdoor</span>
+        <span><i style="background:var(--c4)"></i>Wellness</span>
+        <span><i style="background:var(--c5)"></i>Wi‑Fi</span>
+        <span><i style="background:var(--c6)"></i>Tasting</span>
+      </div>
+      <ol class="stack"></ol>
+    </section>
+
+    <!-- B -->
+    <section class="sim" id="sim-b" aria-labelledby="t-b">
+      <div class="sim-head">
+        <h2 id="t-b">B · Lago &amp; salvia</h2>
+        <p>Verde ulivo, forest-pool, salvia chiara, azzurro acqua, avorio — i colori vincolanti del brand.</p>
+      </div>
+      <div class="swatches" aria-hidden="true">
+        <span><i style="background:var(--main-color)"></i>Homes</span>
+        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c3)"></i>Outdoor</span>
+        <span><i style="background:var(--c4)"></i>Wellness</span>
+        <span><i style="background:var(--c5)"></i>Wi‑Fi</span>
+        <span><i style="background:var(--c6)"></i>Tasting</span>
+      </div>
+      <ol class="stack"></ol>
+    </section>
+
+    <!-- C -->
+    <section class="sim" id="sim-c" aria-labelledby="t-c">
+      <div class="sim-head">
+        <h2 id="t-c">C · Notte sul Sebino</h2>
+        <p>Due card scure di fila (hub + outdoor), poi acqua, muschio, avorio caldo.</p>
+      </div>
+      <div class="swatches" aria-hidden="true">
+        <span><i style="background:var(--main-color)"></i>Homes</span>
+        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c3)"></i>Outdoor</span>
+        <span><i style="background:var(--c4)"></i>Wellness</span>
+        <span><i style="background:var(--c5)"></i>Wi‑Fi</span>
+        <span><i style="background:var(--c6)"></i>Tasting</span>
+      </div>
+      <ol class="stack"></ol>
+    </section>
+
+    <!-- D -->
+    <section class="sim" id="sim-d" aria-labelledby="t-d">
+      <div class="sim-head">
+        <h2 id="t-d">D · Terra &amp; Franciacorta</h2>
+        <p>Bruni, sabbia, argilla, oro soft: più enogastronomia, meno pastello candy.</p>
+      </div>
+      <div class="swatches" aria-hidden="true">
+        <span><i style="background:var(--main-color)"></i>Homes</span>
+        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c3)"></i>Outdoor</span>
+        <span><i style="background:var(--c4)"></i>Wellness</span>
+        <span><i style="background:var(--c5)"></i>Wi‑Fi</span>
+        <span><i style="background:var(--c6)"></i>Tasting</span>
+      </div>
+      <ol class="stack"></ol>
+    </section>
+
+    <!-- E -->
+    <section class="sim" id="sim-e" aria-labelledby="t-e">
+      <div class="sim-head">
+        <h2 id="t-e">E · Acqua fredda</h2>
+        <p>Blu lago e mist: hub scuro, outdoor acqua, wellness nebbia, wifi seafoam.</p>
+      </div>
+      <div class="swatches" aria-hidden="true">
+        <span><i style="background:var(--main-color)"></i>Homes</span>
+        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c3)"></i>Outdoor</span>
+        <span><i style="background:var(--c4)"></i>Wellness</span>
+        <span><i style="background:var(--c5)"></i>Wi‑Fi</span>
+        <span><i style="background:var(--c6)"></i>Tasting</span>
+      </div>
+      <ol class="stack"></ol>
+    </section>
+
+    <!-- F -->
+    <section class="sim" id="sim-f" aria-labelledby="t-f">
+      <div class="sim-head">
+        <h2 id="t-f">F · Bosco denso</h2>
+        <p>Scala dal forest-green della fascia verde: muschio, lichene, corteccia chiara.</p>
+      </div>
+      <div class="swatches" aria-hidden="true">
+        <span><i style="background:var(--main-color)"></i>Homes</span>
+        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c3)"></i>Outdoor</span>
+        <span><i style="background:var(--c4)"></i>Wellness</span>
+        <span><i style="background:var(--c5)"></i>Wi‑Fi</span>
+        <span><i style="background:var(--c6)"></i>Tasting</span>
+      </div>
+      <ol class="stack"></ol>
+    </section>
+
+    <!-- G -->
+    <section class="sim" id="sim-g" aria-labelledby="t-g">
+      <div class="sim-head">
+        <h2 id="t-g">G · Soft clay</h2>
+        <p>Come l’attuale ma più smorzato: stessa idea pastello, meno saturazione.</p>
+      </div>
+      <div class="swatches" aria-hidden="true">
+        <span><i style="background:var(--main-color)"></i>Homes</span>
+        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c3)"></i>Outdoor</span>
+        <span><i style="background:var(--c4)"></i>Wellness</span>
+        <span><i style="background:var(--c5)"></i>Wi‑Fi</span>
+        <span><i style="background:var(--c6)"></i>Tasting</span>
+      </div>
+      <ol class="stack"></ol>
+    </section>
+
+    <!-- H -->
+    <section class="sim" id="sim-h" aria-labelledby="t-h">
+      <div class="sim-head">
+        <h2 id="t-h">H · Ritmo scuro / chiaro</h2>
+        <p>Alternanza forte: scuro · chiaro · scuro · caldo · fresco. Pila più leggibile nello scroll.</p>
+      </div>
+      <div class="swatches" aria-hidden="true">
+        <span><i style="background:var(--main-color)"></i>Homes</span>
+        <span><i style="background:var(--c2)"></i>Hub</span>
+        <span><i style="background:var(--c3)"></i>Outdoor</span>
+        <span><i style="background:var(--c4)"></i>Wellness</span>
+        <span><i style="background:var(--c5)"></i>Wi‑Fi</span>
+        <span><i style="background:var(--c6)"></i>Tasting</span>
+      </div>
+      <ol class="stack"></ol>
+    </section>
+
+  </div>
+
+  <template id="card-markup">
+    <li class="sog-card is-dark" data-role="homes" style="--tone:var(--main-color)">
+      <h3>Holiday Homes <span class="badge-lock">ok</span></h3>
+      <p>Case vacanza nel borgo e nelle frazioni, già scelte per rispondere alle esigenze e alle attività che ogni ospite desidera svolgere.</p>
+      <div class="sog-ui">
+        <div class="sog-row"><span><span class="sog-ok" aria-hidden="true">✓</span>Una casa per ogni esigenza</span></div>
+        <div class="sog-row"><span><span class="sog-ok" aria-hidden="true">✓</span>Disponibili 12 mesi l’anno</span></div>
+        <div class="sog-row"><span><span class="sog-ok" aria-hidden="true">✓</span>Albergo diffuso borgo/frazioni</span></div>
+      </div>
+    </li>
+    <li class="sog-card" data-role="hub" style="--tone:var(--c2)">
+      <h3>Coworking Hub</h3>
+      <p>Spazi condivisi per lavorare H24 e sale riunione per attività da svolgere in team.</p>
+      <div class="sog-ui">
+        <div class="sog-row"><span><span class="sog-ok" aria-hidden="true">✓</span>Spazi riservabili</span></div>
+        <div class="sog-row"><span><span class="sog-ok" aria-hidden="true">✓</span>Sala conferenze</span></div>
+      </div>
+    </li>
+    <li class="sog-card" data-role="outdoor" style="--tone:var(--c3)">
+      <h3>Outdoor Experiences</h3>
+      <p>Dal lago alla neve, in quaranta minuti. Decine di esperienze con guide del posto o in autonomia.</p>
+      <div class="sog-ui">
+        <ul class="sog-chips">
+          <li>Kayak all’alba</li>
+          <li>Crociera sul lago</li>
+          <li>Sci e ciaspole</li>
+        </ul>
+      </div>
+    </li>
+    <li class="sog-card" data-role="wellness" style="--tone:var(--c4)">
+      <h3>Wellness</h3>
+      <p>Momenti per staccare davvero, ritrovare la connessione con sé e curare il benessere fisico.</p>
+      <div class="sog-ui">
+        <ul class="sog-chips">
+          <li>Mindfulness</li>
+          <li>Yoga sul lago</li>
+          <li>Cura del corpo</li>
+        </ul>
+      </div>
+    </li>
+    <li class="sog-card" data-role="wifi" style="--tone:var(--c5)">
+      <h3>Wi-Fi kiosk</h3>
+      <p>Chioschi connessi sul lungolago e in paese. Il lavoro viene con te, all’aria aperta.</p>
+      <div class="sog-ui">
+        <div class="sog-row"><span>Ufficio con lago e montagne</span><span class="sog-bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span></div>
+      </div>
+    </li>
+    <li class="sog-card" data-role="tasting" style="--tone:var(--c6)">
+      <h3>Tasting Experience</h3>
+      <p>Percorso enogastronomico tra sapori nati qui, mestieri tramandati e produttori locali.</p>
+      <div class="sog-ui">
+        <ul class="sog-chips">
+          <li>Franciacorta</li>
+          <li>Pesce di lago</li>
+          <li>Eccellenze Camune</li>
+        </ul>
+      </div>
+    </li>
+  </template>
+
+  <script>
+    /* Luminanza relativa → testo chiaro/scuro sulle card 2–6 */
+    function hexToRgb(hex) {
+      const h = hex.replace("#", "").trim();
+      const full = h.length === 3 ? h.split("").map((c) => c + c).join("") : h;
+      const n = parseInt(full, 16);
+      return { r: (n >> 16) & 255, g: (n >> 8) & 255, b: n & 255 };
+    }
+    function isDarkTone(hex) {
+      const { r, g, b } = hexToRgb(hex);
+      const lin = [r, g, b].map((v) => {
+        const s = v / 255;
+        return s <= 0.03928 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+      });
+      const L = 0.2126 * lin[0] + 0.7152 * lin[1] + 0.0722 * lin[2];
+      return L < 0.42;
+    }
+
+    const tpl = document.getElementById("card-markup");
+    document.querySelectorAll(".sim").forEach((sim) => {
+      const stack = sim.querySelector(".stack");
+      const frag = tpl.content.cloneNode(true);
+      const cs = getComputedStyle(sim);
+      ["hub", "outdoor", "wellness", "wifi", "tasting"].forEach((role, i) => {
+        const card = frag.querySelector(`[data-role="${role}"]`);
+        const tone = cs.getPropertyValue(`--c${i + 2}`).trim();
+        card.classList.toggle("is-dark", isDarkTone(tone));
+      });
+      stack.appendChild(frag);
+    });
+  </script>
+</body>
+</html>
